@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逐帧动画系列 - 张省菲作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" onerror="this.remove()">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a3a',
+                        light: '#f8f6f0',
+                        dark: '#1a1a2e',
+                        'gradient-start': '#667eea',
+                        'gradient-end': '#764ba2',
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .gradient-text {
+                @apply bg-gradient-primary bg-clip-text text-transparent;
+            }
+            .glass-card {
+                @apply bg-white bg-opacity-70 backdrop-blur-lg border border-white border-opacity-20 dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700;
+            }
+            .section-divider {
+                @apply relative pb-4;
+            }
+            .section-divider::after {
+                content: '';
+                @apply absolute bottom-0 left-0 w-16 h-1.5 bg-gradient-primary rounded-full;
+            }
+        }
+    </style>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+        }
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 90;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.35);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.5);
+        }
+        img.lazy-fade {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        img.lazy-fade.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <!-- 返回顶部 -->
+    <div class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">
+        <i class="fa fa-chevron-up"></i>
+    </div>
+    <!-- 导航栏 -->
+    <nav id="navbar" class="navbar-fixed bg-white bg-opacity-95 dark:bg-dark dark:bg-opacity-95 shadow-sm py-4 transition-all duration-300">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold text-primary dark:text-white">张省菲</a>
+                <a href="index.html" class="inline-flex items-center gap-2 px-4 py-2 border-2 border-primary dark:border-white text-primary dark:text-white rounded-full hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-primary transition-all duration-300">
+                    <i class="fa fa-arrow-left"></i>
+                    <span>返回首页</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 第一板块：《回家》叙事动画 -->
+    <section class="pt-24 pb-20">
+        <div class="container mx-auto px-4">
+            <!-- 标题 -->
+            <div class="text-center mb-8 fade-in">
+                <h1 class="text-3xl md:text-4xl font-bold gradient-text mb-4">《回家》叙事动画</h1>
+                <p class="text-gray-600 max-w-2xl mx-auto">聚焦大年三十上班热点话题，讲述主人公与家人团聚的温馨故事</p>
+            </div>
+
+            <!-- 视频播放器 -->
+            <div class="w-full mb-12 fade-in">
+                <div class="bg-black">
+                    <iframe 
+                        src="https://player.bilibili.com/player.html?bvid=BV1iwEE6bEcZ&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
+                        scrolling="no" 
+                        border="0" 
+                        frameborder="no" 
+                        framespacing="0" 
+                        allowfullscreen="true"
+                        class="w-full">
+                    </iframe>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-800 py-4">
+                    <div class="container mx-auto px-4 flex justify-center">
+                        <a href="https://www.bilibili.com/video/BV1iwEE6bEcZ/" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-[#fb7299] text-white font-semibold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
+                            </svg>
+                            <span>前往B站观看</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目介绍 -->
+            <div class="max-w-4xl mx-auto glass-card rounded-2xl p-8 md:p-12 shadow-lg mb-8 fade-in">
+                <h2 class="text-2xl font-bold gradient-text mb-6">项目介绍</h2>
+                <div class="text-gray-600 space-y-4 leading-relaxed">
+                    <p>在除夕这本应是阖家团圆，准备丰盛的晚餐，与家人一起开心跨年的一天，主人公因为工作与车票的原因无法回家，心中却也放不下对家的思念，望着空中的烟火心中空落落。</p>
+                    <p>幸运的是补票成功了。主人公第一时间与家人报喜，冲向车站，与家人团聚的那一刻，幸福感涌上心间。一家人等待着主人公一起吃团圆饭，屋内传来的欢笑声，幸福的家庭，欢快的氛围。今年也是充满福气的一年。</p>
+                    <p>作品通过细腻的情感表达和生动的画面，展现了当代年轻人在工作与家庭之间的平衡，以及团圆的珍贵意义。</p>
+                </div>
+            </div>
+
+            <!-- 获奖信息 -->
+            <div class="max-w-4xl mx-auto glass-card rounded-2xl p-8 shadow-lg fade-in">
+                <h2 class="text-xl font-bold gradient-text mb-6">获奖信息</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <h3 class="font-semibold text-primary dark:text-white mb-3">蓝桥杯</h3>
+                        <p class="text-gray-600 dark:text-gray-400">动画类优秀奖</p>
+                        <p class="text-sm text-gray-400 mt-1">2024年</p>
+                        <div class="mt-4 rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/home-cert-lanqiao.jpg', '回家蓝桥杯证书')">
+                            <img loading="lazy" src="image/certs/home-cert-lanqiao.jpg" alt="蓝桥杯证书" class="w-full h-auto">
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                        <h3 class="font-semibold text-primary dark:text-white mb-3">永创杯</h3>
+                        <p class="text-gray-600 dark:text-gray-400">全国三等奖</p>
+                        <p class="text-sm text-gray-400 mt-1">2024年</p>
+                        <div class="mt-4 rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/home-cert-yongchuang.jpg', '回家永创杯证书')">
+                            <img loading="lazy" src="image/certs/home-cert-yongchuang.jpg" alt="永创杯证书" class="w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 分隔线 -->
+    <div class="w-24 h-1 bg-gradient-primary rounded-full mx-auto mb-20"></div>
+
+    <!-- 第二板块：《这条短信有点"毒"》反诈科普动画 -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <!-- 标题 -->
+            <div class="text-center mb-8 fade-in">
+                <h1 class="text-3xl md:text-4xl font-bold gradient-text mb-4">《这条短信有点"毒"》反诈科普动画</h1>
+                <p class="text-gray-600 max-w-2xl mx-auto">公益反诈宣传动画，提醒公众警惕电信诈骗，守护财产安全</p>
+            </div>
+
+            <!-- 视频播放器 -->
+            <div class="w-full mb-12 fade-in">
+                <div class="bg-black">
+                    <iframe 
+                        src="https://player.bilibili.com/player.html?bvid=BV1ez421y7Lc&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
+                        scrolling="no" 
+                        border="0" 
+                        frameborder="no" 
+                        framespacing="0" 
+                        allowfullscreen="true"
+                        class="w-full">
+                    </iframe>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-800 py-4">
+                    <div class="container mx-auto px-4 flex justify-center">
+                        <a href="https://www.bilibili.com/video/BV1ez421y7Lc" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-[#fb7299] text-white font-semibold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
+                            </svg>
+                            <span>前往B站观看</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 作品简介 -->
+            <div class="max-w-4xl mx-auto glass-card rounded-2xl p-8 md:p-12 shadow-lg mb-8 fade-in">
+                <h2 class="text-2xl font-bold gradient-text mb-6">作品简介</h2>
+                <div class="text-gray-600 space-y-4 leading-relaxed">
+                    <p>《这条短信有点"毒"》是公益反诈宣传动画。随着电子信息时代的发展，手机短信时常会收到陌生短信，其中常常包含诱导办理业务、点击链接等电信诈骗相关信息。视频借此故事提醒广大公众：谨防电信诈骗，守护好自身财产安全。</p>
+                    <p>作品采用了趣味性的叙事方式，将复杂的反诈知识转化为易于理解的动画语言，适合在社交媒体、社区大屏等多种场景传播。</p>
+                </div>
+            </div>
+
+            <!-- 获奖信息 -->
+            <div class="max-w-4xl mx-auto glass-card rounded-2xl p-8 shadow-lg fade-in">
+                <h2 class="text-xl font-bold gradient-text mb-6">获奖信息</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                    <h3 class="font-semibold text-primary dark:text-white mb-3">防诈骗宣传作品征集活动</h3>
+                    <p class="text-gray-600 dark:text-gray-400">区级优秀奖</p>
+                    <p class="text-sm text-gray-400 mt-1">2024年</p>
+                    <div class="mt-4 grid grid-cols-2 gap-4">
+                        <div class="rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/antifraud-cert-01.jpg', '反诈证书')">
+                            <img loading="lazy" src="image/certs/antifraud-cert-01.jpg" alt="反诈证书" class="w-full h-auto">
+                        </div>
+                        <div class="rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/antifraud-cert-02.jpg', '反诈证书')">
+                            <img loading="lazy" src="image/certs/antifraud-cert-02.jpg" alt="反诈证书" class="w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm text-gray-300">张省菲 · 数字媒体技术</p>
+            <p class="mt-2 text-gray-500 text-xs">HTML + Tailwind CSS + JavaScript</p>
+        </div>
+    </footer>
+
+    <!-- 证书弹窗 -->
+    <div id="cert-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeCertModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div class="relative max-w-4xl w-full pointer-events-auto transform scale-95 transition-transform duration-300" id="cert-modal-content">
+                <button onclick="closeCertModal()" class="absolute -top-12 right-0 text-white text-3xl hover:text-gray-300 transition-colors">&times;</button>
+                <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl">
+                    <img id="cert-modal-img" src="" alt="证书" class="w-full max-h-[70vh] object-contain">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 证书弹窗功能
+        function openCertModal(certPath, title) {
+            const modal = document.getElementById('cert-modal');
+            const img = document.getElementById('cert-modal-img');
+            const content = document.getElementById('cert-modal-content');
+            img.src = certPath;
+            modal.classList.remove('hidden');
+            setTimeout(() => { 
+                modal.classList.remove('opacity-0'); 
+                content.classList.remove('scale-95'); 
+                content.classList.add('scale-100'); 
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('cert-modal');
+            const content = document.getElementById('cert-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => { 
+                modal.classList.add('hidden'); 
+                document.body.style.overflow = ''; 
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 滚动动画
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(el => observer.observe(el));
+
+            // 滚动进度条 + 返回顶部
+            const scrollProgress = document.getElementById('scroll-progress');
+            const backToTop = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (docHeight > 0 && scrollProgress) {
+                    scrollProgress.style.width = Math.min((scrollY / docHeight) * 100, 100) + '%';
+                }
+                if (backToTop) {
+                    backToTop.classList.toggle('visible', scrollY > 500);
+                }
+            });
+
+            // 图片淡入加载
+            document.querySelectorAll('img').forEach(img => {
+                if (!img.closest('#cert-modal')) {
+                    img.classList.add('lazy-fade');
+                    if (img.complete && img.naturalWidth > 0) {
+                        img.classList.add('loaded');
+                    } else {
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        img.addEventListener('error', () => { img.style.opacity = '0.4'; img.classList.add('loaded'); });
+                    }
+                }
+            });
+
+            // ESC键关闭弹窗
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeCertModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

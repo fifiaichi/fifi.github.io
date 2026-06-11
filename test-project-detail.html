@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试实践 - 岭南花市网站数据准备与验证</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" onerror="this.remove()">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a3a',
+                        secondary: '#2c5282',
+                        light: '#f8f6f0',
+                        dark: '#1a1a2e',
+                        accent: '#3182ce',
+                        'gradient-start': '#667eea',
+                        'gradient-end': '#764ba2',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(102, 126, 234, 0.3)',
+                        'card': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .badge { @apply inline-block px-3 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-700 mr-2 mb-2 dark:bg-gray-700 dark:text-gray-300; }
+            .badge-primary { @apply bg-primary text-white; }
+            .badge-accent { @apply bg-accent text-white; }
+            .badge-green { @apply bg-green-600 text-white; }
+            .badge-orange { @apply bg-orange-500 text-white; }
+            .code-block { @apply bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-xs overflow-x-auto border border-gray-800 shadow-2xl relative; }
+            .gradient-text { @apply bg-gradient-primary bg-clip-text text-transparent; }
+            .progress-bar { @apply h-3 bg-gray-100 rounded-full overflow-hidden dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
+            .progress-fill { @apply h-full rounded-full bg-gradient-to-r from-accent to-blue-400 transition-all duration-1000; }
+            .glass-card { @apply bg-white/90 backdrop-blur-xl border border-white/50 dark:bg-gray-800/90 dark:border-gray-700/50 shadow-xl; }
+            .section-divider { @apply relative pb-4; }
+            .section-divider::after { content: ''; @apply absolute bottom-0 left-0 w-16 h-1.5 bg-gradient-primary rounded-full; }
+            .stat-card { @apply p-6 rounded-3xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-gray-100 dark:border-gray-700; }
+        }
+    </style>
+    <style>
+        html { scroll-behavior: smooth; }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .fade-in.active { opacity: 1; transform: translateY(0); }
+        .table-row-hover:hover { background-color: rgba(49, 130, 206, 0.03); }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
+
+    <!-- 导航栏 -->
+    <nav id="navbar" class="bg-white dark:bg-dark shadow-sm fixed w-full z-50 py-4 transition-all duration-300">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold text-primary dark:text-white">张省菲</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">首页</a>
+                    <a href="index.html#works" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">作品</a>
+                    <a href="index.html#timeline" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">履历</a>
+                    <a href="index.html#about" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">关于我</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-primary dark:text-white focus:outline-none">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2 border-t border-gray-100 dark:border-gray-800 mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-primary">首页</a>
+                    <a href="index.html#works" class="text-gray-600 dark:text-gray-300 hover:text-primary">作品</a>
+                    <a href="index.html#timeline" class="text-gray-600 dark:text-gray-300 hover:text-primary">履历</a>
+                    <a href="index.html#about" class="text-gray-600 dark:text-gray-300 hover:text-primary">关于我</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 报告主体 -->
+    <section class="pt-32 pb-16 bg-white dark:bg-dark relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-primary opacity-5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-primary opacity-5 rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <!-- 返回按钮 -->
+            <div class="mb-12">
+                <a href="project-detail.html?id=lingnan-flower-market" class="inline-flex items-center px-5 py-2 border-2 border-primary text-primary rounded-full hover:bg-primary hover:text-white transition duration-300 text-sm font-medium dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-primary">
+                    <i class="fa fa-arrow-left mr-2"></i> 返回项目详情
+                </a>
+            </div>
+
+            <!-- 报告头部 -->
+            <div class="text-center mb-16 fade-in">
+                <div class="inline-flex items-center gap-3 mb-6">
+                    <span class="px-4 py-1 rounded-full bg-blue-100 text-blue-600 text-xs font-bold dark:bg-blue-900/30 dark:text-blue-400">
+                        <i class="fa fa-database mr-1.5"></i>测试数据实践
+                    </span>
+                    <span class="px-4 py-1 rounded-full bg-green-100 text-green-600 text-xs font-bold dark:bg-green-900/30 dark:text-green-400">
+                        功能验证
+                    </span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold gradient-text mb-6">岭南花市网站 · 测试数据准备与验证</h1>
+                <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                    基于毕设真实项目，使用 AI 辅助编写脚本完成测试数据批量构造，并编写 Python 验证脚本确保数据准确性。
+                </p>
+            </div>
+
+            <!-- 核心指标卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 fade-in">
+                <div class="stat-card bg-white dark:bg-gray-800 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center">
+                            <i class="fa fa-file-text-o text-blue-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">测试数据量</p>
+                            <p class="text-3xl font-black text-gray-800 dark:text-white">20</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400">goods_batch.csv 商品数据</p>
+                </div>
+
+                <div class="stat-card bg-white dark:bg-gray-800 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center">
+                            <i class="fa fa-check-circle text-green-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">导入成功率</p>
+                            <p class="text-3xl font-black text-gray-800 dark:text-white">100%</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar w-full">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card bg-white dark:bg-gray-800 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center">
+                            <i class="fa fa-bug text-purple-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">发现问题</p>
+                            <p class="text-3xl font-black text-gray-800 dark:text-white">3</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400">代码质量与边界情况</p>
+                </div>
+            </div>
+
+            <!-- 项目背景 -->
+            <div class="glass-card rounded-3xl p-8 shadow-card mb-16 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6 section-divider">项目背景</h2>
+                <div class="text-gray-600 dark:text-gray-300 space-y-4 leading-relaxed text-sm">
+                    <p>
+                        岭南花市网站是本人的毕业设计项目，基于 <strong>PHP + MySQL</strong> 开发。在测试阶段，需要为商品表构造大量测试数据，以验证前台展示、分类筛选、价格显示等功能的正确性。
+                    </p>
+                    <p>
+                        <strong>挑战</strong>：手工在后台录入 20 个商品信息（含名称、分类、价格、库存、描述、图片路径）耗时且容易出错，且无法保证数据格式统一。
+                    </p>
+                    <p>
+                        <strong>解决思路</strong>：整理标准 CSV 文件，使用 AI 辅助编写 PHP 批量导入脚本，导入后用 Python 脚本验证数据完整性与业务逻辑正确性。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 测试覆盖维度 -->
+            <div class="glass-card rounded-[2.5rem] p-10 mb-16 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-10 section-divider">测试执行维度</h2>
+                <div class="space-y-8">
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-bold uppercase tracking-wider">
+                            <span class="text-gray-500">CSV 格式规范性检查</span>
+                            <span class="text-accent">完成</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+                        <p class="text-xs text-gray-400">检查字段完整性、编码格式（UTF-8）、逗号分隔一致性</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-bold uppercase tracking-wider">
+                            <span class="text-gray-500">字段类型与长度验证</span>
+                            <span class="text-accent">完成</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+                        <p class="text-xs text-gray-400">price/old_price 为浮点数、stock 为整数、description 长度是否超限</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-bold uppercase tracking-wider">
+                            <span class="text-gray-500">批量导入执行</span>
+                            <span class="text-accent">完成</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+                        <p class="text-xs text-gray-400">使用 PHP 脚本读取 CSV 并写入 MySQL，处理转义与路径拼接</p>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-bold uppercase tracking-wider">
+                            <span class="text-gray-500">导入后数据核对</span>
+                            <span class="text-accent">完成</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+                        <p class="text-xs text-gray-400">Python 脚本比对 CSV 行数与数据库记录数，验证价格逻辑</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 代码展示：PHP 导入脚本 -->
+            <div class="glass-card rounded-3xl p-8 shadow-card mb-16 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-8 section-divider">PHP 批量导入脚本（AI 辅助编写）</h2>
+                <p class="text-sm text-gray-500 mb-6">
+                    使用 Trae 生成基础框架，人工调整字段映射（type 对应分类字段、picture 路径拼接为 images/ 前缀）。
+                </p>
+                <div class="code-block">
+                    <pre class="leading-relaxed"><code><span class="text-gray-500">// 数据库配置（huahua 库）</span>
+<span class="text-blue-400">$host</span> = <span class="text-green-300">'localhost'</span>;
+<span class="text-blue-400">$dbname</span> = <span class="text-green-300">'huahua'</span>;
+<span class="text-blue-400">$user</span> = <span class="text-green-300">'root'</span>;
+<span class="text-blue-400">$pass</span> = <span class="text-green-300">''</span>;
+
+<span class="text-gray-500">// 连接数据库</span>
+<span class="text-blue-400">$conn</span> = mysqli_connect(<span class="text-blue-400">$host</span>, <span class="text-blue-400">$user</span>, <span class="text-blue-400">$pass</span>, <span class="text-blue-400">$dbname</span>);
+mysqli_set_charset(<span class="text-blue-400">$conn</span>, <span class="text-green-300">'utf8mb4'</span>);
+
+<span class="text-gray-500">// 读取 CSV</span>
+<span class="text-blue-400">$csv</span> = fopen(<span class="text-green-300">'goods_batch.csv'</span>, <span class="text-green-300">'r'</span>);
+fgetcsv(<span class="text-blue-400">$csv</span>); <span class="text-gray-500">// 跳过表头</span>
+
+<span class="text-blue-400">$success</span> = <span class="text-orange-400">0</span>;
+<span class="text-blue-400">$fail</span> = <span class="text-orange-400">0</span>;
+
+<span class="text-purple-400">while</span> ((<span class="text-blue-400">$row</span> = fgetcsv(<span class="text-blue-400">$csv</span>)) !== <span class="text-orange-400">false</span>) {
+    <span class="text-blue-400">$name</span> = mysqli_real_escape_string(<span class="text-blue-400">$conn</span>, <span class="text-blue-400">$row</span>[<span class="text-orange-400">0</span>]);
+    <span class="text-blue-400">$type</span> = mysqli_real_escape_string(<span class="text-blue-400">$conn</span>, <span class="text-blue-400">$row</span>[<span class="text-orange-400">1</span>]);
+    <span class="text-blue-400">$price</span> = (<span class="text-orange-400">float</span>)<span class="text-blue-400">$row</span>[<span class="text-orange-400">2</span>];
+    <span class="text-blue-400">$old_price</span> = (<span class="text-orange-400">float</span>)<span class="text-blue-400">$row</span>[<span class="text-orange-400">3</span>];
+    <span class="text-blue-400">$stock</span> = (<span class="text-orange-400">int</span>)<span class="text-blue-400">$row</span>[<span class="text-orange-400">4</span>];
+    <span class="text-blue-400">$description</span> = mysqli_real_escape_string(<span class="text-blue-400">$conn</span>, <span class="text-blue-400">$row</span>[<span class="text-orange-400">5</span>]);
+    <span class="text-blue-400">$picture</span> = <span class="text-green-300">'images/'</span> . trim(<span class="text-blue-400">$row</span>[<span class="text-orange-400">6</span>]);
+
+    <span class="text-blue-400">$sql</span> = <span class="text-green-300">"INSERT INTO goods 
+        (goods_name, type, price, old_price, description, picture) 
+        VALUES ('$name', '$type', $price, $old_price, 
+                '$description', '$picture')"</span>;
+
+    <span class="text-purple-400">if</span> (mysqli_query(<span class="text-blue-400">$conn</span>, <span class="text-blue-400">$sql</span>)) {
+        <span class="text-blue-400">$success</span>++;
+    } <span class="text-purple-400">else</span> {
+        <span class="text-blue-400">$fail</span>++;
+    }
+}
+
+<span class="text-purple-400">echo</span> <span class="text-green-300">"导入完成！成功：{$success} 个，失败：{$fail} 个"</span>;</code></pre>
+                </div>
+            </div>
+
+            <!-- 代码展示：Python 验证脚本 -->
+            <div class="glass-card rounded-3xl p-8 shadow-card mb-16 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-8 section-divider">Python 数据验证脚本</h2>
+                <p class="text-sm text-gray-500 mb-6">
+                    导入后使用 Python + pymysql 编写验证脚本，检查数据量一致性与业务规则（现价必须低于原价）。
+                </p>
+                <div class="code-block">
+                    <pre class="leading-relaxed"><code><span class="text-purple-400">import</span> pymysql
+<span class="text-purple-400">import</span> csv
+
+<span class="text-gray-500"># 验证 1：数据库记录数 vs CSV 行数</span>
+<span class="text-purple-400">def</span> <span class="text-yellow-400">test_data_count</span>():
+    conn = pymysql.connect(
+        host=<span class="text-green-300">'localhost'</span>, user=<span class="text-green-300">'root'</span>,
+        password=<span class="text-green-300">''</span>, database=<span class="text-green-300">'huahua'</span>
+    )
+    cursor = conn.cursor()
+
+    cursor.execute(<span class="text-green-300">"SELECT COUNT(*) FROM goods"</span>)
+    db_count = cursor.fetchone()[<span class="text-orange-400">0</span>]
+
+    <span class="text-purple-400">with</span> open(<span class="text-green-300">'goods_batch.csv'</span>, <span class="text-green-300">'r'</span>, encoding=<span class="text-green-300">'utf-8'</span>) <span class="text-purple-400">as</span> f:
+        csv_count = len(f.readlines()) - <span class="text-orange-400">1</span>
+
+    <span class="text-purple-400">assert</span> db_count == csv_count
+    print(<span class="text-green-300">f"✅ 数据量验证通过：{db_count} 条"</span>)
+
+<span class="text-gray-500"># 验证 2：价格逻辑（现价 &lt; 原价）</span>
+<span class="text-purple-400">def</span> <span class="text-yellow-400">test_price_logic</span>():
+    cursor.execute(<span class="text-green-300">"""
+        SELECT goods_name, price, old_price 
+        FROM goods 
+        WHERE price &gt;= old_price
+    """</span>)
+    invalid = cursor.fetchall()
+    <span class="text-purple-400">assert</span> len(invalid) == <span class="text-orange-400">0</span>
+    print(<span class="text-green-300">"✅ 价格逻辑验证通过"</span>)
+
+<span class="text-purple-400">if</span> __name__ == <span class="text-green-300">"__main__"</span>:
+    test_data_count()
+    test_price_logic()</code></pre>
+                </div>
+            </div>
+
+            <!-- 问题发现 -->
+            <div class="glass-card rounded-3xl p-8 shadow-card mb-16 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-8 section-divider">代码审查与问题发现</h2>
+                <p class="text-sm text-gray-500 mb-6">
+                    在回顾导入脚本时，从测试视角发现了以下潜在风险。这也是我希望从事测试工作的原因：懂开发逻辑，更能从用户和边界角度发现问题。
+                </p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-left border-b border-gray-100 dark:border-gray-700">
+                                <th class="py-4 px-4 text-gray-400 font-bold uppercase tracking-widest text-[10px] w-24">ID</th>
+                                <th class="py-4 px-4 text-gray-400 font-bold uppercase tracking-widest text-[10px]">问题描述</th>
+                                <th class="py-4 px-4 text-gray-400 font-bold uppercase tracking-widest text-[10px] w-32">风险等级</th>
+                                <th class="py-4 px-4 text-gray-400 font-bold uppercase tracking-widest text-[10px] w-40">改进方向</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50 dark:divide-gray-800">
+                            <tr class="table-row-hover transition-colors">
+                                <td class="py-5 px-4 font-mono text-[10px] text-gray-400">ISS-01</td>
+                                <td class="py-5 px-4 text-sm text-gray-700 dark:text-gray-300">SQL 语句直接拼接字符串，存在 SQL 注入风险</td>
+                                <td class="py-5 px-4"><span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded-md text-[10px] dark:bg-red-900/20">High</span></td>
+                                <td class="py-5 px-4 text-xs text-gray-500">应使用预处理语句（Prepared Statements）</td>
+                            </tr>
+                            <tr class="table-row-hover transition-colors">
+                                <td class="py-5 px-4 font-mono text-[10px] text-gray-400">ISS-02</td>
+                                <td class="py-5 px-4 text-sm text-gray-700 dark:text-gray-300">无事务控制，部分失败时数据库可能残留脏数据</td>
+                                <td class="py-5 px-4"><span class="text-amber-600 font-bold bg-amber-50 px-2 py-0.5 rounded-md text-[10px] dark:bg-amber-900/20">Mid</span></td>
+                                <td class="py-5 px-4 text-xs text-gray-500">应添加 BEGIN TRANSACTION / ROLLBACK</td>
+                            </tr>
+                            <tr class="table-row-hover transition-colors">
+                                <td class="py-5 px-4 font-mono text-[10px] text-gray-400">ISS-03</td>
+                                <td class="py-5 px-4 text-sm text-gray-700 dark:text-gray-300">缺少重复数据校验，重复导入会产生重复记录</td>
+                                <td class="py-5 px-4"><span class="text-blue-600 font-bold bg-blue-50 px-2 py-0.5 rounded-md text-[10px] dark:bg-blue-900/20">Low</span></td>
+                                <td class="py-5 px-4 text-xs text-gray-500">导入前检查 goods_name 唯一性</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CSV 数据结构 -->
+            <div class="glass-card rounded-3xl p-8 shadow-card mb-16 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-8 section-divider">测试数据结构（goods_batch.csv）</h2>
+                <p class="text-sm text-gray-500 mb-6">
+                    包含 20 个商品，覆盖 4 个品类：岁末年宵花、绿植盆栽、鲜切花卉、岭南特色花。
+                </p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="text-left border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                                <th class="py-3 px-4 text-gray-500 font-bold text-[10px] uppercase">goods_name</th>
+                                <th class="py-3 px-4 text-gray-500 font-bold text-[10px] uppercase">type</th>
+                                <th class="py-3 px-4 text-gray-500 font-bold text-[10px] uppercase">price</th>
+                                <th class="py-3 px-4 text-gray-500 font-bold text-[10px] uppercase">old_price</th>
+                                <th class="py-3 px-4 text-gray-500 font-bold text-[10px] uppercase">stock</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50 dark:divide-gray-800">
+                            <tr><td class="py-3 px-4 text-xs text-gray-600">岭南墨兰企黑盆栽</td><td class="py-3 px-4 text-xs text-gray-500">岁末年宵花</td><td class="py-3 px-4 text-xs text-gray-600">168</td><td class="py-3 px-4 text-xs text-gray-500">198</td><td class="py-3 px-4 text-xs text-gray-600">100</td></tr>
+                            <tr><td class="py-3 px-4 text-xs text-gray-600">广东红掌一帆风顺盆栽</td><td class="py-3 px-4 text-xs text-gray-500">绿植盆栽</td><td class="py-3 px-4 text-xs text-gray-600">69</td><td class="py-3 px-4 text-xs text-gray-500">89</td><td class="py-3 px-4 text-xs text-gray-600">100</td></tr>
+                            <tr><td class="py-3 px-4 text-xs text-gray-600">岭南年桔四季桔盆栽</td><td class="py-3 px-4 text-xs text-gray-500">岁末年宵花</td><td class="py-3 px-4 text-xs text-gray-600">198</td><td class="py-3 px-4 text-xs text-gray-500">268</td><td class="py-3 px-4 text-xs text-gray-600">100</td></tr>
+                            <tr><td class="py-3 px-4 text-xs text-gray-600">广州素馨花盆栽</td><td class="py-3 px-4 text-xs text-gray-500">岭南特色花</td><td class="py-3 px-4 text-xs text-gray-600">99</td><td class="py-3 px-4 text-xs text-gray-500">128</td><td class="py-3 px-4 text-xs text-gray-600">100</td></tr>
+                            <tr><td class="py-3 px-4 text-xs text-gray-600">岭南睡莲粉牡丹水培款</td><td class="py-3 px-4 text-xs text-gray-500">鲜切花卉</td><td class="py-3 px-4 text-xs text-gray-600">35</td><td class="py-3 px-4 text-xs text-gray-500">49</td><td class="py-3 px-4 text-xs text-gray-600">100</td></tr>
+                            <tr><td class="py-3 px-4 text-xs text-gray-400 italic">... 共 20 条数据</td><td class="py-3 px-4"></td><td class="py-3 px-4"></td><td class="py-3 px-4"></td><td class="py-3 px-4"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 测试总结 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 fade-in">
+                <div class="glass-card rounded-3xl p-8 shadow-card border-l-4 border-accent">
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <i class="fa fa-flag-checkered text-accent mr-3"></i>实践结论
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        通过本次测试数据准备实践，完成了 20 条商品数据从 CSV 到 MySQL 的批量导入，并编写了 Python 验证脚本确保数据准确性。在复盘过程中发现了 SQL 拼接、事务控制等代码质量问题，加深了对测试工作价值的理解：测试不仅是"找 bug"，更是在上线前保障数据与业务的正确性。
+                    </p>
+                </div>
+                <div class="glass-card rounded-3xl p-8 shadow-card border-l-4 border-primary">
+                    <h3 class="font-bold text-gray-800 dark:text-white mb-4 flex items-center">
+                        <i class="fa fa-line-chart text-primary mr-3"></i>技能成长
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        掌握了测试数据构造的完整流程：准备数据 → 执行导入 → 验证结果 → 复盘问题。熟练运用 AI 工具（Trae/Claude）辅助编写脚本，并能独立审查业务逻辑与边界情况。理解了数据库表结构、字段类型映射、以及基础的数据一致性校验方法。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <div class="inline-block p-4 bg-white/5 rounded-2xl mb-6">
+                <p class="text-lg font-bold">张省菲</p>
+                <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">初级测试工程师 / 数字媒体技术</p>
+            </div>
+            <p class="text-sm text-gray-500">Built with HTML5, Tailwind CSS & JavaScript</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动端菜单
+            document.getElementById('menu-toggle').addEventListener('click', function() {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+
+            // 滚动动画
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1 });
+            fadeElements.forEach(el => observer.observe(el));
+
+            // 暗色模式支持
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+        });
+    </script>
+</body>
+</html>

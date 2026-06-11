@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张省菲 | 动画设计 × 游戏策划 × AI实践者</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" onerror="this.remove()">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a3a',
+                        secondary: '#2c5282',
+                        light: '#f8f6f0',
+                        dark: '#1a1a2e',
+                        accent: '#3182ce',
+                        'gradient-start': '#667eea',
+                        'gradient-end': '#764ba2',
+                        'game-red': '#c0392b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'glow': '0 0 20px rgba(102, 126, 234, 0.5)',
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        'gradient-secondary': 'linear-gradient(135deg, #1e3a3a 0%, #2c5282 100%)',
+                        'gradient-accent': 'linear-gradient(135deg, #3182ce 0%, #667eea 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance { text-wrap: balance; }
+            .card-transition { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+            .work-card {
+                @apply bg-white dark:bg-gray-800 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 border-0;
+            }
+            .work-card > div:last-child { @apply p-10; }
+            .nav-link {
+                @apply relative px-2 py-1 text-gray-700 hover:text-primary transition-colors duration-300 dark:text-gray-300;
+            }
+            .nav-link.active {
+                @apply text-primary font-medium dark:text-white;
+            }
+            .nav-link.active::after {
+                content: '';
+                @apply absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full dark:bg-white;
+            }
+            .section-padding { @apply py-20 md:py-32; }
+            .timeline-dot {
+                @apply absolute left-0 top-1.5 w-3 h-3 rounded-full bg-primary border-2 border-white;
+            }
+            .timeline-line {
+                @apply absolute left-1.5 top-4 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700;
+            }
+            .badge {
+                @apply inline-block px-4 py-1.5 text-xs font-medium rounded-full bg-gray-50 text-gray-600 mr-2 mb-2 transition-all duration-300 hover:bg-primary hover:text-white dark:bg-gray-700 dark:text-gray-300;
+            }
+            .badge-primary { @apply bg-primary text-white; }
+            .badge-accent { @apply bg-accent text-white; }
+            .badge-green { @apply bg-green-600 text-white; }
+            .image-container {
+                @apply relative overflow-hidden bg-gray-50 dark:bg-gray-900 mb-2;
+                aspect-ratio: 16 / 9;
+            }
+            .image-hover {
+                @apply w-full h-full object-cover transition-all duration-700 hover:scale-105;
+            }
+            .section-divider {
+                @apply relative pb-4;
+            }
+            .section-divider::after {
+                content: '';
+                @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1.5 bg-gradient-primary rounded-full;
+            }
+            .glass-card {
+                @apply bg-white bg-opacity-70 backdrop-blur-lg border border-white border-opacity-20 dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700;
+            }
+            .gradient-text {
+                @apply bg-gradient-primary bg-clip-text text-transparent;
+            }
+            .hero-gradient {
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            }
+        }
+    </style>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        html { scroll-behavior: smooth; }
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+
+        /* 滚动进度条 */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 90;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.35);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.5);
+        }
+
+        /* 打字机光标 */
+        .typewriter-cursor::after {
+            content: '|';
+            animation: blink 0.8s infinite;
+            color: #667eea;
+            font-weight: 300;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* 图片淡入 */
+        img.lazy-fade {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        img.lazy-fade.loaded {
+            opacity: 1;
+        }
+
+        /* 卡片光晕效果 */
+        .work-card {
+            position: relative;
+        }
+        .work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: inset 0 0 0 1px rgba(102,126,234,0.15), 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+        .work-card:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-light text-gray-800 font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
+
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- 返回顶部 -->
+    <div class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">
+        <i class="fa fa-chevron-up"></i>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav id="navbar" class="navbar-fixed bg-white bg-opacity-95 dark:bg-dark dark:bg-opacity-95 shadow-sm py-4">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="text-xl font-bold text-primary dark:text-white transition-transform hover:scale-105">张省菲</a>
+                <div class="hidden md:flex ml-auto space-x-8 items-center">
+                    <a href="#works" class="nav-link">作品</a>
+                    <a href="#timeline" class="nav-link">履历与荣誉</a>
+                    <a href="#ai-practice" class="nav-link">AI实践</a>
+                    <a href="#about" class="nav-link">关于</a>
+                    <button id="dark-mode-toggle" class="ml-4 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
+                        <i class="fa fa-moon text-gray-600 dark:text-gray-300"></i>
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center space-x-4">
+                    <button id="dark-mode-toggle-mobile" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
+                        <i class="fa fa-moon text-gray-600 dark:text-gray-300"></i>
+                    </button>
+                    <button id="menu-toggle" class="text-primary dark:text-white focus:outline-none">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden bg-white dark:bg-dark hidden absolute top-full left-0 w-full border-t border-gray-100 dark:border-gray-700 shadow-md">
+            <div class="container mx-auto px-4 py-4">
+                <a href="#works" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary">作品</a>
+                <a href="#timeline" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary">履历与荣誉</a>
+                <a href="#ai-practice" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary">AI实践</a>
+                <a href="#about" class="block py-2 text-gray-700 dark:text-gray-300 hover:text-primary">关于</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <section id="home" class="min-h-screen flex items-center pt-16 hero-gradient relative overflow-hidden">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div class="absolute top-20 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+
+        <div class="container mx-auto px-4 py-16 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 gradient-text">张省菲</h1>
+                <p id="hero-subtitle" class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-10 typewriter-cursor">动画设计 × 游戏策划 × AI实践者</p>
+                <a href="#works" class="inline-block px-8 py-3 bg-gradient-primary text-white font-medium rounded-full hover:shadow-glow transition-all duration-300 transform hover:scale-105">
+                    查看作品
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 职业方向切换器 -->
+<section class="py-8 bg-white dark:bg-dark border-b border-gray-100 dark:border-gray-800">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto text-center">
+<p class="text-sm text-gray-500 mb-4">求职方向：视觉设计 / 动效 / 运营设计</p>            <div class="inline-flex bg-gray-100 dark:bg-gray-800 rounded-full p-1 shadow-inner">
+                <button onclick="switchMode('art')" id="btn-art" class="px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 bg-white dark:bg-gray-700 shadow-md text-primary flex items-center gap-2">
+                    <i class="fa fa-paint-brush"></i>
+                    视觉设计方向
+                </button>
+               <button onclick="switchMode('ui')" id="btn-ui" class="px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 text-gray-500 dark:text-gray-400 hover:text-primary flex items-center gap-2">
+    <i class="fa fa-shopping-bag"></i>
+    运营设计方向
+</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- 作品展示区 -->
+    <section id="works" class="section-padding bg-white dark:bg-dark">
+        <div class="container mx-auto px-4 md:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-primary dark:text-white section-divider">作品展示</h2>
+            <div class="max-w-2xl mx-auto text-center mb-20 md:mb-28">
+                <p class="text-gray-500 dark:text-gray-400 leading-relaxed text-lg">
+                    从传统工艺游戏到反诈公益动画，从独立网站开发到治愈系IP设计。<br class="hidden md:block">
+                    每个项目都是一次从0到1的完整实践。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-x-16 md:gap-y-32 items-start">
+                <!-- 作品1：天工造物 -->
+                <div class="work-card cursor-pointer md:mt-0" onclick="window.location.href='project-detail.html?id=tian-gong-zao-wu'">
+                    <div class="image-container">
+                        <img loading="lazy" src="image/game/tiangong-cover.jpg" alt="天工造物" class="image-hover">
+                    </div>
+                    <div class="p-10">
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">天工造物</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 art-desc">融合中国传统工艺美学的原创游戏项目，Unity引擎开发，负责场景搭建、UI界面设计、角色概念设计。</p>
+<p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 ui-desc hidden">参与游戏全程宣发物料制作，包括封面图、活动Banner、社交媒体推广图，理解游戏产品从立项到上线的内容输出节奏。</p><div class="flex flex-wrap mb-4">
+    <span class="badge art-badge">游戏策划</span>
+    <span class="badge art-badge">美术设计</span>
+<span class="badge ui-badge hidden">推广物料</span>
+<span class="badge ui-badge hidden">游戏宣发</span></div>
+<div class="flex items-center justify-between">
+    <span class="text-xs font-semibold text-primary tracking-wider uppercase">省级二等奖</span>
+</div>
+                    </div>
+                </div>
+
+                <!-- 作品2：岭南花市 -->
+                <div class="work-card cursor-pointer md:mt-32" onclick="window.location.href='project-detail.html?id=lingnan-flower-market'">
+                    <div class="image-container">
+                        <img loading="lazy" src="image/web/lingnan-cover.jpg" alt="岭南花市科普网站" class="image-hover">
+                    </div>
+                    <div class="p-10">
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">岭南花市科普网站</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 art-desc">基于PHP开发的文化科普平台，独立设计需求与排版，利用Cursor/Trae/Windsurf辅助开发。</p>
+<p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 ui-desc hidden">独立完成电商平台的页面视觉设计：商品展示排版、活动落地页、移动端适配。兼顾美观与转化，理解电商页面的内容逻辑。</p><div class="flex flex-wrap mb-4">
+    <span class="badge art-badge">PHP开发</span>
+    <span class="badge art-badge">网页设计</span>
+    <span class="badge ui-badge hidden">UI设计</span>
+    <span class="badge ui-badge hidden">网页视觉</span>
+</div>
+<div class="flex items-center justify-between">
+    <span class="text-xs font-semibold text-primary tracking-wider uppercase">独立设计与开发</span>
+</div>
+                    </div>
+                </div>
+
+                <!-- 作品3：华艺千秋录 -->
+                <div class="work-card cursor-pointer md:mt-16" onclick="window.location.href='project-detail.html?id=mg-animation'">
+                    <div class="image-container">
+                        <img loading="lazy" src="image/animation/huayi-cover.jpg" alt="华艺千秋录" class="image-hover">
+                    </div>
+                    <div class="p-10">
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">华艺千秋录</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 art-desc">参赛动画作品，结合技术与艺术，展现创新思维和专业技能。使用procreate、PS、CSP制作。</p>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 qa-desc hidden">MG动画项目交付质量保障。参与分镜审查、帧序列一致性验证、建立视觉缺陷检查清单。</p>
+                        <div class="flex flex-wrap mb-4">
+                            <span class="badge">竞赛作品</span>
+                            <span class="badge">动画设计</span>
+                            <span class="badge qa-badge hidden">内容审核</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-primary tracking-wider uppercase">蓝桥杯三等奖、永创杯二等奖</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品4：逐帧动画系列 (整合板块) -->
+                <div class="work-card cursor-pointer md:-mt-16" onclick="window.location.href='animation-list.html'">
+                    <div class="image-container">
+                        <img loading="lazy" src="image/animation/frame-animation-cover.png" alt="逐帧动画系列" class="image-hover">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                            <span class="px-6 py-2 bg-white text-primary rounded-full font-bold text-sm shadow-xl">查看系列作品</span>
+                        </div>
+                    </div>
+                    <div class="p-10">
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">逐帧动画系列</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 art-desc">包含叙事动画《回家》与公益反诈动画《这条短信有点“毒”》，探索不同维度的动态视觉表达。</p>
+<p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 ui-desc hidden">短视频与动态内容创作实践，覆盖脚本、分镜到成片的完整流程。适用于品牌宣传短片、公益传播、社媒动态内容运营等场景。</p>                        <div class="flex flex-wrap mb-4">
+                            <span class="badge">逐帧动画</span>
+                            <span class="badge">系列作品</span>
+                            <span class="badge qa-badge hidden">内容审核</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-primary tracking-wider uppercase">永创杯全国三等奖等</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品5：图画本 -->
+                <div class="work-card cursor-pointer md:mt-16 art-only" onclick="window.location.href='project-detail.html?id=picture-book'">
+                    <div class="image-container">
+                        <img loading="lazy" src="image/illustration/spring-cover.png" alt="图画本封面绘制" class="image-hover">
+                    </div>
+                    <div class="p-10">
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">图画本封面绘制</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2">儿童图画书封面设计，春夏秋冬四季主题，色彩鲜艳活泼。</p>
+                        <div class="flex flex-wrap mb-4">
+                            <span class="badge">商业委托</span>
+                            <span class="badge">插画设计</span>
+                        </div>
+                        <div class="text-xs font-semibold text-primary tracking-wider uppercase">商业委托作品</div>
+                    </div>
+                </div>
+
+                <!-- 作品6：个人文创设计Mango -->
+                <div class="work-card cursor-pointer md:mt-0" onclick="window.location.href='project-detail.html?id=campus-cultural'">
+                    <div class="image-container">
+                        <img loading="lazy" src="image/cultural/mango-logo.png" alt="个人文创设计Mango" class="image-hover">
+                    </div>
+                    <div class="p-10">
+                        <h3 class="text-xl font-bold mb-3 text-gray-800 dark:text-white">个人文创设计Mango</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 art-desc">以"馒头更适合中国宝宝体质的欧包"为灵感，打造温暖治愈的馒头店IP形象Mango。</p>
+<p class="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-2 ui-desc hidden">IP形象从0到1落地，完成logo、表情包、包装、周边等全套物料输出。品牌视觉统一性把控，适配多种应用场景。</p>                        <div class="flex flex-wrap mb-4">
+                            <span class="badge">IP设计</span>
+                            <span class="badge">文创设计</span>
+                            <span class="badge qa-badge hidden">规范测试</span>
+                        </div>
+                        <div class="text-xs font-semibold text-primary tracking-wider uppercase">校内文创大赛三等奖</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 履历与荣誉 (合并板块) -->
+    <section id="timeline" class="section-padding bg-white dark:bg-dark relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-primary opacity-5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-accent opacity-5 rounded-full blur-3xl"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center text-primary dark:text-white section-divider">履历与荣誉</h2>
+            
+            <div class="max-w-5xl mx-auto">
+                <div class="relative pl-8 md:pl-0">
+                    <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gray-100 dark:bg-gray-800"></div>
+                    <div class="md:hidden absolute left-0 top-0 bottom-0 w-0.5 bg-gray-100 dark:bg-gray-800"></div>
+
+                    <!-- 2024-2025: 竞赛与创意实践 -->
+                    <div class="relative mb-24 fade-in-section">
+                        <div class="md:flex items-center justify-between w-full">
+                            <div class="md:w-5/12 mb-8 md:mb-0">
+                                <div class="glass-card p-6 rounded-2xl shadow-card border-l-4 border-amber-400">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">2024 · 2025</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3">竞赛与创意实践</h3>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">参与多项全国性创意设计与软件类竞赛，包括蓝桥杯（2024、2025）、永创杯（2024、2025）、广东省大学生计算机设计大赛（2025）。在持续参赛中提升创意表达、软件应用能力，也积累了作品素材。</p>
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        <span class="badge">创意设计</span>
+                                        <span class="badge">竞赛经验</span>
+                                        <span class="badge">作品沉淀</span>
+                                    </div>
+                                    <div class="rounded-xl overflow-hidden mb-4 cursor-pointer" onclick="openCertModal('image/certs/tiangong-cert.jpg', '计算机设计大赛')">
+                                        <img loading="lazy" src="image/certs/tiangong-cert.jpg" alt="游戏获奖证书" class="w-full h-auto">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-dark z-20"></div>
+                            <div class="md:w-5/12 hidden md:block pl-8"><span class="text-2xl font-bold text-gray-200 dark:text-gray-800">2024 - 2025</span></div>
+                        </div>
+                    </div>
+
+                    <!-- 2023-2024: 动画部部长 -->
+                    <div class="relative mb-24 fade-in-section">
+                        <div class="md:flex items-center justify-between w-full flex-row-reverse">
+                            <div class="md:w-5/12 mb-8 md:mb-0">
+                                <div class="glass-card p-6 rounded-2xl shadow-card border-r-4 border-blue-400 md:text-right">
+                                    <div class="flex items-center md:justify-end gap-3 mb-4">
+                                        <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">2023 · 2024</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3">起点传媒协会 · 动画部部长</h3>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">负责动画部日常管理：分工、进度、风格统一、质量把控。组织团队完成多部宣传动画，从分镜到合成都有参与。在团队协作、项目拆解、沟通协调方面有明显提升。</p>
+                                    <div class="flex flex-wrap md:justify-end gap-2 mb-4">
+                                        <span class="badge">分镜</span>
+                                        <span class="badge">动画流程</span>
+                                        <span class="badge">团队管理</span>
+                                        <span class="badge">项目推进</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-dark z-20"></div>
+                            <div class="md:w-5/12 hidden md:block pr-8 text-right"><span class="text-2xl font-bold text-gray-200 dark:text-gray-800">2023.09</span></div>
+                        </div>
+                    </div>
+
+                    <!-- 2022-2023: 网络运营部 -->
+                    <div class="relative mb-24 fade-in-section">
+                        <div class="md:flex items-center justify-between w-full">
+                            <div class="md:w-5/12 mb-8 md:mb-0">
+                                <div class="glass-card p-6 rounded-2xl shadow-card border-l-4 border-purple-400">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-bold">2022 · 2023</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3">学生媒体中心 · 网络运营部</h3>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">负责校园官方账号的视觉内容：推送版式、活动宣传图、短视频封面。参与选题讨论，理解"内容吸引力"与"视觉节奏感"。在校园媒体环境中提升内容策划与视觉表达能力。</p>
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        <span class="badge">内容策划</span>
+                                        <span class="badge">视觉统一性</span>
+                                        <span class="badge">校园媒体运营</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-dark z-20"></div>
+                            <div class="md:w-5/12 hidden md:block pl-8"><span class="text-2xl font-bold text-gray-200 dark:text-gray-800">2022.09</span></div>
+                        </div>
+                    </div>
+
+                    <!-- 2021-2022: 电商运营辅助 -->
+                    <div class="relative mb-24 fade-in-section">
+                        <div class="md:flex items-center justify-between w-full flex-row-reverse">
+                            <div class="md:w-5/12 mb-8 md:mb-0">
+                                <div class="glass-card p-6 rounded-2xl shadow-card border-r-4 border-green-400 md:text-right">
+                                    <div class="flex items-center md:justify-end gap-3 mb-4">
+                                        <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">2021 · 2022</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3">电商运营辅助（家业实践）</h3>
+<p class="text-gray-600 dark:text-gray-400 text-sm mb-4">在真实电商业务中独立产出视觉物料：负责商品主图拍摄与修图、活动Banner设计、店铺首页排版。直接面对运营提需求、快速交付的工作节奏，积累了商业内容从沟通到落地的完整经验。</p>                                    <div class="flex flex-wrap md:justify-end gap-2 mb-4">
+<span class="badge">电商主图</span>
+<span class="badge">Banner设计</span>
+<span class="badge">快速交付</span>
+<span class="badge">真实业务经验</span>                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute left-0 md:left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-white dark:border-dark z-20"></div>
+                            <div class="md:w-5/12 hidden md:block pr-8 text-right"><span class="text-2xl font-bold text-gray-200 dark:text-gray-800">2021.10</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI实践区域 -->
+<section id="ai-practice" class="section-padding bg-light dark:bg-dark relative overflow-hidden">
+    <div class="container mx-auto px-4 relative z-10">
+        <h2 class="text-3xl font-bold mb-16 text-center gradient-text section-divider">AI实践</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 卡片1：AI辅助网站开发 -->
+            <div class="glass-card p-8 rounded-2xl shadow-card fade-in-section hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fa fa-code text-white text-2xl"></i>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 text-xs font-bold rounded-lg">Cursor</span>
+                        <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 text-xs font-bold rounded-lg">Trae</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">AI辅助网站开发</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">用 Cursor / Trae / Windsurf 从零完成岭南花市 Web 项目的开发与迭代。不只是粘贴代码——我会描述需求、审查逻辑、指出边界问题，再让 AI 修正。这个项目最终用于毕设答辩并顺利通过。</p>
+                <div class="bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 overflow-x-auto">
+                    <div class="opacity-60">// AI辅助代码审查</div>
+                    <div><span class="text-blue-400">if</span> (bugDetected) {</div>
+                    <div class="pl-4">analyzeRootCause();</div>
+                    <div class="pl-4">refinePrompt();</div>
+                    <div>}</div>
+                </div>
+            </div>
+
+            <!-- 卡片2：AI辅助创作 -->
+            <div class="glass-card p-8 rounded-2xl shadow-card fade-in-section hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fa fa-paint-brush text-white text-2xl"></i>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 text-xs font-bold rounded-lg">Recraft</span>
+                        <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-600 text-xs font-bold rounded-lg">ChatGPT</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">AI辅助创作</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">用 Recraft 生成场景参考图、ChatGPT 打磨分镜叙事节奏，在动画《回家》中全程借助 AI 工具完成内容迭代。AI 不是替代创作，而是让修改的成本足够低，可以反复推翻重来。</p>
+                <div class="flex items-center gap-2 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-4">
+                    <div class="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                        <i class="fa fa-magic text-white"></i>
+                    </div>
+                    <div class="text-xs">
+                        <div class="font-bold text-purple-700 dark:text-purple-300">创作迭代流程</div>
+                        <div class="text-purple-600 dark:text-purple-400">灵感 → AI生成 → 人工筛选 → 优化</div>
+                    </div>
+                </div>
+            </div>
+
+<!-- 卡片3：AI辅助视觉创作 -->
+<div class="glass-card p-8 rounded-2xl shadow-card fade-in-section hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+    <div class="flex items-center justify-between mb-6">
+        <div class="w-14 h-14 bg-gradient-to-br from-rose-500 to-orange-400 rounded-xl flex items-center justify-center shadow-lg">
+            <i class="fa fa-picture-o text-white text-2xl"></i>
+        </div>
+        <div class="flex gap-2">
+            <span class="px-2 py-1 bg-rose-100 dark:bg-rose-900/30 text-rose-600 text-xs font-bold rounded-lg">Recraft</span>
+            <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 text-xs font-bold rounded-lg">Midjourney</span>
+        </div>
+    </div>
+    <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">AI辅助视觉创作</h3>
+    <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">用 Recraft 生成场景参考图与素材，解决手绘资源不足的问题；用 Midjourney 快速出概念稿，确认风格后再精修。AI 负责量，我负责筛选和最终质感的把控。</p>
+    <div class="flex items-center gap-2 bg-gradient-to-r from-rose-50 to-orange-50 dark:from-rose-900/20 dark:to-orange-900/20 rounded-xl p-4">
+        <div class="w-10 h-10 bg-rose-400 rounded-lg flex items-center justify-center">
+            <i class="fa fa-magic text-white"></i>
+        </div>
+        <div class="text-xs">
+            <div class="font-bold text-rose-700 dark:text-rose-300">素材生产流程</div>
+            <div class="text-rose-600 dark:text-rose-400">文字描述 → AI生图 → 人工筛选 → 精修落地</div>
+        </div>
+    </div>
+</div>
+            <!-- 卡片4：AI辅助批量重命名脚本开发（新增） -->
+            <div class="glass-card p-8 rounded-2xl shadow-card fade-in-section hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 md:col-span-2 lg:col-span-1">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fa fa-terminal text-white text-2xl"></i>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 text-xs font-bold rounded-lg">Python</span>
+                        <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 text-xs font-bold rounded-lg">Claude</span>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-gray-800 dark:text-white">AI辅助批量工具开发</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed mb-6">作品集网站包含 6 个项目、40+ 个中文命名的资源文件。手动重命名和修改 HTML 引用极易出错。我用 Claude 辅助编写 Python 脚本，实现一键批量重命名 + 全站路径自动替换，支持预览模式确保安全。</p>
+                <div class="bg-gray-900 rounded-xl p-4 font-mono text-xs text-green-400 overflow-x-auto">
+                    <div class="opacity-60"># 批量重命名 + 路径替换</div>
+                    <div>RENAME_MAP = {</div>
+                    <div class="pl-4"><span class="text-green-300">"image/animation/home-video.mp4"</span>:</div>
+                    <div class="pl-8"><span class="text-green-300">"image/animation/home-video.mp4"</span>,</div>
+                    <div class="pl-4">...</div>
+                    <div>}</div>
+                    <div><span class="text-yellow-400">shutil.move</span>(old, new)  <span class="opacity-60"># 执行重命名</span></div>
+                    <div>content.<span class="text-yellow-400">replace</span>(old_path, new_path)</div>
+                </div>
+                <div class="mt-4 flex items-center gap-2 text-xs text-orange-600 dark:text-orange-400">
+                    <i class="fa fa-check-circle"></i>
+                    <span>安全预览模式 → 确认后执行 → 自动生成 .bak 备份</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- 关于/联系区域 -->
+    <section id="about" class="section-padding bg-white dark:bg-dark relative overflow-hidden">
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-3xl font-bold mb-16 text-center gradient-text section-divider">关于我</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="glass-card p-8 rounded-xl shadow-card mb-12 fade-in-section text-center">
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">数字媒体技术专业，致力于将艺术创意与技术创新相结合。</p>
+                    <div class="flex flex-col md:flex-row justify-center gap-6">
+                        <div class="flex items-center justify-center gap-2"><i class="fa fa-envelope-o text-primary"></i> <span>gugegewang@qq.com</span></div>
+                        <div class="flex items-center justify-center gap-2"><i class="fa fa-weixin text-primary"></i> <span>微信：kirakiracc99</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于/联系 -->
+<section id="about" class="section-padding bg-white dark:bg-dark">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-16 text-center gradient-text section-divider">关于我</h2>
+        <div class="max-w-2xl mx-auto">
+            <div class="glass-card p-8 rounded-2xl shadow-card mb-8">
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                    我叫张省菲，数字媒体技术专业，做过逐帧动画、游戏美术、IP插画和电商视觉物料。
+                </p>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                    参与过省级获奖游戏项目《天工造物》，担任项目负责人兼美术设计；带过动画部团队，也帮家里做过真实的电商内容产出。
+                </p>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    熟练使用 After Effects、Photoshop、Illustrator，会用 Recraft / Midjourney 辅助出图，能独立交付从概念到成稿的完整视觉作品。目前寻找视觉设计 / 动效 / 运营设计相关机会，可以立即到岗。
+                </p>
+            </div>
+            <div class="glass-card p-8 rounded-2xl shadow-card">
+                <h3 class="text-xl font-bold mb-6 text-gray-800 dark:text-white">联系方式</h3>
+                <div class="space-y-4 text-sm">
+                    <div class="flex items-center gap-4">
+                        <i class="fa fa-envelope-o text-primary dark:text-white w-5 text-center"></i>
+                        <span>gugegewang@qq.com</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa fa-weixin text-primary dark:text-white w-5 text-center"></i>
+                        <span>微信：kirakiracc99</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <i class="fa fa-phone text-primary dark:text-white w-5 text-center"></i>
+                        <span>15202004538</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="py-12 bg-primary text-white text-center">
+    <p class="text-lg font-bold mb-2">张省菲</p>
+    <p class="text-gray-300 text-sm mb-4">视觉设计 · 动效 · AI辅助创作 · 可立即到岗</p>
+    <p class="text-sm text-gray-500">© 2026 张省菲</p>
+</footer>
+    <!-- 证书弹窗 -->
+    <div id="cert-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeCertModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div class="relative max-w-4xl w-full pointer-events-auto transform scale-95 transition-transform duration-300" id="cert-modal-content">
+                <button onclick="closeCertModal()" class="absolute -top-12 right-0 text-white text-3xl hover:text-gray-300 transition-colors">&times;</button>
+                <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl">
+                    <img id="cert-modal-img" src="" alt="证书" class="w-full max-h-[70vh] object-contain">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openCertModal(certPath, title) {
+            const modal = document.getElementById('cert-modal');
+            const img = document.getElementById('cert-modal-img');
+            const content = document.getElementById('cert-modal-content');
+            img.src = certPath;
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); content.classList.remove('scale-95'); content.classList.add('scale-100'); }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('cert-modal');
+            const content = document.getElementById('cert-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); document.body.style.overflow = ''; }, 300);
+        }
+
+        function switchMode(mode) {
+    localStorage.setItem('portfolioMode', mode);
+    const isArt = mode === 'art';
+    const isUI = mode === 'ui';
+    
+    document.getElementById('btn-art').className = isArt 
+        ? 'px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 bg-white dark:bg-gray-700 shadow-md text-primary flex items-center gap-2'
+        : 'px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 text-gray-500 dark:text-gray-400 hover:text-primary flex items-center gap-2';
+    
+    document.getElementById('btn-ui').className = isUI 
+        ? 'px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 bg-white dark:bg-gray-700 shadow-md text-primary flex items-center gap-2'
+        : 'px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 text-gray-500 dark:text-gray-400 hover:text-primary flex items-center gap-2';
+    
+    // 视觉方向：显示art-desc，隐藏ui-desc
+    document.querySelectorAll('.art-desc').forEach(el => el.classList.toggle('hidden', !isArt));
+    document.querySelectorAll('.ui-desc').forEach(el => el.classList.toggle('hidden', !isUI));
+    
+    // 游戏UI方向：显示ui-only，隐藏art-only
+    document.querySelectorAll('.art-only').forEach(el => el.classList.toggle('hidden', !isArt));
+    document.querySelectorAll('.ui-only').forEach(el => el.classList.toggle('hidden', !isUI));
+    
+    // 标签显示
+    document.querySelectorAll('.art-badge').forEach(el => el.classList.toggle('hidden', !isArt));
+    document.querySelectorAll('.ui-badge').forEach(el => el.classList.toggle('hidden', !isUI));
+}
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 暗色模式
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const html = document.documentElement;
+            const isDark = localStorage.getItem('darkMode') === 'true';
+            if (isDark) html.classList.add('dark');
+           darkModeToggle.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('darkMode', html.classList.contains('dark'));
+});
+const darkModeToggleMobile = document.getElementById('dark-mode-toggle-mobile');
+if (darkModeToggleMobile) {
+    darkModeToggleMobile.addEventListener('click', () => {
+        html.classList.toggle('dark');
+        localStorage.setItem('darkMode', html.classList.contains('dark'));
+    });
+}
+
+            // 移动菜单
+            document.getElementById('menu-toggle').addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.toggle('hidden');
+            });
+
+            // 滚动动画
+            const fadeElements = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1 });
+            fadeElements.forEach(el => observer.observe(el));
+
+            // 导航高亮 + 滚动进度条 + 返回顶部
+            const scrollProgress = document.getElementById('scroll-progress');
+            const backToTop = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                // 进度条
+                const scrollY = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (docHeight > 0) {
+                    scrollProgress.style.width = Math.min((scrollY / docHeight) * 100, 100) + '%';
+                }
+                // 返回顶部按钮
+                if (scrollY > 500) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+                // 导航高亮
+                let current = '';
+                document.querySelectorAll('section[id]').forEach(section => {
+                    if (scrollY >= section.offsetTop - 200) current = section.getAttribute('id');
+                });
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+                });
+            });
+
+            // 打字机效果
+            const subtitle = document.getElementById('hero-subtitle');
+            if (subtitle) {
+                const text = subtitle.textContent;
+                subtitle.textContent = '';
+                subtitle.classList.add('typewriter-cursor');
+                let i = 0;
+                const typeTimer = setInterval(() => {
+                    if (i < text.length) {
+                        subtitle.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typeTimer);
+                        subtitle.classList.remove('typewriter-cursor');
+                    }
+                }, 80);
+            }
+
+            // 图片淡入加载
+            document.querySelectorAll('img.lazy-fade, img[loading="lazy"]').forEach(img => {
+                if (img.complete && img.naturalWidth > 0) {
+                    img.classList.add('loaded');
+                } else {
+                    img.classList.add('lazy-fade');
+                    img.addEventListener('load', () => img.classList.add('loaded'));
+                    img.addEventListener('error', () => { img.style.opacity = '0.4'; img.classList.add('loaded'); });
+                }
+            });
+
+            switchMode(localStorage.getItem('portfolioMode') || 'ui');
+
+            // 平滑滚动到作品板块中心位置
+            if (window.location.hash === '#works') {
+                setTimeout(() => {
+                    const worksSection = document.getElementById('works');
+                    if (worksSection) {
+                        const sectionTop = worksSection.offsetTop;
+                        const sectionHeight = worksSection.offsetHeight;
+                        const viewportHeight = window.innerHeight;
+                        // 计算中心位置：section顶部 + section高度的一半 - 视口高度的一半
+                        const centerPosition = sectionTop + sectionHeight / 2 - viewportHeight / 2;
+                        
+                        window.scrollTo({
+                            top: centerPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>

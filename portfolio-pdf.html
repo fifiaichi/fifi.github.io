@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>张省菲 - 作品集（PDF版）</title>
+    <style>
+        /* ===== 打印优化 ===== */
+        @page {
+            size: A4;
+            margin: 15mm 18mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        /* ===== 页面容器 ===== */
+        .page {
+            width: 100%;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 0;
+            page-break-after: always;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        /* ===== 头部信息 ===== */
+        .header {
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #1e3a3a;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 22pt;
+            color: #1e3a3a;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 11pt;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .header .contact {
+            font-size: 9pt;
+            color: #888;
+        }
+
+        .header .contact span {
+            margin: 0 10px;
+        }
+
+        /* ===== 分栏布局 ===== */
+        .two-col {
+            display: flex;
+            gap: 20px;
+        }
+
+        .two-col .left {
+            flex: 0 0 28%;
+        }
+
+        .two-col .right {
+            flex: 1;
+        }
+
+        /* ===== 侧边栏 ===== */
+        .sidebar-section {
+            margin-bottom: 16px;
+        }
+
+        .sidebar-section h3 {
+            font-size: 10pt;
+            color: #1e3a3a;
+            border-bottom: 1px solid #1e3a3a;
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-item {
+            margin-bottom: 10px;
+        }
+
+        .skill-item .skill-name {
+            font-size: 9pt;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 3px;
+        }
+
+        .skill-item .skill-bar {
+            height: 4px;
+            background: #e8e8e8;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-item .skill-fill {
+            height: 100%;
+            background: #1e3a3a;
+            border-radius: 2px;
+        }
+
+        .skill-item .skill-desc {
+            font-size: 8pt;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 8pt;
+            background: #f0f0f0;
+            color: #555;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin: 2px 2px 2px 0;
+        }
+
+        /* ===== 主内容区 ===== */
+        .section {
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 12pt;
+            color: #1e3a3a;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* ===== 项目卡片 ===== */
+        .project {
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .project:last-child {
+            border-bottom: none;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+
+        .project-title {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .project-time {
+            font-size: 8.5pt;
+            color: #999;
+        }
+
+        .project-role {
+            font-size: 9pt;
+            color: #1e3a3a;
+            margin-bottom: 4px;
+        }
+
+        .project-desc {
+            font-size: 9.5pt;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .project-awards {
+            font-size: 8.5pt;
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        .project-tags {
+            margin-top: 4px;
+        }
+
+        /* ===== 作品展示网格 ===== */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .work-item {
+            border: 1px solid #eee;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .work-item .work-img {
+            width: 100%;
+            height: 100px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaa;
+            font-size: 8pt;
+        }
+
+        .work-item .work-info {
+            padding: 6px 8px;
+        }
+
+        .work-item .work-name {
+            font-size: 9pt;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .work-item .work-type {
+            font-size: 8pt;
+            color: #888;
+        }
+
+        /* ===== 经历时间线 ===== */
+        .timeline-item {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 12px;
+            border-left: 2px solid #1e3a3a;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -5px;
+            top: 4px;
+            width: 8px;
+            height: 8px;
+            background: #1e3a3a;
+            border-radius: 50%;
+        }
+
+        .timeline-time {
+            font-size: 8.5pt;
+            color: #999;
+            margin-bottom: 2px;
+        }
+
+        .timeline-title {
+            font-size: 10pt;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .timeline-desc {
+            font-size: 9pt;
+            color: #666;
+        }
+
+        /* ===== 页脚 ===== */
+        .pdf-footer {
+            text-align: center;
+            font-size: 8pt;
+            color: #aaa;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        /* ===== 打印隐藏元素 ===== */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+
+        /* ===== 屏幕预览优化 ===== */
+        @media screen {
+            body {
+                background: #e8e8e8;
+                padding: 20px 0;
+            }
+
+            .page {
+                background: #fff;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                padding: 20mm 18mm;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- ===== 第1页：封面+项目 ===== -->
+<div class="page">
+    <div class="header">
+        <h1>张省菲</h1>
+        <div class="subtitle">数字媒体技术 · 2026届应届生</div>
+        <div class="contact">
+            <span>📧 gugegewang@qq.com</span>
+            <span>💬 微信：kirakiracc99</span>
+            <span>🎨 作品集：zhang-shengfei.github.io</span>
+        </div>
+    </div>
+
+    <div class="two-col">
+        <div class="left">
+            <!-- 技能 -->
+            <div class="sidebar-section">
+                <h3>专业技能</h3>
+                <div class="skill-item">
+                    <div class="skill-name">Photoshop / Procreate</div>
+                    <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+                    <div class="skill-desc">插画、UI设计、海报</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">After Effects / Premiere</div>
+                    <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+                    <div class="skill-desc">MG动画、逐帧动画、剪辑</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Unity 引擎</div>
+                    <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+                    <div class="skill-desc">场景搭建、UI制作、基础交互</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">Python 脚本</div>
+                    <div class="skill-bar"><div class="skill-fill" style="width:65%"></div></div>
+                    <div class="skill-desc">数据处理、批量操作、工具脚本</div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-name">HTML / CSS / PHP</div>
+                    <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+                    <div class="skill-desc">网页开发、独立建站</div>
+                </div>
+            </div>
+
+            <!-- 工具 -->
+            <div class="sidebar-section">
+                <h3>常用工具</h3>
+                <div>
+                    <span class="tag">Photoshop</span>
+                    <span class="tag">Procreate</span>
+                    <span class="tag">CSP</span>
+                    <span class="tag">After Effects</span>
+                    <span class="tag">Premiere</span>
+                    <span class="tag">Unity</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">Cursor</span>
+                    <span class="tag">Trae</span>
+                    <span class="tag">Claude</span>
+                </div>
+            </div>
+
+            <!-- 获奖 -->
+            <div class="sidebar-section">
+                <h3>获奖荣誉</h3>
+                <div style="font-size:9pt;color:#555;line-height:1.8">
+                    • 广东省大学生计算机设计大赛 游戏类二等奖<br>
+                    • 蓝桥杯动画类三等奖<br>
+                    • 永创杯全国二等奖<br>
+                    • 永创杯全国三等奖<br>
+                    • 蓝桥杯视觉艺术类参赛作品
+                </div>
+            </div>
+
+            <!-- 教育 -->
+            <div class="sidebar-section">
+                <h3>教育背景</h3>
+                <div style="font-size:9pt;color:#555;line-height:1.6">
+                    <strong>数字媒体技术</strong><br>
+                    本科 · 2022-2026<br>
+                    <span style="color:#888">主修：游戏设计、动画制作、网页开发</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="right">
+            <!-- 关于我 -->
+            <div class="section">
+                <div class="section-title">关于我</div>
+                <p style="font-size:9.5pt;color:#555;line-height:1.7">
+                    数字媒体技术专业应届生，具备<strong>2D美术设计、动画制作、游戏UI</strong>的综合能力。有完整的Unity游戏项目经验（省级二等奖），熟悉游戏美术生产流程。擅长使用AI工具（Trae/Cursor/Claude）辅助工作，能编写Python脚本提升效率。寻求游戏UI设计师 / 动效设计师 / 2D美术实习岗位。
+                </p>
+            </div>
+
+            <!-- 项目经历 -->
+            <div class="section">
+                <div class="section-title">项目经历</div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <span class="project-title">天工造物</span>
+                        <span class="project-time">2025年</span>
+                    </div>
+                    <div class="project-role">主策划 / 美术设计 / UI设计</div>
+                    <div class="project-desc">
+                        Unity独立游戏项目，以中国传统工艺为主题。负责游戏核心玩法设计、场景搭建、角色概念设计、UI界面设计。使用AI工具辅助开发，提升迭代效率。
+                    </div>
+                    <div class="project-awards">🏆 广东省大学生计算机设计大赛 游戏类二等奖</div>
+                    <div class="project-tags">
+                        <span class="tag">Unity</span>
+                        <span class="tag">游戏策划</span>
+                        <span class="tag">UI设计</span>
+                        <span class="tag">场景美术</span>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <span class="project-title">岭南花市科普网站</span>
+                        <span class="project-time">2024-2025年</span>
+                    </div>
+                    <div class="project-role">独立设计师 / 开发者</div>
+                    <div class="project-desc">
+                        基于PHP+MySQL的岭南文化科普电商网站。独立设计需求与排版，使用Cursor/Trae/Windsurf辅助开发。编写Python脚本完成商品数据批量导入与验证。
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">PHP</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">网页设计</span>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <span class="project-title">华艺千秋录（MG动画）</span>
+                        <span class="project-time">2024年</span>
+                    </div>
+                    <div class="project-role">动画设计 / 导演</div>
+                    <div class="project-desc">
+                        蓝桥杯/永创杯竞赛MG动画作品。使用Procreate、Photoshop、CSP多工具协同制作，从脚本创作到分镜设计到最终成片全流程参与。
+                    </div>
+                    <div class="project-awards">🏆 蓝桥杯动画类三等奖 · 永创杯全国二等奖</div>
+                    <div class="project-tags">
+                        <span class="tag">MG动画</span>
+                        <span class="tag">Procreate</span>
+                        <span class="tag">分镜设计</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pdf-footer">
+        张省菲 · 数字媒体技术 · 2026届应届生 · 本文件生成于 2026年6月
+    </div>
+</div>
+
+<!-- ===== 第2页：动画作品 ===== -->
+<div class="page">
+    <div class="section">
+        <div class="section-title">动画作品</div>
+
+        <div class="project">
+            <div class="project-header">
+                <span class="project-title">《回家》叙事动画</span>
+                <span class="project-time">2024年</span>
+            </div>
+            <div class="project-role">分镜设计 / 剧情设计</div>
+            <div class="project-desc">
+                聚焦大年三十上班热点话题的逐帧叙事动画。讲述主人公因工作无法回家，最终补票成功与家人团聚的温馨故事。负责分镜设计与剧情创作，通过流畅的视觉节奏传达核心情感。
+            </div>
+            <div class="project-awards">🏆 永创杯全国高校艺术设计大赛三等奖 · 蓝桥杯优秀奖</div>
+            <div class="project-tags">
+                <span class="tag">逐帧动画</span>
+                <span class="tag">叙事动画</span>
+                <span class="tag">分镜设计</span>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-header">
+                <span class="project-title">《这条短信有点"毒"》反诈动画</span>
+                <span class="project-time">2024年</span>
+            </div>
+            <div class="project-role">剧情策划 / 分镜设计</div>
+            <div class="project-desc">
+                公益反诈宣传动画，采用趣味性叙事方式将反诈知识转化为易于理解的动画语言。适合社交媒体、社区大屏等多场景传播。
+            </div>
+            <div class="project-awards">🏆 防诈骗宣传作品征集活动 区级优秀奖</div>
+            <div class="project-tags">
+                <span class="tag">公益动画</span>
+                <span class="tag">科普宣传</span>
+                <span class="tag">分镜设计</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">插画与文创设计</div>
+
+        <div class="project">
+            <div class="project-header">
+                <span class="project-title">个人文创IP「Mango」</span>
+                <span class="project-time">2023年</span>
+            </div>
+            <div class="project-role">主设计师</div>
+            <div class="project-desc">
+                以"馒头更适合中国宝宝体质的欧包"为灵感，打造温暖治愈的馒头店IP形象。包含完整品牌视觉系统、系列插画、多款周边衍生品设计（口罩、徽章、手机壳、抱枕、帆布袋、拼图）。
+            </div>
+            <div class="project-tags">
+                <span class="tag">IP设计</span>
+                <span class="tag">品牌策划</span>
+                <span class="tag">文创周边</span>
+                <span class="tag">Illustrator</span>
+            </div>
+        </div>
+
+        <div class="project">
+            <div class="project-header">
+                <span class="project-title">图画本封面绘制（商业委托）</span>
+                <span class="project-time">2023年</span>
+            </div>
+            <div class="project-role">插画设计师</div>
+            <div class="project-desc">
+                儿童图画书封面设计项目，创作春夏秋冬四季主题封面。采用明亮色彩、简洁造型和富有童趣的构图，营造温馨友好的阅读氛围。
+            </div>
+            <div class="project-tags">
+                <span class="tag">商业插画</span>
+                <span class="tag">儿童美术</span>
+                <span class="tag">四季主题</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">校园经历</div>
+
+        <div class="timeline-item">
+            <div class="timeline-time">2023.09 - 2024.06</div>
+            <div class="timeline-title">起点传媒协会 · 动画部部长</div>
+            <div class="timeline-desc">负责动画部日常管理、分工进度、风格统一、质量把控。组织团队完成多部宣传动画，从分镜到合成全流程参与。</div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-time">2022.09 - 2023.06</div>
+            <div class="timeline-title">学生媒体中心 · 网络运营部</div>
+            <div class="timeline-desc">负责校园官方账号视觉内容：推送版式、活动宣传图、短视频封面。参与选题讨论，提升内容策划与视觉表达能力。</div>
+        </div>
+    </div>
+
+    <div class="pdf-footer">
+        完整作品集及视频演示请访问：zhang-shengfei.github.io
+    </div>
+</div>
+
+<!-- ===== 第3页：作品缩略图（占位） ===== -->
+<div class="page">
+    <div class="section">
+        <div class="section-title">作品预览</div>
+        <p style="font-size:9pt;color:#888;margin-bottom:12px">
+            以下为作品缩略图占位，完整高清图片及视频演示请访问线上作品集。
+        </p>
+
+        <div class="works-grid">
+            <div class="work-item">
+                <img src="image/game/tiangong-cover.jpg" alt="天工造物游戏封面" class="work-img" style="height:120px;object-fit:cover;">
+                <div class="work-info">
+                    <div class="work-name">天工造物</div>
+                    <div class="work-type">Unity游戏 · UI设计</div>
+                </div>
+            </div>
+            <div class="work-item">
+                <img src="image/animation/huayi-cover.jpg" alt="华艺千秋录MG动画" class="work-img" style="height:120px;object-fit:cover;">
+                <div class="work-info">
+                    <div class="work-name">华艺千秋录</div>
+                    <div class="work-type">MG动画</div>
+                </div>
+            </div>
+            <div class="work-item">
+                <img src="image/animation/frame-animation-cover.png" alt="回家逐帧动画" class="work-img" style="height:120px;object-fit:cover;">
+                <div class="work-info">
+                    <div class="work-name">回家</div>
+                    <div class="work-type">逐帧叙事动画</div>
+                </div>
+            </div>
+            <div class="work-item">
+                <img src="image/cultural/mango-logo.png" alt="Mango IP文创设计" class="work-img" style="height:120px;object-fit:cover;">
+                <div class="work-info">
+                    <div class="work-name">Mango IP</div>
+                    <div class="work-type">文创设计 · 品牌</div>
+                </div>
+            </div>
+            <div class="work-item">
+                <img src="image/illustration/final-illustration.jpg" alt="四季图画本封面插画" class="work-img" style="height:120px;object-fit:cover;">
+                <div class="work-info">
+                    <div class="work-name">四季图画本</div>
+                    <div class="work-type">商业插画</div>
+                </div>
+            </div>
+            <div class="work-item">
+                <img src="image/web/lingnan-cover.jpg" alt="岭南花市科普网站" class="work-img" style="height:120px;object-fit:cover;">
+                <div class="work-info">
+                    <div class="work-name">岭南花市网站</div>
+                    <div class="work-type">网页设计 · PHP</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" style="margin-top:20px">
+        <div class="section-title">AI 辅助工作实践</div>
+        <p style="font-size:9.5pt;color:#555;line-height:1.7;margin-bottom:10px">
+            在项目中深度使用AI工具提升效率，理解"AI辅助+人工审查"的工作模式：
+        </p>
+        <div style="font-size:9pt;color:#555;line-height:1.8">
+            • <strong>Cursor / Trae / Windsurf</strong>：辅助编写PHP网站代码、Python数据处理脚本，人工调整业务逻辑与异常处理<br>
+            • <strong>Claude / ChatGPT</strong>：辅助生成分镜叙事节奏、数据可视化图表、测试用例设计<br>
+            • <strong>Recraft</strong>：生成动画场景参考图，加速视觉迭代流程
+        </div>
+    </div>
+
+    <div style="text-align:center;margin-top:30px;padding:20px;background:#f8f8f8;border-radius:8px">
+        <div style="font-size:11pt;font-weight:bold;color:#1e3a3a;margin-bottom:8px">期待与您进一步沟通</div>
+        <div style="font-size:9pt;color:#666">
+            📧 gugegewang@qq.com · 💬 kirakiracc99<br>
+            🎨 完整作品集：zhang-shengfei.github.io
+        </div>
+    </div>
+
+    <div class="pdf-footer">
+        张省菲 · 数字媒体技术 · 2026届应届生
+    </div>
+</div>
+
+</body>
+</html>

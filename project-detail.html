@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品详情 - 张省菲作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e3a3a',
+                        secondary: '#2c5282',
+                        light: '#f8f6f0',
+                        dark: '#1a1a2e',
+                        accent: '#3182ce',
+                        'gradient-start': '#667eea',
+                        'gradient-end': '#764ba2',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        'gradient-secondary': 'linear-gradient(135deg, #1e3a3a 0%, #2c5282 100%)',
+                        'gradient-accent': 'linear-gradient(135deg, #3182ce 0%, #667eea 100%)',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(102, 126, 234, 0.3)',
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .section-padding { padding-top: 120px; padding-bottom: 120px; }
+            .badge { @apply bg-gray-100 text-primary px-3 py-1 rounded-full text-xs font-medium mr-2 mb-2 inline-block dark:bg-gray-700 dark:text-gray-300; }
+            .btn-primary { @apply bg-gradient-primary text-white px-6 py-3 rounded-full hover:shadow-glow transition duration-300 inline-flex items-center justify-center transform hover:scale-105; }
+            .btn-outline { @apply border-2 border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition duration-300 inline-flex items-center justify-center dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-primary; }
+            .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+            .fade-in.active { opacity: 1; transform: translateY(0); }
+            .glass-card { @apply bg-white bg-opacity-70 backdrop-blur-lg border border-white border-opacity-20 dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700; }
+            .gradient-text { @apply bg-gradient-primary bg-clip-text text-transparent; }
+            .hero-gradient { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); }
+        }
+    </style>
+    <style>
+        html { scroll-behavior: smooth; }
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 90;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.35);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.5);
+        }
+        /* 骨架屏加载 */
+        .skeleton {
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        .dark .skeleton {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+            background-size: 200% 100%;
+        }
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        /* 图片淡入 */
+        img.lazy-fade {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        img.lazy-fade.loaded {
+            opacity: 1;
+        }
+        /* 卡片入场动画 */
+        .card-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .card-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<base target="_blank">
+<base target="_blank">
+</head>
+<body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
+    <!-- 滚动进度条 -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <!-- 返回顶部 -->
+    <div class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="返回顶部">
+        <i class="fa fa-chevron-up"></i>
+    </div>
+    <!-- 导航栏 -->
+    <nav id="navbar" class="bg-white dark:bg-dark shadow-sm fixed w-full z-50 py-4 transition-all duration-300">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold text-primary dark:text-white">张省菲</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">首页</a>
+                    <a href="index.html#works" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">作品</a>
+                    <a href="index.html#timeline" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">履历</a>
+                    <a href="index.html#ai-practice" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">AI实践</a>
+                    <a href="index.html#about" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">关于我</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="text-primary dark:text-white focus:outline-none">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2 border-t border-gray-100 dark:border-gray-800 mt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-primary">首页</a>
+                    <a href="index.html#works" class="text-gray-600 dark:text-gray-300 hover:text-primary">作品</a>
+                    <a href="index.html#timeline" class="text-gray-600 dark:text-gray-300 hover:text-primary">履历</a>
+                    <a href="index.html#ai-practice" class="text-gray-600 dark:text-gray-300 hover:text-primary">AI实践</a>
+                    <a href="index.html#about" class="text-gray-600 dark:text-gray-300 hover:text-primary">关于我</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 作品详情区域 -->
+    <section class="pt-32 pb-16 bg-white dark:bg-dark relative overflow-hidden hero-gradient">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-primary opacity-5 rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <!-- 返回按钮 -->
+            <div class="mb-8">
+                <a href="javascript:void(0)" onclick="goBack()" class="btn-outline px-4 py-2 text-sm rounded-full">
+                    <i class="fa fa-arrow-left mr-2"></i> 返回作品列表
+                </a>
+            </div>
+
+            <!-- 作品标题 -->
+            <div class="text-center mb-12">
+                <h1 id="project-title" class="text-4xl font-bold gradient-text mb-4">作品详情</h1>
+                <p id="project-subtitle" class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">项目详细描述将在这里显示</p>
+            </div>
+
+            <!-- 作品展示区域 -->
+            <div id="project-showcase-container" class="bg-gray-900 rounded-2xl overflow-hidden mb-12 shadow-glow border border-gray-800">
+                <div class="aspect-video flex items-center justify-center">
+                    <div id="project-showcase" class="text-center text-white p-8">
+                        <i class="fa fa-spinner fa-spin text-4xl mb-4 text-accent"></i>
+                        <p class="text-gray-400">正在加载作品内容...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目信息 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <!-- 项目描述 -->
+                <div class="lg:col-span-2">
+                    <div class="glass-card rounded-2xl shadow-card p-8 fade-in">
+                        <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目概述</h2>
+                        <div id="project-description" class="text-gray-600 dark:text-gray-300 space-y-4 leading-relaxed">
+                            <p>项目详细描述将在这里显示。</p>
+                        </div>
+
+                        <div class="mt-8">
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-4">项目特点</h3>
+                            <ul id="project-features" class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+                                <li>特点1</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-8">
+                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-4">技术栈</h3>
+                            <div id="project-tech" class="flex flex-wrap">
+                                <span class="badge">技术1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 项目信息和证书 -->
+                <div class="lg:col-span-1">
+                    <div class="glass-card rounded-2xl shadow-card p-8 mb-8 fade-in">
+                        <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目信息</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">项目类型</h3>
+                                <p id="project-type" class="font-medium">竞赛项目</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">完成时间</h3>
+                                <p id="project-date" class="font-medium">2024年6月</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">项目角色</h3>
+                                <p id="project-role" class="font-medium">主策划/美术设计</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">项目时长</h3>
+                                <p id="project-duration" class="font-medium">3个月</p>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">团队成员</h3>
+                                <p id="project-team" class="font-medium">5人团队</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 证书展示 -->
+                    <div class="glass-card rounded-2xl shadow-card p-8 fade-in">
+                        <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">获奖证书</h2>
+                        <div id="project-certificate" class="space-y-6">
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 text-center">
+                                <i class="fa fa-certificate text-primary dark:text-white text-4xl mb-4"></i>
+                                <h3 id="certificate-title" class="font-semibold mb-2">奖项名称</h3>
+                                <p id="certificate-award" class="text-sm text-gray-500">奖项等级</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目成果 -->
+            <div class="glass-card rounded-2xl shadow-card p-8 mb-12 fade-in">
+                <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目成果</h2>
+                <div id="project-achievements" class="text-gray-600 dark:text-gray-300 space-y-4 leading-relaxed">
+                    <p>项目取得的成果将在这里展示。</p>
+                </div>
+            </div>
+
+            <!-- 项目图片展示 -->
+            <div id="project-images-section" class="glass-card rounded-2xl shadow-card p-8 fade-in">
+                <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目图片</h2>
+                <div id="project-images" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 图片由 JS 动态填充 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm text-gray-300">张省菲 · 数字媒体技术</p>
+            <p class="mt-2 text-gray-500 text-xs">HTML + Tailwind CSS + JavaScript</p>
+        </div>
+    </footer>
+
+    <!-- 证书弹窗 -->
+    <div id="cert-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeCertModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div class="relative max-w-4xl w-full pointer-events-auto transform scale-95 transition-transform duration-300" id="cert-modal-content">
+                <button onclick="closeCertModal()" class="absolute -top-12 right-0 text-white text-3xl hover:text-gray-300 transition-colors">&times;</button>
+                <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl">
+                    <img id="cert-modal-img" src="" alt="证书" class="w-full max-h-[70vh] object-contain">
+                    <div class="p-6 text-center">
+                        <p id="cert-modal-title" class="text-lg font-semibold text-gray-800 dark:text-white"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片预览弹窗 (Lightbox) -->
+    <div id="image-modal" class="fixed inset-0 z-[110] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-xl" onclick="closeImageModal()"></div>
+        
+        <!-- 工具栏 -->
+        <div class="absolute top-0 left-0 right-0 p-6 flex justify-between items-center z-[120] pointer-events-none">
+            <div class="flex gap-4 pointer-events-auto">
+                <button onclick="zoomImage(0.2)" class="w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all flex items-center justify-center">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button onclick="zoomImage(-0.2)" class="w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all flex items-center justify-center">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button onclick="resetZoom()" class="w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all flex items-center justify-center">
+                    <i class="fa fa-refresh"></i>
+                </button>
+            </div>
+            <button onclick="closeImageModal()" class="w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all flex items-center justify-center pointer-events-auto">
+                <i class="fa fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none overflow-hidden">
+            <div class="relative max-w-7xl w-full pointer-events-auto transform scale-95 transition-all duration-300 ease-out" id="image-modal-content">
+                <img id="image-modal-img" src="" alt="预览图" class="w-full h-auto max-h-[85vh] object-contain rounded-lg shadow-2xl transition-transform duration-200 cursor-grab active:cursor-grabbing">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 全局函数 ====================
+
+        // 图片预览
+        let currentImageIndex = 0;
+        let projectImages = [];
+
+        function openImageModal(imgSrc) {
+            const modal = document.getElementById('image-modal');
+            const img = document.getElementById('image-modal-img');
+            const content = document.getElementById('image-modal-content');
+
+            img.src = imgSrc;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+
+            // 更新当前索引以便后续可能的切换功能
+            const currentId = new URLSearchParams(window.location.search).get('id') || 'tian-gong-zao-wu';
+            const project = projectData[currentId];
+            if (project && project.images) {
+                projectImages = project.images;
+                currentImageIndex = projectImages.indexOf(imgSrc);
+            }
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            const content = document.getElementById('image-modal-content');
+
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // 缩放功能
+        let scale = 1;
+        function zoomImage(delta) {
+            const img = document.getElementById('image-modal-img');
+            scale = Math.max(0.5, Math.min(3, scale + delta));
+            img.style.transform = `scale(${scale})`;
+        }
+
+        function resetZoom() {
+            scale = 1;
+            document.getElementById('image-modal-img').style.transform = 'scale(1)';
+        }
+
+        // 返回逻辑优化：返回作品列表并平滑滚动定位到作品板块中心
+        function goBack() {
+            const hasReferrer = document.referrer && document.referrer.includes(window.location.hostname);
+            
+            if (hasReferrer && document.referrer.includes('index.html')) {
+                // 如果来自首页，直接返回并利用hash触发平滑滚动
+                window.location.href = 'index.html#works';
+            } else if (hasReferrer && document.referrer.includes('animation-list.html')) {
+                // 如果来自动画列表页，返回动画列表页
+                window.location.href = 'animation-list.html';
+            } else {
+                // 其他情况，返回首页作品板块
+                window.location.href = 'index.html#works';
+            }
+        }
+
+        function openCertModal(imgSrc, title) {
+            const modal = document.getElementById('cert-modal');
+            const img = document.getElementById('cert-modal-img');
+            const titleEl = document.getElementById('cert-modal-title');
+            const content = document.getElementById('cert-modal-content');
+
+            img.src = imgSrc;
+            titleEl.textContent = title || '获奖证书';
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            }, 10);
+
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('cert-modal');
+            const content = document.getElementById('cert-modal-content');
+
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // ==================== 项目数据 ====================
+        const projectData = {
+            'tian-gong-zao-wu': {
+                title: '天工造物',
+                subtitle: '融合中国传统工艺美学的原创游戏项目',
+                description: `《天工造物》是一款以中国传统工艺为主题的原创游戏项目，旨在将博大精深的中华传统工艺文化通过现代游戏形式呈现给玩家。游戏融合了《天工开物》中的传统工艺元素与现代游戏玩法，打造独特的沉浸式体验。<br><br>
+                游戏以明代科学家宋应星的《天工开物》为灵感来源，玩家将扮演一位年轻工匠，在虚拟的古代工坊中学习各种传统工艺技艺，从陶瓷烧制、丝绸织造到金属锻造、造纸印刷等。每个工艺都有独特的玩法机制和挑战。<br><br>
+作为项目主策划和美术设计师，我负责游戏核心玩法设计、场景搭建、UI界面设计、角色概念设计。在Unity中完成菜单系统、HUD、背包界面等UI资产制作，理解游戏UI从设计到引擎落地的完整流程。使用AI工具辅助创意构思，提升迭代效率。`,
+                features: [
+                    '中国传统工艺文化主题，弘扬中华优秀传统文化',
+                    'Unity引擎场景搭建与UI界面设计，理解游戏美术生产流程',
+                    '精美的国风美术风格，还原古代工坊氛围',
+                    '寓教于乐，让玩家在游戏中了解传统工艺知识'
+                ],
+                tech: ['Unity', 'UI设计', 'Photoshop', 'Procreate', 'Python', '游戏策划'],
+                type: '竞赛项目',
+                date: '2025年',
+                role: '主策划/美术设计/UI设计',
+                duration: '4个月',
+                team: '6人团队',
+                certificateTitle: '广东省大学生计算机设计大赛',
+                certificateAward: '游戏类二等奖',
+                certificateDate: '2025年5月',
+                certificateImage: 'image/certs/tiangong-cert.jpg',
+                achievementsAwards: '获得广东省大学生计算机设计大赛游戏类二等奖，展现了传统文化与现代技术的完美结合。',
+                achievementsImpact: '游戏受到评委高度评价，被认为是传统文化数字化传承的优秀范例。',
+                bilibili: 'https://www.bilibili.com/video/BV1eKEE6dE4k/',
+                poster: 'image/game/tiangong-cover.jpg',
+                images: [
+                    'image/game/tiangong-material.png',
+                    'image/game/tiangong-poster.png',
+                    'image/game/tiangong-homepage.png',
+                    'image/game/tiangong-interaction.png',
+                    'image/game/tiangong-backpack.png',
+                    'image/game/tiangong-knowledge.png'
+                ],
+                hasVideo: false,
+                hasTestReport: true
+            },
+            'lingnan-flower-market': {
+                title: '基于PHP开发的岭南花市科普网站',
+                subtitle: '独立设计、AI辅助开发的岭南文化科普平台',
+                description: `《基于php开发的岭南花市科普网站》是一个致力于传承和普及岭南花市文化的Web项目。该项目从构思到排版均由本人独立设计，旨在通过数字化手段展现岭南花市的独特魅力和丰富底蕴。<br><br>
+                在开发过程中，我使用了基础源码并深度融合AI辅助编程思维，利用Cursor、Trae、Windsurf等前沿AI工具对源码进行了个性化修改、功能扩展和排版优化，实现了高效的迭代开发。<br><br>
+                网站不仅涵盖了花市的历史渊源、特色品种展示，还通过精美的排版和流畅的交互体验，为用户提供了一个沉浸式的科普平台。`,
+                features: [
+                    '独立设计的需求与排版布局，体现个人创意',
+                    '基于PHP开发的动态网站架构，功能完善',
+                    '深度应用Cursor、Trae、Windsurf等AI工具辅助开发',
+                    '精美的视觉呈现，弘扬岭南传统花市文化'
+                ],
+                tech: ['PHP', 'MySQL', 'HTML5', 'Tailwind CSS', 'JavaScript', 'Cursor', 'Trae', 'Windsurf'],
+                type: 'Web开发',
+                date: '2024年5月',
+                role: '独立设计师/开发者',
+                duration: '2个月',
+                team: '个人项目',
+                certificateTitle: '毕业设计/个人实践',
+                certificateAward: '优秀实践作品',
+                certificateDate: '2024年',
+                achievementsAwards: '成功实现了从创意构思到上线运行的全过程，网页排版与用户体验得到了AI工具的显著优化。',
+                achievementsImpact: '通过该项目掌握了AI辅助开发的完整流程，为传统文化的数字化传播提供了新思路。',
+                bilibili: 'https://www.bilibili.com/video/BV1eKEE6dExd/',
+                poster: 'image/web/lingnan-cover.jpg',
+                images: ['image/web/lingnan-cover.jpg'],
+                hasVideo: false,
+                hasTestReport: true
+            },
+            'mg-animation': {
+    title: '华艺千秋录',
+    subtitle: '以朝代为轴，用MG动画重述两千年中华艺术史',
+    description: `
+《华艺千秋录》是一部以<strong>朝代演进为叙事线索</strong>的MG动画宣传片，从秦汉的雄浑质朴到明清的精巧雅致，用动态图形语言串联起中国两千年的艺术长卷。<br><br>
+    动画以"文物活化"为核心创意：秦代漆器与陶俑在黄土高坡的映衬下苏醒；汉代长信宫灯照亮玉器的温润光泽；魏晋敦煌藻井随万花镜特效层层绽放；唐代丝绸之路的商队穿越长安灯会，杨贵妃手中的明灯映照着唐三彩的斑驳——每一幕都是历史与视觉的精密咬合。<br><br>
+    全片采用<strong>手绘素材与AE特效深度融合</strong>的制作方式。在Procreate中完成分镜脚本与角色绘制，导入After Effects后运用路径追踪、人偶引擎、碎片消散、湍流置换等20余种特效技术，实现"落叶转场""舞俑活化""卷轴展开""人物消散"等复杂动态效果。后期配合三色调、分形杂色、Deep Glow等风格化处理，让历史画面既有文献厚重感，又不失现代视觉张力。<br><br>
+    这部作品不仅是一次MG动画技术的全面实践，更是一次用数字媒介重新诠释传统文化的尝试——让沉睡在博物馆里的艺术，在屏幕上重新呼吸。
+`,
+    features: [
+        '以朝代为轴线的叙事结构：秦汉→魏晋→唐→宋→元→明清，逻辑清晰',
+        '文物活化创意：将漆器、宫灯、唐三彩、团扇等静态文物转化为动态角色',
+        '20+种AE特效综合运用：路径追踪、人偶引擎、碎片消散、湍流置换、万花镜等',
+        '手绘+特效双轨制作：Procreate分镜脚本 + AE动态实现，保证艺术一致性',
+        '历史考据与视觉想象结合：敦煌供养人参考《洛神赋图》，杨贵妃形象参照经典影视'
+    ],
+    tech: ['After Effects', 'Procreate', 'Photoshop', 'Illustrator', 'MG动画', '分镜设计'],
+    type: '竞赛作品',
+                date: '2025年5月',
+                role: '动画设计师/导演',
+                duration: '3个月',
+                team: '3人团队',
+                certificateTitle: '蓝桥杯/永创杯',
+                certificateAward: '第十六届蓝桥杯全国软件和信息技术专业人才大赛 动画设计类省赛 三等奖、第二届届 “永创杯” 全国高校创意设计作品展 二等奖',
+                certificateDate: '2025年',
+                certificates: [
+                    'image/certs/huayi-cert-lanqiao.jpg',
+                    'image/certs/huayi-cert-yongchuang.jpg'
+                ],
+                achievementsAwards: '获得蓝桥杯动画类三等奖和永创杯二等奖。',
+                achievementsImpact: '展现了深厚的美术功底与技术实现能力。',
+                bilibili: 'https://www.bilibili.com/video/BV1jwEE68E4f/',
+                poster: 'image/animation/huayi-cover.jpg',
+                hasVideo: false,
+                hasTestReport: false,
+                processImages: [
+                    'image/animation/huayi-storyboard-01.jpg',
+                    'image/animation/huayi-storyboard-02.jpg',
+                    'image/animation/huayi-storyboard-03.jpg'
+                ],
+                materialImages: [
+                    'image/animation/huayi-screenshot-01.png',
+                    'image/animation/huayi-screenshot-02.png',
+                    'image/animation/huayi-screenshot-03.png',
+                    'image/animation/huayi-screenshot-04.png',
+                    'image/animation/huayi-screenshot-05.png',
+                    'image/animation/huayi-screenshot-06.png'
+                ]
+            },
+            'animation-home': {
+                title: '逐帧动画《回家》',
+                subtitle: '情感细腻的叙事动画作品',
+                description: `《回家》聚焦大年三十上班热点话题。在除夕这本应是阖家团圆的一天，主人公因为工作与车票的原因无法回家，心中却也放不下对家的思念。作品通过细腻的情感表达和生动的画面，展现了团圆的珍贵意义。<br><br>
+                在创作中，我主要负责了分镜设计与剧情创作，致力于通过流畅的视觉节奏和引人入胜的故事情节传达核心信息。`,
+                features: [
+                    '聚焦社会热点，引发观众共鸣',
+                    '细腻的情感表达与严谨的逻辑叙事',
+                    '精美的逐帧动画表现，营造沉浸式体验'
+                ],
+                tech: ['procreate', 'Premiere Pro', 'Photoshop', '逐帧动画', '分镜设计', '剧情策划'],
+                type: '竞赛作品',
+                date: '2024年5月',
+                role: '项目视觉统筹 / 主创作',
+                duration: '2个月',
+                team: '3人团队',
+                certificateTitle: '永创杯全国高校艺术设计大赛、蓝桥杯全国软件和信息技术专业人才大赛',
+                certificateAward: '永创杯全国高校艺术设计大赛三等奖、第十五届蓝桥杯全国软件和信息技术专业人才大赛 动画设计类 优秀奖',
+                certificateDate: '2024年',
+                certificates: ['image/certs/home-cert-yongchuang.jpg', 'image/certs/home-cert-lanqiao.jpg'],
+                achievementsAwards: '获得永创杯全国高校艺术设计大赛三等奖、第十五届蓝桥杯全国软件和信息技术专业人才大赛 动画设计类 优秀奖。',
+                achievementsImpact: '作品通过温情叙事获得了广泛好评。',
+                bilibili: 'https://www.bilibili.com/video/BV1iwEE6bEcZ/',
+                poster: 'image/animation/frame-animation-cover.png',
+                hasVideo: false,
+                hasTestReport: false
+            },
+            'animation-anti-fraud': {
+                title: '反诈动画《这条短信有点“毒”》',
+                subtitle: '公益反诈宣传科普动画',
+                description: `《这条短信有点“毒”》是公益反诈宣传动画。随着电子信息时代的发展，手机短信时常会收到陌生短信，其中常常包含诱导办理业务、点击链接等电信诈骗相关信息。视频借此故事提醒广大公众：谨防电信诈骗，守护好自身财产安全。<br><br>
+                作品采用了趣味性的叙事方式，将复杂的反诈知识转化为易于理解的动画语言，适合在社交媒体、社区大屏等多种场景传播。`,
+                features: [
+                    '公益科普主题，具有极高实用价值',
+                    '生动的角色设计与剧情逻辑',
+                    '提醒公众警惕电信诈骗，守护财产安全',
+                    '支持内嵌高清播放，适配移动端降级方案'
+                ],
+                tech: ['After Effects', 'Premiere Pro', 'Photoshop', '动画设计', '反诈科普'],
+                type: '公益作品',
+                date: '2024年',
+                role: '剧情策划/分镜设计',
+                duration: '2个月',
+                team: '3人团队',
+                certificateTitle: '反诈宣传竞赛',
+                certificateAward: '优秀奖',
+                certificateDate: '2024年',
+                certificates: ['image/certs/antifraud-cert-01.jpg', 'image/certs/antifraud-cert-02.jpg'],
+                achievementsAwards: '获得反诈宣传优秀奖。',
+                achievementsImpact: '动画在社区广泛传播，有效提升了公众的防范意识。',
+                bilibili: 'https://www.bilibili.com/video/BV1ez421y7Lc',
+                hasVideo: false,
+                hasTestReport: false
+            },
+            'campus-cultural': {
+                title: '个人文创设计Mango',
+                subtitle: '温暖治愈的馒头店IP形象设计',
+                description: `（一）01 项目构思（创作起源）<br><br>
+                <strong>市场切入点：</strong>当下西式面点（贝果、碱水包）被大肆推崇，中式馒头平价、软糯却缺少年轻化包装与传播，结合网络热梗「馒头 = 中国欧包」，发现中式早餐文创空白，确定以馒头作为创作核心载体。<br><br>
+                <strong>IP形象灵感：</strong>选用小狗 + 馒头双元素结合，小狗自带治愈属性，馒头象征踏实、慢慢成长的幸福感；打造原创IP名称Mango，用温情故事赋予IP内核。<br><br>
+                <strong>创作初衷：</strong>借IP传递自我接纳、慢慢成长的生活理念，用可爱形象治愈当代人的自卑内耗，让传统馒头文化以文创形式走进年轻群体。<br><br>
+                （二）02 设计理念（IP世界观与故事）<br><br>
+                <strong>搭建「Mango馒头小店」完整故事世界观：</strong><br><br>
+                <strong>两个主角形象：</strong><br>
+                Mango：芒果色西施犬，馒头店店长，温柔暖心、善于开导同伴；<br>
+                奶黄包：小柴犬，因自身体温偏高产生自卑心理，被Mango点破：高温适合发酵馒头，由此找到自身价值。<br><br>
+                <strong>故事主线：</strong>两只小狗合伙开设Mango馒头铺，凭借特色各式馒头收获快乐，奶黄在制作馒头的过程中逐渐自信，收获满满幸福感。<br><br>
+                <strong>设计内核：</strong>借馒头发酵慢慢膨大的意象，隐喻人如同面团一般，在成长中慢慢舒展、找到自身闪光点；传递发现生活小美好、勇敢接纳自我的温暖主旨。<br><br>
+                （三）03 作品落地展示（IP + 实物文创）<br><br>
+                <strong>1、食品IP原画：多款主题馒头形象</strong><br>
+                创作柿子馒头、白面馒头、花卷、云朵馒头等多款原创馒头卡通造型，匹配店铺「今日特价」等商超版式设计，完善店铺视觉体系。<br><br>
+                <strong>2、全品类衍生文创产品（落地品类）</strong><br>
+                依托Mango和奶黄包IP形象，开发多品类实用周边：<br>
+                日用配饰：口罩、徽章、手机壳；<br>
+                家居用品：抱枕、帆布袋、拼图；<br>
+                整套产品适配年轻消费者日常使用场景，实现IP从插画到实体产品的落地转化。<br><br>
+                三、项目亮点总结（求职/参赛可用）<br><br>
+                <strong>文化落地：</strong>深挖中式早餐民俗，把传统面食文化年轻化、IP化，跳出传统文创老思路；<br><br>
+                <strong>情感赋能：</strong>以治愈小故事为内核，区别无内涵的空泛卡通设计，产品自带情感价值；<br><br>
+                <strong>商业化完整：</strong>从IP人设→形象原画→多品类实物衍生品全链路完成，具备商用落地潜力。<br><br>
+                四、补充：简历可用精简版总结<br><br>
+                本人（张省菲）作为项目主设计师，带队完成Mango治愈系馒头文创IP全案设计，从市场调研、IP故事策划、角色原画绘制，到口罩/抱枕/帆布袋等全品类文创产品落地设计，项目参与蓝桥杯艺术类文创赛道，立足中式早餐传统文化完成年轻化IP商业化开发。`,
+                features: [
+                    '完整的品牌视觉系统：Logo、标准色、辅助图形',
+                    '系列化插画设计：从初稿到多版本迭代',
+                    '丰富的周边衍生品：口罩、徽章、手机壳、抱枕、帆布袋、拼图',
+                    '温暖治愈的叙事性视觉语言，传递自我接纳、慢慢成长的生活理念'
+                ],
+                tech: ['Illustrator', 'Photoshop', 'Procreate', 'IP设计', '品牌策划'],
+                type: '文创项目',
+                date: '2023年9月',
+                role: '主设计师',
+                duration: '1个月',
+                team: '双人项目',
+                certificateTitle: '2023 年 广州工商学院文创设计大赛 三等奖（校级）',
+                certificateAward: '参赛作品',
+                certificateDate: '2024年',
+                achievementsAwards: '成功打造了具有高度辨识度的IP形象，并完成了系列文创周边设计方案。项目参与蓝桥杯艺术类文创赛道，立足中式早餐传统文化完成年轻化IP商业化开发。',
+                achievementsImpact: '设计方案在校内展示中获得好评，展现了出色的商业应用潜力和艺术审美。借IP传递自我接纳、慢慢成长的生活理念，用可爱形象治愈当代人的自卑内耗。',
+                hasVideo: false,
+                hasTestReport: false,
+                images: [
+                    'image/cultural/mango-draft.png',
+                    'image/cultural/mango-process.png',
+                    'image/cultural/mango-v2.png',
+                    'image/illustration/final-illustration.jpg'
+                ],
+                isIllustrationProcess: true,
+                isCulturalProject: true,
+                brandingImages: [
+                    'image/cultural/mango-logo.png',
+                    'image/cultural/mango-design-note.png'
+                ],
+                merchImages: [
+                    'image/cultural/mango-merch.jpg',
+                    'image/cultural/mango-steamer.png',
+                    'image/cultural/mango-toast.png',
+                    'image/cultural/mango-cloud.png'
+                ]
+            },
+            'picture-book': {
+                title: '图画本封面绘制',
+                subtitle: '儿童图画书封面设计项目（春夏秋冬四季主题）',
+                description: `这是一个儿童图画本册封面设计项目，创作了春夏秋冬四季主题的封面设计。项目旨在通过视觉设计吸引儿童的注意力，激发他们的阅读兴趣。<br><br>
+                在设计过程中，我充分考虑了目标受众（儿童）的审美偏好和认知特点，采用了明亮的色彩、简洁的造型和富有童趣的构图。设计元素包括春夏秋冬四季的自然场景、可爱的动物角色、温暖的色调等，营造出温馨友好的氛围。`,
+                features: [
+                    '春夏秋冬四季主题，色彩鲜艳活泼',
+                    '符合儿童审美偏好，富有亲和力',
+                    '构图简洁明了，易于儿童理解',
+                    '温馨友好的氛围，激发阅读兴趣'
+                ],
+                tech: ['Illustrator', 'Photoshop', '插画设计', '儿童美术', '商业设计'],
+                type: '商业委托',
+                date: '2023年11月',
+                role: '插画设计师',
+                duration: '2周',
+                team: '个人项目',
+                certificateTitle: '商业委托项目',
+                certificateAward: '客户满意',
+                certificateDate: '2023年',
+                achievementsAwards: '商业委托项目，客户对设计方案表示满意。',
+                achievementsImpact: '积累了商业设计经验，提升了与客户沟通和需求理解能力。',
+                images: [
+                    'image/illustration/spring-cover.png',
+                    'image/illustration/summer-cover.png',
+                    'image/illustration/autumn-cover.png',
+                    'image/illustration/winter-cover.png'
+                ],
+                isIllustrationProcess: false,
+                hasVideo: false,
+                hasTestReport: false
+            }
+        };
+
+        // ==================== 页面加载 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动端菜单
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+
+            // 加载项目数据
+            loadProjectData(projectId);
+
+            // 暗色模式支持
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+
+            // 检查是否测试模式
+            const portfolioMode = localStorage.getItem('portfolioMode') || 'art';
+            if (portfolioMode === 'qa') {
+                const qaBadge = document.getElementById('qa-badge-area');
+                if (qaBadge) qaBadge.classList.remove('hidden');
+            }
+
+            // 滚动动画
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1 });
+            fadeElements.forEach(el => observer.observe(el));
+
+            // 滚动进度条 + 返回顶部
+            const scrollProgress = document.getElementById('scroll-progress');
+            const backToTop = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (docHeight > 0 && scrollProgress) {
+                    scrollProgress.style.width = Math.min((scrollY / docHeight) * 100, 100) + '%';
+                }
+                if (backToTop) {
+                    backToTop.classList.toggle('visible', scrollY > 500);
+                }
+            });
+
+            // 图片淡入加载
+            document.querySelectorAll('img').forEach(img => {
+                if (!img.closest('#cert-modal') && !img.closest('#image-modal')) {
+                    img.classList.add('lazy-fade');
+                    if (img.complete && img.naturalWidth > 0) {
+                        img.classList.add('loaded');
+                    } else {
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        img.addEventListener('error', () => { img.style.opacity = '0.4'; img.classList.add('loaded'); });
+                    }
+                }
+            });
+        });
+
+        function loadProjectData(projectId) {
+            const defaultProject = 'tian-gong-zao-wu';
+            const project = projectData[projectId] || projectData[defaultProject];
+
+            // 更新页面内容
+            document.getElementById('project-title').textContent = project.title;
+            document.getElementById('project-subtitle').textContent = project.subtitle;
+            document.getElementById('project-description').innerHTML = project.description;
+
+            // 更新项目特点
+            const featuresHtml = project.features.map(feature => `<li>${feature}</li>`).join('');
+            document.getElementById('project-features').innerHTML = featuresHtml;
+
+            // 更新技术栈
+            const techHtml = project.tech.map(tech => `<span class="badge">${tech}</span>`).join('');
+            document.getElementById('project-tech').innerHTML = techHtml;
+
+            // 更新项目信息
+            document.getElementById('project-type').textContent = project.type;
+            document.getElementById('project-date').textContent = project.date;
+            document.getElementById('project-role').textContent = project.role;
+            document.getElementById('project-duration').textContent = project.duration;
+            document.getElementById('project-team').textContent = project.team;
+
+            // 更新证书信息
+            document.getElementById('certificate-title').textContent = project.certificateTitle;
+            document.getElementById('certificate-award').textContent = project.certificateAward;
+
+            // 证书展示
+            const certContainer = document.getElementById('project-certificate');
+            if (project.certificates && project.certificates.length > 0) {
+                const certsHtml = project.certificates.map((cert, index) => `
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-2 mb-4 overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow" 
+                         onclick="openCertModal('${cert}', '${project.certificateTitle} · ${project.certificateAward}')">
+                        <img src="${cert}" alt="获奖证书" class="w-full h-auto rounded-lg" onerror="this.parentElement.innerHTML='<div class=\'text-center p-4 text-gray-500\'><i class=\'fa fa-certificate text-4xl text-gray-300 mb-2\'></i><p>${project.certificateTitle}</p></div>'">
+                    </div>
+                `).join('');
+                certContainer.innerHTML = certsHtml;
+            } else if (project.certificateImage) {
+                certContainer.innerHTML = `
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-2 mb-4 overflow-hidden shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                         onclick="openCertModal('${project.certificateImage}', '${project.certificateTitle} · ${project.certificateAward}')">
+                        <img src="${project.certificateImage}" alt="获奖证书" class="w-full h-auto rounded-lg" onerror="this.parentElement.innerHTML='<div class=\'text-center p-4\'><i class=\'fa fa-certificate text-primary dark:text-white text-4xl mb-4\'></i><p>${project.certificateTitle}</p></div>'">
+                    </div>
+                `;
+            }
+
+            // 更新项目成果
+            document.getElementById('project-achievements').innerHTML = `
+                <p>${project.achievementsAwards}</p>
+                <p>${project.achievementsImpact}</p>
+            `;
+
+            // 更新测试报告链接
+            const testReportLink = document.getElementById('test-report-link');
+            if (testReportLink && project.hasTestReport) {
+                testReportLink.href = `test-project-detail.html?id=${projectId || defaultProject}`;
+            } else {
+                const qaBadge = document.getElementById('qa-badge-area');
+                if (qaBadge) qaBadge.classList.add('hidden');
+            }
+
+            // 更新作品展示区域
+            const showcaseContainer = document.getElementById('project-showcase-container');
+            let showcaseHtml = '';
+
+            if (project.bilibili) {
+                // 从B站链接中提取bvid
+                let bvid = '';
+                const bvidMatch = project.bilibili.match(/BV[a-zA-Z0-9]+/);
+                if (bvidMatch) {
+                    bvid = bvidMatch[0];
+                }
+                showcaseHtml = `
+                    <div class="bg-gray-900 dark:bg-gray-900 py-8 px-4 md:px-8">
+                        <div class="container mx-auto max-w-6xl">
+                            <!-- 视频容器 -->
+                            <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl mb-6">
+                                <iframe 
+                                    src="https://player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
+                                    width="100%" 
+                                    height="100%" 
+                                    scrolling="no" 
+                                    border="0" 
+                                    frameborder="no" 
+                                    framespacing="0" 
+                                    allowfullscreen="true"
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                            <!-- 前往B站观看按钮 -->
+                            <div class="flex justify-center">
+                                <a href="${project.bilibili}" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 bg-[#fb7299] text-white font-semibold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
+                                    </svg>
+                                    <span>前往B站观看</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (!project.hasVideo && project.images) {
+                if (project.isIllustrationProcess) {
+                    if (project.isCulturalProject) {
+                        // 特色文创流程渲染：初稿 -> (过程图) -> 二版 -> 最终版
+                        showcaseHtml = `
+                            <div class="p-8 md:p-16 bg-white dark:bg-gray-900">
+                                <div class="max-w-6xl mx-auto">
+                                    <h3 class="text-2xl font-bold mb-16 text-center text-primary dark:text-white section-divider">设计演变流</h3>
+                                    
+                                    <!-- 核心流程：初稿到二版 -->
+                                    <div class="flex flex-col md:flex-row items-center justify-between gap-8 mb-20 relative">
+                                        <!-- 初稿 -->
+                                        <div class="flex-1 w-full text-center group cursor-pointer" onclick="openImageModal('${project.images[0]}')">
+                                            <div class="mb-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Step 01 · 初稿</div>
+                                            <div class="rounded-3xl overflow-hidden shadow-xl border-4 border-white dark:border-gray-800 transform group-hover:scale-105 transition-all duration-500">
+                                                <img src="${project.images[0]}" alt="初稿" class="w-full h-auto">
+                                            </div>
+                                        </div>
+
+                                        <!-- 过程衔接 -->
+                                        <div class="flex-none w-full md:w-1/4 flex flex-col items-center justify-center py-8 cursor-pointer" onclick="openImageModal('${project.images[1]}')">
+                                            <div class="mb-4 text-xs font-bold text-amber-500 uppercase tracking-widest">过程演变</div>
+                                            <div class="w-32 h-32 rounded-2xl overflow-hidden shadow-lg border-2 border-amber-100 transform -rotate-6 hover:rotate-0 transition-transform duration-500">
+                                                <img src="${project.images[1]}" alt="过程图" class="w-full h-full object-cover">
+                                            </div>
+                                            <svg class="w-16 h-8 text-amber-400 mt-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </div>
+
+                                        <!-- 二版 -->
+                                        <div class="flex-1 w-full text-center group cursor-pointer" onclick="openImageModal('${project.images[2]}')">
+                                            <div class="mb-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Step 02 · 二版迭代</div>
+                                            <div class="rounded-3xl overflow-hidden shadow-xl border-4 border-white dark:border-gray-800 transform group-hover:scale-105 transition-all duration-500">
+                                                <img src="${project.images[2]}" alt="二版" class="w-full h-auto">
+                                            </div>
+                                        </div>
+
+                                        <!-- 最终指向 -->
+                                        <div class="hidden md:flex flex-col items-center justify-center px-4">
+                                            <svg class="w-12 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </div>
+
+                                        <!-- 最终版 -->
+                                        <div class="flex-1 w-full text-center group cursor-pointer" onclick="openImageModal('${project.images[3]}')">
+                                            <div class="mb-4 text-xs font-bold text-green-500 uppercase tracking-widest">Final · 最终成品</div>
+                                            <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-green-50 dark:border-gray-800 ring-4 ring-green-500/10 transform group-hover:scale-110 transition-all duration-500">
+                                                <img loading="lazy" src="${project.images[3]}" alt="最终版" class="w-full h-auto">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 品牌视觉板块 -->
+                            <div class="p-12 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+                                <div class="max-w-6xl mx-auto">
+                                    <h3 class="text-xl font-bold mb-12 text-center text-primary dark:text-white">品牌视觉识别</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                                        <div class="space-y-6">
+                                            <div class="glass-card p-4 rounded-3xl shadow-card inline-block cursor-pointer hover:scale-105 transition-transform" onclick="openImageModal('${project.brandingImages[0]}')">
+                                                <img loading="lazy" src="${project.brandingImages[0]}" alt="Logo" class="max-h-48 w-auto mx-auto">
+                                            </div>
+                                            <div class="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
+                                                <h4 class="font-bold text-lg mb-2 text-primary dark:text-white">IP 核心形象</h4>
+                                                <p class="text-gray-500 text-sm">小狗 Mango 与奶黄包 of 结合，传递“满满饱饱的幸福”核心理念。色彩选用温暖的姜黄色与纯净的米白色。</p>
+                                            </div>
+                                        </div>
+                                        <div class="rounded-3xl overflow-hidden shadow-2xl cursor-pointer hover:scale-[1.02] transition-transform" onclick="openImageModal('${project.brandingImages[1]}')">
+                                            <img loading="lazy" src="${project.brandingImages[1]}" alt="设计说明" class="w-full h-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 周边衍生板块 -->
+                            <div class="p-12 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700">
+                                <div class="max-w-6xl mx-auto">
+                                    <h3 class="text-xl font-bold mb-12 text-center text-primary dark:text-white">文创周边展示</h3>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                        ${project.merchImages.map(img => `
+                                            <div class="group relative aspect-square rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer" onclick="openImageModal('${img}')">
+                                                <img loading="lazy" src="${img}" alt="文创周边" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                                    <span class="text-white text-xs font-bold tracking-widest uppercase">点击放大</span>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        const processSteps = ['Initial · 初稿', 'Phase 2 · 二版', 'Final · 最终版'];
+                        showcaseHtml = `
+                            <div class="p-8 md:p-12 bg-white dark:bg-gray-900">
+                                <div class="max-w-6xl mx-auto">
+                                    <h3 class="text-xl font-bold mb-12 text-center text-primary dark:text-white section-divider">创作演变流</h3>
+                                    <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative">
+                                        ${project.images.slice(0, 3).map((img, index) => `
+                                            <div class="flex-1 w-full text-center group cursor-pointer" onclick="openImageModal('${img}')">
+                                                <div class="mb-4 text-xs font-bold ${index === 2 ? 'text-green-500' : 'text-gray-400'} uppercase tracking-widest">${processSteps[index]}</div>
+                                                <div class="rounded-2xl overflow-hidden shadow-xl border-4 border-white dark:border-gray-800 transform group-hover:scale-105 transition-all duration-500">
+                                                    <img loading="lazy" src="${img}" alt="${processSteps[index]}" class="w-full h-auto">
+                                                </div>
+                                            </div>
+                                        `).join(`
+                                            <div class="hidden md:flex flex-col items-center justify-center z-10">
+                                                <svg class="w-12 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                                </svg>
+                                            </div>
+                                        `)}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    const imagesHtml = project.images.map(img => `
+                        <div class="group relative bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer" onclick="openImageModal('${img}')">
+                            <img loading="lazy" src="${img}" alt="项目图片" class="w-full h-auto object-contain transform group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <i class="fa fa-search-plus text-white text-3xl"></i>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    const gridCols = project.images.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 
+                                   project.images.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto' : 
+                                   project.images.length === 4 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto' :
+                                   'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-6xl mx-auto';
+
+                    showcaseHtml = `
+                        <div class="p-8 md:p-16 bg-white dark:bg-gray-900">
+                            <div class="grid ${gridCols} gap-8 md:gap-12">
+                                ${imagesHtml}
+                            </div>
+                        </div>
+                    `;
+                }
+            } else {
+                showcaseHtml = `
+                    <div class="aspect-video flex items-center justify-center bg-gray-900">
+                        <div class="text-center text-white p-8">
+                            <i class="fa fa-film text-6xl mb-6"></i>
+                            <h3 class="text-2xl font-semibold mb-4">作品展示区域</h3>
+                            <p class="text-gray-400">作品图片/视频暂未上传</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 过程图展示
+            if (project.processImages) {
+                showcaseHtml += `
+                    <div class="p-12 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+                        <h3 class="text-xl font-bold mb-8 text-center text-primary dark:text-white">分镜设计过程图</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            ${project.processImages.map((img, i) => `
+                                <div class="space-y-4 group cursor-pointer" onclick="openImageModal('${img}')">
+                                    <div class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Step 0${i+1}</div>
+                                    <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
+                                        <img loading="lazy" src="${img}" alt="分镜步骤图" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 素材展示
+            if (project.materialImages) {
+                showcaseHtml += `
+                    <div class="p-12 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700">
+                        <h3 class="text-xl font-bold mb-8 text-center text-primary dark:text-white">项目素材展示</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                            ${project.materialImages.map(img => `
+                                <div class="group relative rounded-lg overflow-hidden shadow-sm aspect-video bg-gray-100 dark:bg-gray-800 cursor-pointer" onclick="openImageModal('${img}')">
+                                    <img loading="lazy" src="${img}" alt="项目素材" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                        <i class="fa fa-search-plus text-white text-2xl"></i>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            showcaseContainer.innerHTML = showcaseHtml;
+
+            // 动态内容图片淡入
+            setTimeout(() => {
+                showcaseContainer.querySelectorAll('img').forEach(img => {
+                    img.classList.add('lazy-fade');
+                    if (img.complete && img.naturalWidth > 0) {
+                        img.classList.add('loaded');
+                    } else {
+                        img.addEventListener('load', () => img.classList.add('loaded'));
+                        img.addEventListener('error', () => { img.style.opacity = '0.4'; img.classList.add('loaded'); });
+                    }
+                });
+            }, 100);
+
+            // 更新页面标题
+            document.title = `${project.title} - 作品详情 - 张省菲作品集`;
+
+            // 更新项目图片区
+            const imagesContainer = document.getElementById('project-images');
+            if (project.images && project.images.length > 0 && !project.isIllustrationProcess) {
+                const imgsHtml = project.images.map(img => `
+                    <div class="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm cursor-pointer" onclick="openImageModal('${img}')">
+                        <img loading="lazy" src="${img}" alt="项目图片" class="w-full h-full object-cover">
+                    </div>
+                `).join('');
+                imagesContainer.innerHTML = imgsHtml;
+            } else {
+                document.getElementById('project-images-section').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
