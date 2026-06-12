@@ -868,20 +868,9 @@
                         <div class="absolute inset-[2px] bg-gray-900 rounded-3xl"></div>
                     </div>
                     
-                    <!-- 视频内容 -->
+                    <!-- 视频内容 - 优先使用B站嵌入，加载更快更兼容 -->
                     <div class="relative bg-black">
-                        ${project.video ? `
-                        <video 
-                            controls 
-                            controlsList="nodownload"
-                            poster="${project.poster || ''}"
-                            preload="metadata"
-                            playsinline
-                            class="w-full h-full object-contain">
-                            <source src="${project.video}" type="video/mp4">
-                            您的浏览器不支持视频播放
-                        </video>
-                        ` : `
+                        ${project.bilibili ? `
                         <iframe 
                             src="https://player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
                             width="100%" 
@@ -893,7 +882,22 @@
                             allowfullscreen="true"
                             loading="lazy">
                         </iframe>
-                        `}
+                        ` : project.video ? `
+                        <video 
+                            controls 
+                            controlsList="nodownload"
+                            poster="${project.poster || ''}"
+                            preload="metadata"
+                            playsinline
+                            webkit-playsinline
+                            x5-playsinline
+                            x5-video-player-type="h5"
+                            x5-video-player-fullscreen="false"
+                            class="w-full h-full object-contain">
+                            <source src="${project.video}" type="video/mp4">
+                            您的浏览器不支持视频播放
+                        </video>
+                        ` : ''}
                     </div>
                     
                     <!-- 悬停光晕效果 -->
