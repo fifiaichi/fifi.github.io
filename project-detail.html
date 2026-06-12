@@ -53,7 +53,29 @@
             .gradient-text { @apply bg-gradient-primary bg-clip-text text-transparent; }
             .hero-gradient { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); }
         }
-    </style>
+    
+        /* 视频容器悬停效果 */
+        .video-container {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .video-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* shimmer 加载动画 */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* 玻璃态效果 */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+</style>
     <style>
         html { scroll-behavior: smooth; }
         .scroll-progress {
@@ -129,6 +151,8 @@
             transform: translateY(0);
         }
     </style>
+<base target="_blank">
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -414,28 +438,52 @@
         function handleVideoError(projectId, bilibiliUrl, posterUrl) {
             const loadingEl = document.getElementById('video-loading-' + projectId);
             const playerEl = document.getElementById('video-player-' + projectId);
-            
+
+            // 隐藏加载动画
             if (loadingEl) {
                 loadingEl.style.display = 'none';
             }
-            
-            if (playerEl && bilibiliUrl) {
-                // 本地视频加载失败，显示海报图和B站链接
-                playerEl.outerHTML = `
-                    <div class="relative w-full aspect-video bg-black">
-                        <img src="${posterUrl || 'image/placeholder-video.jpg'}" alt="视频封面" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
-                            <div class="text-white text-center p-4">
-                                <i class="fa fa-exclamation-circle text-4xl mb-3"></i>
-                                <p class="text-lg font-medium mb-4">视频加载失败</p>
-                                <a href="${bilibiliUrl}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full hover:scale-105 transition-transform">
-                                    <i class="fa fa-external-link"></i>
-                                    <span>前往B站观看</span>
-                                </a>
+
+            if (playerEl) {
+                // 创建美观的错误提示界面
+                const errorHTML = bilibiliUrl ? `
+                    <!-- 有B站链接：显示封面 + 播放按钮 -->
+                    <div class="relative w-full aspect-video bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center overflow-hidden">
+                        <!-- 背景封面图 -->
+                        <img src="${posterUrl || 'image/placeholder-video.jpg'}" 
+                             alt="视频封面" 
+                             class="absolute inset-0 w-full h-full object-cover opacity-30 blur-sm scale-110">
+
+                        <!-- 玻璃态卡片 -->
+                        <div class="relative z-10 text-center p-8 bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl max-w-md mx-4">
+                            <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-pink-500 to-rose-400 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-500/20">
+                                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
+                                </svg>
                             </div>
+                            <h3 class="text-xl font-bold text-white mb-2">视频加载失败</h3>
+                            <p class="text-white/50 text-sm mb-6">本地视频文件可能未正确上传，您可以前往B站观看</p>
+                            <a href="${bilibiliUrl}" target="_blank" 
+                               class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#fb7299] to-[#ff85a2] text-white font-medium rounded-full hover:shadow-lg hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/></svg>
+                                <span>前往B站观看</span>
+                            </a>
+                        </div>
+                    </div>
+                ` : `
+                    <!-- 无B站链接：显示错误提示 -->
+                    <div class="relative w-full aspect-video bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+                        <div class="text-center p-8">
+                            <div class="w-20 h-20 mx-auto mb-6 bg-gray-800 rounded-2xl flex items-center justify-center border border-gray-700">
+                                <i class="fa fa-film text-4xl text-gray-600"></i>
+                            </div>
+                            <h3 class="text-lg font-medium text-white/80 mb-2">视频文件暂未上传</h3>
+                            <p class="text-white/40 text-sm">请检查文件路径或联系作者</p>
                         </div>
                     </div>
                 `;
+
+                playerEl.outerHTML = errorHTML;
             }
         }
 
@@ -884,62 +932,46 @@
 
             if (hasLocalVideo || hasBilibili) {
                 showcaseHtml = `
-                    <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-10 px-4 md:px-8">
+                    <div class="py-8 px-4">
                         <div class="container mx-auto max-w-5xl">
-                            <!-- 视频容器 -->
-                            <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/40 bg-black">
+                            <!-- 视频内容 - 极简风格，无边框 -->
+                            <div class="relative">
                                 ${hasLocalVideo ? `
-                                <!-- 本地视频播放（优先） -->
-                                <div class="relative w-full aspect-video bg-black">
-                                    <!-- 视频加载状态遮罩 -->
-                                    <div id="video-loading-${projectId || 'default'}" class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center z-10">
-                                        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                                        <span class="text-white text-sm mt-4">加载视频中...</span>
-                                    </div>
-                                    
-                                    <video 
-                                        id="video-player-${projectId || 'default'}"
-                                        controls 
-                                        controlsList="nodownload"
-                                        poster="${project.poster || ''}"
-                                        preload="metadata"
-                                        playsinline
-                                        webkit-playsinline
-                                        x5-playsinline
-                                        x5-video-player-type="h5"
-                                        x5-video-player-fullscreen="false"
-                                        class="w-full aspect-video bg-black"
-                                        style="max-height: 600px;"
-                                        onloadedmetadata="document.getElementById('video-loading-${projectId || 'default'}').style.display='none';"
-                                        onerror="handleVideoError('${projectId || 'default'}', '${project.bilibili || ''}', '${project.poster || ''}')">
-                                        <source src="${project.video}" type="video/mp4">
-                                        您的浏览器不支持视频播放
-                                    </video>
-                                </div>
+                                <video 
+                                    controls 
+                                    controlsList="nodownload"
+                                    ${project.poster ? 'poster="' + project.poster + '"' : ''}
+                                    preload="metadata"
+                                    playsinline
+                                    webkit-playsinline
+                                    x5-playsinline
+                                    class="w-full aspect-video">
+                                    <source src="${project.video}" type="video/mp4">
+                                    您的浏览器不支持视频播放
+                                </video>
                                 ` : hasBilibili ? `
-                                <!-- 只有B站链接时显示海报图 + 播放按钮 -->
-                                <div class="relative w-full aspect-video bg-black">
-                                    <img src="${project.poster || 'image/placeholder-video.jpg'}" alt="视频封面" class="w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                                <div class="relative w-full aspect-video">
+                                    <img src="${project.poster || ''}" alt="视频封面" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 flex items-center justify-center">
                                         <a href="${project.bilibili}" target="_blank" class="inline-flex flex-col items-center gap-3 text-white group">
-                                            <div class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:shadow-blue-500/50 transition-all duration-300">
-                                                <i class="fa fa-play text-2xl ml-1"></i>
+                                            <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                                                <i class="fa fa-play text-xl ml-1"></i>
                                             </div>
-                                            <span class="text-lg font-medium">点击观看视频</span>
+                                            <span class="text-sm font-medium opacity-80">点击观看视频</span>
                                         </a>
                                     </div>
                                 </div>
                                 ` : ''}
                             </div>
                             
-                            <!-- B站链接（只有存在B站链接时显示） -->
+                            <!-- B站链接 - 极简文字链接 -->
                             ${hasBilibili ? `
-                            <div class="flex justify-center mt-6">
-                                <a href="${project.bilibili}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium rounded-full backdrop-blur-sm transition-all duration-300">
+                            <div class="text-center mt-6">
+                                <a href="${project.bilibili}" target="_blank" class="inline-flex items-center gap-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-sm font-medium transition-colors duration-300">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
                                     </svg>
-                                    <span>B站观看</span>
+                                    <span>在B站观看</span>
                                 </a>
                             </div>
                             ` : ''}
@@ -1140,6 +1172,18 @@
             }
 
             showcaseContainer.innerHTML = showcaseHtml;
+            // 视频加载超时检测（8秒后如果还没加载成功，手动触发错误）
+            setTimeout(() => {
+                const video = document.getElementById('video-player-' + (projectId || 'default'));
+                const loading = document.getElementById('video-loading-' + (projectId || 'default'));
+
+                // readyState: 0 = 未加载, 1 = 元数据已加载, 2 = 可播放当前帧, 3 = 可播放, 4 = 足够播放
+                if (video && video.readyState === 0 && loading && loading.style.display !== 'none') {
+                    console.log('视频加载超时，手动触发错误处理');
+                    handleVideoError(projectId || 'default', project.bilibili || '', project.poster || '');
+                }
+            }, 8000);  // 8秒超时
+
 
             // 动态内容图片淡入
             setTimeout(() => {

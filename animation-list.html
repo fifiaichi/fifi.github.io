@@ -115,6 +115,7 @@
             opacity: 1;
         }
     </style>
+<base target="_blank">
 </head>
 <body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
     <!-- 滚动进度条 -->
@@ -155,17 +156,15 @@
                     
                     <!-- 视频内容 - 使用B站嵌入，加载更快更兼容移动端 -->
                     <div class="relative bg-black">
-                        <iframe 
-                            src="https://player.bilibili.com/player.html?bvid=BV1iwEE6bEcZ&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
-                            width="100%" 
-                            height="500" 
-                            scrolling="no" 
-                            border="0" 
-                            frameborder="no" 
-                            framespacing="0" 
-                            allowfullscreen="true"
-                            loading="lazy">
-                        </iframe>
+                        <video 
+                            src="image/animation/home-video.mp4" 
+                            poster="image/animation/frame-animation-cover.png"
+                            controls
+                            preload="metadata"
+                            class="w-full"
+                            style="height: 500px;">
+                            您的浏览器不支持视频播放。
+                        </video>
                     </div>
                     
                     <!-- 悬停光晕效果 -->
@@ -240,17 +239,16 @@
                     
                     <!-- 视频内容 -->
                     <div class="relative bg-black">
-                        <iframe 
-                            src="https://player.bilibili.com/player.html?bvid=BV1ez421y7Lc&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
-                            width="100%" 
-                            height="500" 
-                            scrolling="no" 
-                            border="0" 
-                            frameborder="no" 
-                            framespacing="0" 
-                            allowfullscreen="true"
-                            loading="lazy">
-                        </iframe>
+                        <div class="aspect-video flex items-center justify-center" style="height: 500px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+                            <img src="image/animation/frame-animation-cover.png" alt="反诈动画封面" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                            <div class="relative z-10 text-center p-8">
+                                <div class="w-20 h-20 mx-auto mb-6 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/20">
+                                    <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-2">反诈公益动画</h3>
+                                <p class="text-white/50 text-sm">点击下方按钮前往B站观看</p>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- 悬停光晕效果 -->
