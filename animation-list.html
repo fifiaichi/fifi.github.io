@@ -147,17 +147,38 @@
 
             <!-- 视频播放器 -->
             <div class="w-full mb-12 fade-in">
-                <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
-                    <video 
-                        controls 
-                        controlsList="nodownload"
-                        poster="image/animation/frame-animation-cover.png"
-                        preload="metadata"
-                        playsinline
-                        class="w-full h-full">
-                        <source src="image/animation/home-video.mp4" type="video/mp4">
-                        您的浏览器不支持视频播放
-                    </video>
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/50 group">
+                    <!-- 渐变边框 -->
+                    <div class="absolute inset-0 rounded-3xl border-2 border-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[2px] -m-[2px]">
+                        <div class="absolute inset-[2px] bg-gray-900 rounded-3xl"></div>
+                    </div>
+                    
+                    <!-- 视频内容 -->
+                    <div class="relative bg-black">
+                        <video 
+                            controls 
+                            controlsList="nodownload"
+                            poster="image/animation/frame-animation-cover.png"
+                            preload="metadata"
+                            playsinline
+                            class="w-full h-full object-contain">
+                            <source src="image/animation/home-video.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放
+                        </video>
+                    </div>
+                    
+                    <!-- 悬停光晕效果 -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                </div>
+                
+                <!-- 前往B站观看按钮 -->
+                <div class="flex justify-center mt-6">
+                    <a href="https://www.bilibili.com/video/BV1iwEE6bEcZ/" target="_blank" class="inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-[#fb7299] to-[#ff85a2] text-white font-semibold rounded-full hover:shadow-xl hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
+                        </svg>
+                        <span>前往B站观看</span>
+                    </a>
                 </div>
             </div>
 
@@ -210,29 +231,39 @@
 
             <!-- 视频播放器（B站嵌入） -->
             <div class="w-full mb-12 fade-in">
-                <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
-                    <iframe 
-                        src="https://player.bilibili.com/player.html?bvid=BV1ez421y7Lc&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
-                        width="100%" 
-                        height="100%" 
-                        scrolling="no" 
-                        border="0" 
-                        frameborder="no" 
-                        framespacing="0" 
-                        allowfullscreen="true"
-                        loading="lazy">
-                    </iframe>
-                </div>
-                <!-- 前往B站观看按钮 -->
-                <div class="bg-gray-100 dark:bg-gray-800 py-4 mt-2 rounded-b-2xl">
-                    <div class="container mx-auto px-4 flex justify-center">
-                        <a href="https://www.bilibili.com/video/BV1ez421y7Lc" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-[#fb7299] text-white font-semibold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
-                            </svg>
-                            <span>前往B站观看</span>
-                        </a>
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-black/50 group">
+                    <!-- 渐变边框 -->
+                    <div class="absolute inset-0 rounded-3xl border-2 border-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 p-[2px] -m-[2px]">
+                        <div class="absolute inset-[2px] bg-gray-900 rounded-3xl"></div>
                     </div>
+                    
+                    <!-- 视频内容 -->
+                    <div class="relative bg-black">
+                        <iframe 
+                            src="https://player.bilibili.com/player.html?bvid=BV1ez421y7Lc&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
+                            width="100%" 
+                            height="500" 
+                            scrolling="no" 
+                            border="0" 
+                            frameborder="no" 
+                            framespacing="0" 
+                            allowfullscreen="true"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                    
+                    <!-- 悬停光晕效果 -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                </div>
+                
+                <!-- 前往B站观看按钮 -->
+                <div class="flex justify-center mt-6">
+                    <a href="https://www.bilibili.com/video/BV1ez421y7Lc" target="_blank" class="inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-[#fb7299] to-[#ff85a2] text-white font-semibold rounded-full hover:shadow-xl hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
+                        </svg>
+                        <span>前往B站观看</span>
+                    </a>
                 </div>
             </div>
 
