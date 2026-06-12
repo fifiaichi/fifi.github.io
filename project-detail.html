@@ -410,6 +410,35 @@
             }
         }
 
+        // 视频错误处理函数 - 当本地视频加载失败时降级到B站链接
+        function handleVideoError(projectId, bilibiliUrl, posterUrl) {
+            const loadingEl = document.getElementById('video-loading-' + projectId);
+            const playerEl = document.getElementById('video-player-' + projectId);
+            
+            if (loadingEl) {
+                loadingEl.style.display = 'none';
+            }
+            
+            if (playerEl && bilibiliUrl) {
+                // 本地视频加载失败，显示海报图和B站链接
+                playerEl.outerHTML = `
+                    <div class="relative w-full aspect-video bg-black">
+                        <img src="${posterUrl || 'image/placeholder-video.jpg'}" alt="视频封面" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center">
+                            <div class="text-white text-center p-4">
+                                <i class="fa fa-exclamation-circle text-4xl mb-3"></i>
+                                <p class="text-lg font-medium mb-4">视频加载失败</p>
+                                <a href="${bilibiliUrl}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full hover:scale-105 transition-transform">
+                                    <i class="fa fa-external-link"></i>
+                                    <span>前往B站观看</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
         function openCertModal(imgSrc, title) {
             const modal = document.getElementById('cert-modal');
             const img = document.getElementById('cert-modal-img');
@@ -480,7 +509,7 @@
                     'image/game/tiangong-backpack.png',
                     'image/game/tiangong-knowledge.png'
                 ],
-                hasVideo: false,
+                hasVideo: true,
                 hasTestReport: true
             },
             'lingnan-flower-market': {
@@ -510,7 +539,7 @@
                 video: 'image/web/lingnan-video.mp4',
                 poster: 'image/web/lingnan-cover.jpg',
                 images: ['image/web/lingnan-cover.jpg'],
-                hasVideo: false,
+                hasVideo: true,
                 hasTestReport: true
             },
             'mg-animation': {
@@ -547,7 +576,7 @@
               bilibili: 'https://www.bilibili.com/video/BV1jwEE68E4f/',
                 video: 'image/animation/huayi-video.mp4',
                 poster: 'image/animation/huayi-cover.jpg',
-                hasVideo: false,
+                hasVideo: true,
                 hasTestReport: false,
                 processImages: [
                     'image/animation/huayi-storyboard-01.jpg',
@@ -588,7 +617,7 @@
                 achievementsImpact: '作品通过温情叙事获得了广泛好评。',
                 video: 'image/animation/home-video.mp4',
                 poster: 'image/animation/frame-animation-cover.png',
-                hasVideo: false,
+                hasVideo: true,
                 hasTestReport: false
             },
             'animation-anti-fraud': {
@@ -663,7 +692,7 @@
                 certificateDate: '2024年',
                 achievementsAwards: '成功打造了具有高度辨识度的IP形象，并完成了系列文创周边设计方案。项目参与蓝桥杯艺术类文创赛道，立足中式早餐传统文化完成年轻化IP商业化开发。',
                 achievementsImpact: '设计方案在校内展示中获得好评，展现了出色的商业应用潜力和艺术审美。借IP传递自我接纳、慢慢成长的生活理念，用可爱形象治愈当代人的自卑内耗。',
-                hasVideo: false,
+                hasVideo: true,
                 hasTestReport: false,
                 images: [
                     'image/cultural/mango-draft.png',
@@ -849,31 +878,46 @@
             const showcaseContainer = document.getElementById('project-showcase-container');
             let showcaseHtml = '';
 
-            if (project.video || project.bilibili) {
+            // 检查是否有视频文件
+            const hasLocalVideo = project.video && project.video.trim() !== '';
+            const hasBilibili = project.bilibili && project.bilibili.trim() !== '';
+
+            if (hasLocalVideo || hasBilibili) {
                 showcaseHtml = `
                     <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-10 px-4 md:px-8">
                         <div class="container mx-auto max-w-5xl">
                             <!-- 视频容器 -->
                             <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/40 bg-black">
-                                ${project.video ? `
-                                <!-- 优先使用本地视频，加载更快更简洁 -->
-                                <video 
-                                    controls 
-                                    controlsList="nodownload nofullscreen"
-                                    poster="${project.poster || ''}"
-                                    preload="metadata"
-                                    playsinline
-                                    webkit-playsinline
-                                    x5-playsinline
-                                    x5-video-player-type="h5"
-                                    x5-video-player-fullscreen="false"
-                                    class="w-full aspect-video bg-black"
-                                    style="max-height: 600px;">
-                                    <source src="${project.video}" type="video/mp4">
-                                    您的浏览器不支持视频播放
-                                </video>
-                                ` : project.bilibili ? `
-                                <!-- 没有本地视频时显示海报图 + 播放按钮 -->
+                                ${hasLocalVideo ? `
+                                <!-- 本地视频播放（优先） -->
+                                <div class="relative w-full aspect-video bg-black">
+                                    <!-- 视频加载状态遮罩 -->
+                                    <div id="video-loading-${projectId || 'default'}" class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center z-10">
+                                        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                        <span class="text-white text-sm mt-4">加载视频中...</span>
+                                    </div>
+                                    
+                                    <video 
+                                        id="video-player-${projectId || 'default'}"
+                                        controls 
+                                        controlsList="nodownload"
+                                        poster="${project.poster || ''}"
+                                        preload="metadata"
+                                        playsinline
+                                        webkit-playsinline
+                                        x5-playsinline
+                                        x5-video-player-type="h5"
+                                        x5-video-player-fullscreen="false"
+                                        class="w-full aspect-video bg-black"
+                                        style="max-height: 600px;"
+                                        onloadedmetadata="document.getElementById('video-loading-${projectId || 'default'}').style.display='none';"
+                                        onerror="handleVideoError('${projectId || 'default'}', '${project.bilibili || ''}', '${project.poster || ''}')">
+                                        <source src="${project.video}" type="video/mp4">
+                                        您的浏览器不支持视频播放
+                                    </video>
+                                </div>
+                                ` : hasBilibili ? `
+                                <!-- 只有B站链接时显示海报图 + 播放按钮 -->
                                 <div class="relative w-full aspect-video bg-black">
                                     <img src="${project.poster || 'image/placeholder-video.jpg'}" alt="视频封面" class="w-full h-full object-cover">
                                     <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
@@ -889,7 +933,7 @@
                             </div>
                             
                             <!-- B站链接（只有存在B站链接时显示） -->
-                            ${project.bilibili ? `
+                            ${hasBilibili ? `
                             <div class="flex justify-center mt-6">
                                 <a href="${project.bilibili}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 hover:bg-white/20 text-white font-medium rounded-full backdrop-blur-sm transition-all duration-300">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
