@@ -470,6 +470,7 @@
                 achievementsAwards: '获得广东省大学生计算机设计大赛游戏类二等奖，展现了传统文化与现代技术的完美结合。',
                 achievementsImpact: '游戏受到评委高度评价，被认为是传统文化数字化传承的优秀范例。',
                 video: 'image/game/tiangong-video.mp4',
+                bilibili: 'https://www.bilibili.com/video/BV1eKEE6dE4k/',
                 poster: 'image/game/tiangong-cover.jpg',
                 images: [
                     'image/game/tiangong-material.png',
@@ -505,6 +506,7 @@
                 certificateDate: '2024年',
                 achievementsAwards: '成功实现了从创意构思到上线运行的全过程，网页排版与用户体验得到了AI工具的显著优化。',
                 achievementsImpact: '通过该项目掌握了AI辅助开发的完整流程，为传统文化的数字化传播提供了新思路。',
+                bilibili: 'https://www.bilibili.com/video/BV1eKEE6dExd/',
                 video: 'image/web/lingnan-video.mp4',
                 poster: 'image/web/lingnan-cover.jpg',
                 images: ['image/web/lingnan-cover.jpg'],
@@ -542,6 +544,7 @@
                 ],
                 achievementsAwards: '获得蓝桥杯动画类三等奖和永创杯二等奖。',
                 achievementsImpact: '展现了深厚的美术功底与技术实现能力。',
+              bilibili: 'https://www.bilibili.com/video/BV1jwEE68E4f/',
                 video: 'image/animation/huayi-video.mp4',
                 poster: 'image/animation/huayi-cover.jpg',
                 hasVideo: false,
@@ -580,6 +583,7 @@
                 certificateAward: '永创杯全国高校艺术设计大赛三等奖、第十五届蓝桥杯全国软件和信息技术专业人才大赛 动画设计类 优秀奖',
                 certificateDate: '2024年',
                 certificates: ['image/certs/home-cert-yongchuang.jpg', 'image/certs/home-cert-lanqiao.jpg'],
+                bilibili: 'https://www.bilibili.com/video/BV1iwEE6bEcZ/',
                 achievementsAwards: '获得永创杯全国高校艺术设计大赛三等奖、第十五届蓝桥杯全国软件和信息技术专业人才大赛 动画设计类 优秀奖。',
                 achievementsImpact: '作品通过温情叙事获得了广泛好评。',
                 video: 'image/animation/home-video.mp4',
@@ -845,27 +849,58 @@
             const showcaseContainer = document.getElementById('project-showcase-container');
             let showcaseHtml = '';
 
-            if (project.video) {
-                showcaseHtml = `
-                    <div class="bg-gray-900 dark:bg-gray-900 py-8 px-4 md:px-8">
-                        <div class="container mx-auto max-w-6xl">
-                            <!-- 视频容器 -->
-                            <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl mb-6">
-                                <video 
-                                    controls 
-                                    controlsList="nodownload"
-                                    poster="${project.poster || ''}"
-                                    preload="metadata"
-                                    playsinline
-                                    class="w-full h-full">
-                                    <source src="${project.video}" type="video/mp4">
-                                    您的浏览器不支持视频播放，请升级浏览器或使用 Chrome/Firefox/Edge 等现代浏览器。
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (!project.hasVideo && project.images) {
+            if (project.video || project.bilibili) {
+    let bvid = '';
+    if (project.bilibili) {
+        const bvidMatch = project.bilibili.match(/BV[a-zA-Z0-9]+/);
+        if (bvidMatch) {
+            bvid = bvidMatch[0];
+        }
+    }
+    
+    showcaseHtml = `
+        <div class="bg-gray-900 dark:bg-gray-900 py-8 px-4 md:px-8">
+            <div class="container mx-auto max-w-6xl">
+                <!-- 视频容器 -->
+                <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl mb-6">
+                    ${project.video ? `
+                    <video 
+                        controls 
+                        controlsList="nodownload"
+                        poster="${project.poster || ''}"
+                        preload="metadata"
+                        playsinline
+                        class="w-full h-full">
+                        <source src="${project.video}" type="video/mp4">
+                        您的浏览器不支持视频播放
+                    </video>
+                    ` : `
+                    <iframe 
+                        src="https://player.bilibili.com/player.html?bvid=${bvid}&page=1&high_quality=1&danmaku=0&autoplay=0&hide_related=1&hide_comment=1&hide_danmaku=1&hide_user_info=1" 
+                        width="100%" 
+                        height="100%" 
+                        scrolling="no" 
+                        border="0" 
+                        frameborder="no" 
+                        framespacing="0" 
+                        allowfullscreen="true"
+                        loading="lazy">
+                    </iframe>
+                    `}
+                </div>
+                <!-- 前往B站观看按钮 -->
+                <div class="flex justify-center">
+                    <a href="${project.bilibili || '#'}" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 bg-[#fb7299] text-white font-semibold rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
+                        </svg>
+                        <span>前往B站观看</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+} else if (!project.hasVideo && project.images) {
                 if (project.isIllustrationProcess) {
                     if (project.isCulturalProject) {
                         // 特色文创流程渲染：初稿 -> (过程图) -> 二版 -> 最终版
