@@ -152,10 +152,6 @@
         }
     </style>
 <base target="_blank">
-<base target="_blank">
-<base target="_blank">
-<base target="_blank">
-<base target="_blank">
 </head>
 <body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
     <!-- 滚动进度条 -->
@@ -202,7 +198,7 @@
         <div class="container mx-auto px-4 relative z-10">
             <!-- 返回按钮 -->
             <div class="mb-8">
-                <a href="javascript:void(0)" onclick="goBack()" class="btn-outline px-4 py-2 text-sm rounded-full">
+                <a href="javascript:void(0)" onclick="goBack()" class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all duration-300 text-sm font-medium dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-primary">
                     <i class="fa fa-arrow-left mr-2"></i> 返回作品列表
                 </a>
             </div>
@@ -215,26 +211,12 @@
 
             <!-- 作品展示区域 -->
             <div id="project-showcase-container" class="mb-12">
-    <div class="relative w-full overflow-hidden rounded-2xl shadow-2xl bg-black">
-        <video 
-            controls 
-            controlsList="nodownload"
-            preload="metadata"
-            playsinline
-            webkit-playsinline
-            class="w-full h-auto max-h-[85vh] object-contain bg-black">
-            <source src="你的视频链接.mp4" type="video/mp4">
-        </video>
-    </div>
-                <!-- B站链接 -->
-    <div class="text-center mt-6">
-        <a href="你的B站链接" target="_blank" 
-           class="inline-flex items-center gap-2 px-6 py-3 bg-[#fb7299] text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all">
-            <i class="fa fa-play-circle"></i>
-            <span>在B站观看</span>
-        </a>
-    </div>
-</div>
+                <!-- 视频内容区域 -->
+                <div id="project-showcase" class="text-center">
+                    <i class="fa fa-spinner fa-spin text-4xl mb-4 text-accent"></i>
+                    <p class="text-gray-400">正在加载作品内容...</p>
+                </div>
+            </div>
 
             <!-- 项目信息 -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
@@ -1041,7 +1023,7 @@
                                         <div class="flex-1 w-full text-center group cursor-pointer" onclick="openImageModal('${project.images[3]}')">
                                             <div class="mb-4 text-xs font-bold text-green-500 uppercase tracking-widest">Final · 最终成品</div>
                                             <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-green-50 dark:border-gray-800 ring-4 ring-green-500/10 transform group-hover:scale-110 transition-all duration-500">
-                                                <img loading="lazy" src="${project.images[3]}" alt="最终版" class="w-full h-auto">
+                                                <img loading="lazy" decoding="async" src="${project.images[3]}" alt="最终版" class="w-full h-auto">
                                             </div>
                                         </div>
                                     </div>
@@ -1055,7 +1037,7 @@
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                                         <div class="space-y-6">
                                             <div class="glass-card p-4 rounded-3xl shadow-card inline-block cursor-pointer hover:scale-105 transition-transform" onclick="openImageModal('${project.brandingImages[0]}')">
-                                                <img loading="lazy" src="${project.brandingImages[0]}" alt="Logo" class="max-h-48 w-auto mx-auto">
+                                                <img loading="lazy" decoding="async" src="${project.brandingImages[0]}" alt="Logo" class="max-h-48 w-auto mx-auto">
                                             </div>
                                             <div class="p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm">
                                                 <h4 class="font-bold text-lg mb-2 text-primary dark:text-white">IP 核心形象</h4>
@@ -1063,7 +1045,7 @@
                                             </div>
                                         </div>
                                         <div class="rounded-3xl overflow-hidden shadow-2xl cursor-pointer hover:scale-[1.02] transition-transform" onclick="openImageModal('${project.brandingImages[1]}')">
-                                            <img loading="lazy" src="${project.brandingImages[1]}" alt="设计说明" class="w-full h-auto">
+                                            <img loading="lazy" decoding="async" src="${project.brandingImages[1]}" alt="设计说明" class="w-full h-auto">
                                         </div>
                                     </div>
                                 </div>
@@ -1076,7 +1058,7 @@
                                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                                         ${project.merchImages.map(img => `
                                             <div class="group relative aspect-square rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer" onclick="openImageModal('${img}')">
-                                                <img loading="lazy" src="${img}" alt="文创周边" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                                <img loading="lazy" decoding="async" src="${img}" alt="文创周边" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                                                     <span class="text-white text-xs font-bold tracking-widest uppercase">点击放大</span>
                                                 </div>
@@ -1097,7 +1079,7 @@
                                             <div class="flex-1 w-full text-center group cursor-pointer" onclick="openImageModal('${img}')">
                                                 <div class="mb-4 text-xs font-bold ${index === 2 ? 'text-green-500' : 'text-gray-400'} uppercase tracking-widest">${processSteps[index]}</div>
                                                 <div class="rounded-2xl overflow-hidden shadow-xl border-4 border-white dark:border-gray-800 transform group-hover:scale-105 transition-all duration-500">
-                                                    <img loading="lazy" src="${img}" alt="${processSteps[index]}" class="w-full h-auto">
+                                                    <img loading="lazy" decoding="async" src="${img}" alt="${processSteps[index]}" class="w-full h-auto">
                                                 </div>
                                             </div>
                                         `).join(`
@@ -1115,7 +1097,7 @@
                 } else {
                     const imagesHtml = project.images.map(img => `
                         <div class="group relative bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer" onclick="openImageModal('${img}')">
-                            <img loading="lazy" src="${img}" alt="项目图片" class="w-full h-auto object-contain transform group-hover:scale-105 transition-transform duration-700">
+                            <img loading="lazy" decoding="async" src="${img}" alt="项目图片" class="w-full h-auto object-contain transform group-hover:scale-105 transition-transform duration-700">
                             <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <i class="fa fa-search-plus text-white text-3xl"></i>
                             </div>
@@ -1157,7 +1139,7 @@
                                 <div class="space-y-4 group cursor-pointer" onclick="openImageModal('${img}')">
                                     <div class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Step 0${i+1}</div>
                                     <div class="rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
-                                        <img loading="lazy" src="${img}" alt="分镜步骤图" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
+                                        <img loading="lazy" decoding="async" src="${img}" alt="分镜步骤图" class="w-full h-auto transform group-hover:scale-105 transition-transform duration-500">
                                     </div>
                                 </div>
                             `).join('')}
@@ -1174,7 +1156,7 @@
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                             ${project.materialImages.map(img => `
                                 <div class="group relative rounded-lg overflow-hidden shadow-sm aspect-video bg-gray-100 dark:bg-gray-800 cursor-pointer" onclick="openImageModal('${img}')">
-                                    <img loading="lazy" src="${img}" alt="项目素材" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                                    <img loading="lazy" decoding="async" src="${img}" alt="项目素材" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
                                     <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                         <i class="fa fa-search-plus text-white text-2xl"></i>
                                     </div>
@@ -1220,7 +1202,7 @@
             if (project.images && project.images.length > 0 && !project.isIllustrationProcess) {
                 const imgsHtml = project.images.map(img => `
                     <div class="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm cursor-pointer" onclick="openImageModal('${img}')">
-                        <img loading="lazy" src="${img}" alt="项目图片" class="w-full h-full object-cover">
+                        <img loading="lazy" decoding="async" src="${img}" alt="项目图片" class="w-full h-full object-cover">
                     </div>
                 `).join('');
                 imagesContainer.innerHTML = imgsHtml;
