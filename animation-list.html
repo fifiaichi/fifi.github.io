@@ -116,7 +116,6 @@
         }
     </style>
 <base target="_blank">
-<base target="_blank">
 </head>
 <body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
     <!-- 滚动进度条 -->
@@ -130,7 +129,7 @@
         <div class="container mx-auto px-4 md:px-8">
             <div class="flex justify-between items-center">
                 <a href="index.html" class="text-xl font-bold text-primary dark:text-white">张省菲</a>
-                <a href="index.html#works" class="inline-flex items-center gap-2 px-4 py-2 border-2 border-primary dark:border-white text-primary dark:text-white rounded-full hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-primary transition-all duration-300">
+                <a href="index.html#works" target="_self" class="inline-flex items-center gap-2 px-4 py-2 border-2 border-primary dark:border-white text-primary dark:text-white rounded-full hover:bg-primary hover:text-white dark:hover:bg-white dark:hover:text-primary transition-all duration-300">
                     <i class="fa fa-arrow-left"></i>
                     <span>返回首页</span>
                 </a>
@@ -174,10 +173,8 @@
                 
                 <!-- 前往B站观看按钮 -->
                 <div class="flex justify-center mt-6">
-                    <a href="https://www.bilibili.com/video/BV1iwEE6bEcZ/" target="_blank" class="inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-[#fb7299] to-[#ff85a2] text-white font-semibold rounded-full hover:shadow-xl hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
-                        </svg>
+                    <a href="https://www.bilibili.com/video/BV1iwEE6bEcZ/" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 bg-[#fb7299] text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <i class="fa fa-play-circle text-lg"></i>
                         <span>前往B站观看</span>
                     </a>
                 </div>
@@ -202,7 +199,7 @@
                         <p class="text-gray-600 dark:text-gray-400">动画类优秀奖</p>
                         <p class="text-sm text-gray-400 mt-1">2024年</p>
                         <div class="mt-4 rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/home-cert-lanqiao.jpg', '回家蓝桥杯证书')">
-                            <img loading="lazy" src="image/certs/home-cert-lanqiao.jpg" alt="蓝桥杯证书" class="w-full h-auto">
+                            <img loading="lazy" decoding="async" src="image/certs/home-cert-lanqiao.jpg" alt="蓝桥杯证书" class="w-full h-auto">
                         </div>
                     </div>
                     <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
@@ -210,7 +207,7 @@
                         <p class="text-gray-600 dark:text-gray-400">全国三等奖</p>
                         <p class="text-sm text-gray-400 mt-1">2024年</p>
                         <div class="mt-4 rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/home-cert-yongchuang.jpg', '回家永创杯证书')">
-                            <img loading="lazy" src="image/certs/home-cert-yongchuang.jpg" alt="永创杯证书" class="w-full h-auto">
+                            <img loading="lazy" decoding="async" src="image/certs/home-cert-yongchuang.jpg" alt="永创杯证书" class="w-full h-auto">
                         </div>
                     </div>
                 </div>
@@ -256,10 +253,8 @@
                 
                 <!-- 前往B站观看按钮 -->
                 <div class="flex justify-center mt-6">
-                    <a href="https://www.bilibili.com/video/BV1ez421y7Lc" target="_blank" class="inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-[#fb7299] to-[#ff85a2] text-white font-semibold rounded-full hover:shadow-xl hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.271 19.5c3.141-1.29 5.271-4.61 5.271-8.5s-2.13-7.21-5.271-8.5l-1.898.666c2.606 1.037 4.698 3.561 4.698 6.834s-2.092 5.797-4.698 6.834l1.898.666zM14 13v-2l4 2-4 2zm-4-5H4V6h6V4l6 3-6 3V9z"/>
-                        </svg>
+                    <a href="https://www.bilibili.com/video/BV1ez421y7Lc" target="_blank" class="inline-flex items-center gap-2 px-8 py-3 bg-[#fb7299] text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300">
+                        <i class="fa fa-play-circle text-lg"></i>
                         <span>前往B站观看</span>
                     </a>
                 </div>
@@ -283,10 +278,10 @@
                     <p class="text-sm text-gray-400 mt-1">2024年</p>
                     <div class="mt-4 grid grid-cols-2 gap-4">
                         <div class="rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/antifraud-cert-01.jpg', '反诈证书')">
-                            <img loading="lazy" src="image/certs/antifraud-cert-01.jpg" alt="反诈证书" class="w-full h-auto">
+                            <img loading="lazy" decoding="async" src="image/certs/antifraud-cert-01.jpg" alt="反诈证书" class="w-full h-auto">
                         </div>
                         <div class="rounded-lg overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-shadow duration-300" onclick="openCertModal('image/certs/antifraud-cert-02.jpg', '反诈证书')">
-                            <img loading="lazy" src="image/certs/antifraud-cert-02.jpg" alt="反诈证书" class="w-full h-auto">
+                            <img loading="lazy" decoding="async" src="image/certs/antifraud-cert-02.jpg" alt="反诈证书" class="w-full h-auto">
                         </div>
                     </div>
                 </div>
@@ -309,7 +304,7 @@
             <div class="relative max-w-4xl w-full pointer-events-auto transform scale-95 transition-transform duration-300" id="cert-modal-content">
                 <button onclick="closeCertModal()" class="absolute -top-12 right-0 text-white text-3xl hover:text-gray-300 transition-colors">&times;</button>
                 <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl">
-                    <img id="cert-modal-img" src="" alt="证书" class="w-full max-h-[70vh] object-contain">
+                    <img decoding="async" id="cert-modal-img" src="" alt="证书" class="w-full max-h-[70vh] object-contain">
                 </div>
             </div>
         </div>
