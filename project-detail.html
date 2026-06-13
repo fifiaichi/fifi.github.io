@@ -214,14 +214,27 @@
             </div>
 
             <!-- 作品展示区域 -->
-            <div id="project-showcase-container" class="bg-gray-900 rounded-2xl overflow-hidden mb-12 shadow-glow border border-gray-800">
-                <div class="aspect-video flex items-center justify-center">
-                    <div id="project-showcase" class="text-center text-white p-8">
-                        <i class="fa fa-spinner fa-spin text-4xl mb-4 text-accent"></i>
-                        <p class="text-gray-400">正在加载作品内容...</p>
-                    </div>
-                </div>
-            </div>
+            <div id="project-showcase-container" class="mb-12">
+    <div class="relative w-full overflow-hidden rounded-2xl shadow-2xl bg-black">
+        <video 
+            controls 
+            controlsList="nodownload"
+            preload="metadata"
+            playsinline
+            webkit-playsinline
+            class="w-full h-auto max-h-[85vh] object-contain bg-black">
+            <source src="你的视频链接.mp4" type="video/mp4">
+        </video>
+    </div>
+                <!-- B站链接 -->
+    <div class="text-center mt-6">
+        <a href="你的B站链接" target="_blank" 
+           class="inline-flex items-center gap-2 px-6 py-3 bg-[#fb7299] text-white font-medium rounded-full hover:shadow-lg hover:scale-105 transition-all">
+            <i class="fa fa-play-circle"></i>
+            <span>在B站观看</span>
+        </a>
+    </div>
+</div>
 
             <!-- 项目信息 -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
