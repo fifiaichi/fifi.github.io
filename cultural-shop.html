@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mango文创商店 - 文创产品展示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=ZCOOL+KuaiLe&display=swap');
+
+        :root {
+            --primary-color: #FFB347;
+            --secondary-color: #FF6B6B;
+            --accent-color: #FF8C42;
+            --warm-bg: #FFF8F0;
+            --cream-bg: #FFFAF5;
+            --text-dark: #4A4A4A;
+            --text-light: #8B7355;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background-color: var(--warm-bg);
+            color: var(--text-dark);
+        }
+
+        .brand-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+        }
+
+        .gradient-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .product-card img {
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 179, 71, 0.4);
+        }
+
+        .category-tag {
+            transition: all 0.3s ease;
+        }
+
+        .category-tag.active {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background-color: rgba(255, 179, 71, 0.1);
+        }
+
+        .modal-overlay {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+                        <i class="fa fa-shopping-bag text-white"></i>
+                    </div>
+                    <span class="brand-title text-xl font-bold gradient-text">Mango文创</span>
+                </a>
+                <div class="flex items-center gap-6">
+                    <a href="index.html" class="text-text-dark hover:text-primary-color transition-colors flex items-center gap-2">
+                        <i class="fa fa-home"></i>
+                        <span>返回主站</span>
+                    </a>
+                    <a href="#products" class="text-text-dark hover:text-primary-color transition-colors">全部产品</a>
+                    <a href="#about" class="text-text-dark hover:text-primary-color transition-colors">品牌故事</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 面包屑导航 -->
+    <div class="bg-cream-bg py-3">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center gap-2 text-sm text-text-light">
+                <a href="index.html" class="hover:text-primary-color transition-colors">首页</a>
+                <i class="fa fa-chevron-right text-xs"></i>
+                <span class="text-text-dark">文创商店</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页面标题 -->
+    <section class="py-16 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="brand-title text-4xl md:text-5xl font-bold gradient-text mb-4">Mango文创商店</h1>
+            <p class="text-text-light text-lg max-w-2xl mx-auto">温暖治愈的馒头IP周边，传递慢慢成长的生活理念</p>
+        </div>
+    </section>
+
+    <!-- 筛选和排序 -->
+    <section id="filters" class="py-6 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <!-- 分类筛选 -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="category-tag active px-4 py-2 rounded-full text-sm font-medium" data-category="all">全部</button>
+                    <button class="category-tag px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-text-dark" data-category="fashion">日用配饰</button>
+                    <button class="category-tag px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-text-dark" data-category="home">家居用品</button>
+                    <button class="category-tag px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-text-dark" data-category="art">插画周边</button>
+                </div>
+                
+                <!-- 排序选项 -->
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-text-light">排序：</span>
+                    <select id="sort-select" class="filter-btn px-4 py-2 rounded-full text-sm border-none bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-color/50">
+                        <option value="newest">最新上架</option>
+                        <option value="price-asc">价格从低到高</option>
+                        <option value="price-desc">价格从高到低</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品展示区域 -->
+    <section id="products" class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- 产品卡片 -->
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="fashion">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-merch.jpg" alt="Mango徽章套装" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-text-dark">新品</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">Mango徽章套装</h3>
+                        <p class="text-sm text-text-light mb-3">4款不同造型徽章组合</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥68</span>
+                            <span class="text-xs text-text-light">月销 120+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="home">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-steamer.png" alt="馒头蒸笼抱枕" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">馒头蒸笼抱枕</h3>
+                        <p class="text-sm text-text-light mb-3">柔软舒适，治愈系设计</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥128</span>
+                            <span class="text-xs text-text-light">月销 86</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="fashion">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-toast.png" alt="吐司手机壳" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-secondary-color text-white rounded-full text-xs font-medium">热卖</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">吐司手机壳</h3>
+                        <p class="text-sm text-text-light mb-3">适用于iPhone 14系列</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥48</span>
+                            <span class="text-xs text-text-light">月销 234</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="home">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-cloud.png" alt="云朵帆布袋" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">云朵帆布袋</h3>
+                        <p class="text-sm text-text-light mb-3">环保材质，大容量设计</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥38</span>
+                            <span class="text-xs text-text-light">月销 156</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="art">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-v2.png" alt="IP形象插画集" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">IP形象插画集</h3>
+                        <p class="text-sm text-text-light mb-3">12款原创插画合集</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥88</span>
+                            <span class="text-xs text-text-light">月销 67</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="fashion">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-design-note.png" alt="口罩套装" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-primary-color text-white rounded-full text-xs font-medium">限定</span>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">限定口罩套装</h3>
+                        <p class="text-sm text-text-light mb-3">6款图案，独立包装</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥58</span>
+                            <span class="text-xs text-text-light">月销 98</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="home">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-logo.png" alt="拼图套装" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">Mango拼图</h3>
+                        <p class="text-sm text-text-light mb-3">500片精美拼图</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥158</span>
+                            <span class="text-xs text-text-light">月销 45</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-category="art">
+                    <div class="relative aspect-square overflow-hidden bg-gray-50">
+                        <img src="image/cultural/mango-draft.png" alt="设计手稿集" class="w-full h-full object-cover lazy-load">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <button class="w-full py-2 bg-white rounded-full text-sm font-medium text-text-dark hover:bg-primary-color hover:text-white transition-colors">
+                                查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-semibold text-text-dark mb-1">设计手稿集</h3>
+                        <p class="text-sm text-text-light mb-3">记录IP诞生过程</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-lg font-bold text-secondary-color">¥78</span>
+                            <span class="text-xs text-text-light">月销 32</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 品牌故事 -->
+    <section id="about" class="py-16 bg-cream-bg">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <div class="text-center mb-12">
+                <h2 class="brand-title text-3xl font-bold gradient-text mb-4">品牌故事</h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-primary-color to-accent-color mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="relative">
+                    <img src="image/cultural/mango-process.png" alt="Mango品牌故事" class="rounded-2xl shadow-xl">
+                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary-color/10 rounded-full blur-2xl"></div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-text-dark mb-4">关于Mango</h3>
+                    <p class="text-text-light leading-relaxed mb-4">
+                        Mango是一只芒果色的西施犬，经营着一家温暖治愈的馒头小店。我们相信，就像馒头需要慢慢发酵才能变得松软可口，人生也需要在时间中慢慢成长，才能找到属于自己的闪光点。
+                    </p>
+                    <p class="text-text-light leading-relaxed">
+                        每一款文创产品都承载着这份温暖的理念，希望能为您的日常生活带来一点小小的治愈和快乐。
+                    </p>
+                    <div class="mt-6 flex gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold gradient-text">8+</div>
+                            <div class="text-xs text-text-light">产品品类</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold gradient-text">500+</div>
+                            <div class="text-xs text-text-light">累计销量</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold gradient-text">4.9</div>
+                            <div class="text-xs text-text-light">用户评分</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-text-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+                            <i class="fa fa-shopping-bag text-white"></i>
+                        </div>
+                        <span class="brand-title text-xl font-bold">Mango文创</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">温暖治愈的馒头IP周边</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#products" class="hover:text-primary-color transition-colors">全部产品</a></li>
+                        <li><a href="#about" class="hover:text-primary-color transition-colors">品牌故事</a></li>
+                        <li><a href="index.html" class="hover:text-primary-color transition-colors">返回主站</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">联系方式</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa fa-envelope"></i> gugegewang@qq.com</li>
+                        <li class="flex items-center gap-2"><i class="fa fa-weixin"></i> kirakiracc99</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2024 Mango文创商店 · 温暖治愈每一天</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 产品详情模态框 -->
+    <div class="modal-overlay fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4 hidden" id="product-modal">
+        <div class="modal-content bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <button class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors" id="close-modal">
+                <i class="fa fa-times"></i>
+            </button>
+            <div class="grid md:grid-cols-2">
+                <!-- 图片区域 -->
+                <div class="relative bg-gray-100">
+                    <img id="modal-main-image" src="" alt="产品主图" class="w-full h-full object-contain">
+                    <!-- 缩略图 -->
+                    <div class="absolute bottom-4 left-4 right-4 flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+                        <div class="thumbnail active w-16 h-16 rounded-lg overflow-hidden cursor-pointer border-2 border-primary-color">
+                            <img src="" alt="缩略图" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <!-- 信息区域 -->
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <span class="text-xs text-primary-color font-medium">新品</span>
+                            <h2 id="modal-title" class="text-2xl font-bold text-text-dark mt-2">产品名称</h2>
+                        </div>
+                        <span id="modal-price" class="text-3xl font-bold text-secondary-color">¥0</span>
+                    </div>
+                    <p id="modal-description" class="text-text-light mb-6">产品描述</p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-3">
+                            <span class="text-text-light text-sm w-20">材质</span>
+                            <span id="modal-material" class="text-text-dark">待补充</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-text-light text-sm w-20">规格</span>
+                            <span id="modal-spec" class="text-text-dark">待补充</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-text-light text-sm w-20">销量</span>
+                            <span id="modal-sales" class="text-text-dark">0</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary w-full py-3 rounded-full text-white font-semibold">
+                        加入购物车
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 产品数据
+        const products = [
+            {
+                id: 1,
+                name: 'Mango徽章套装',
+                price: 68,
+                category: 'fashion',
+                description: '4款不同造型徽章组合，包含Mango店长、奶黄包等经典角色形象',
+                material: '锌合金烤漆',
+                spec: '直径32mm',
+                sales: '120+',
+                images: ['image/cultural/mango-merch.jpg', 'image/cultural/mango-v2.png']
+            },
+            {
+                id: 2,
+                name: '馒头蒸笼抱枕',
+                price: 128,
+                category: 'home',
+                description: '柔软舒适的治愈系抱枕，造型可爱，适合居家装饰',
+                material: '短毛绒+PP棉',
+                spec: '40cm x 40cm',
+                sales: '86',
+                images: ['image/cultural/mango-steamer.png', 'image/cultural/mango-cloud.png']
+            },
+            {
+                id: 3,
+                name: '吐司手机壳',
+                price: 48,
+                category: 'fashion',
+                description: '可爱吐司造型手机壳，适用于iPhone 14系列',
+                material: 'TPU软壳',
+                spec: '适配iPhone 14/14Pro/14ProMax',
+                sales: '234',
+                images: ['image/cultural/mango-toast.png', 'image/cultural/mango-design-note.png']
+            },
+            {
+                id: 4,
+                name: '云朵帆布袋',
+                price: 38,
+                category: 'home',
+                description: '环保材质，大容量设计，适合日常出行',
+                material: '帆布',
+                spec: '35cm x 40cm',
+                sales: '156',
+                images: ['image/cultural/mango-cloud.png', 'image/cultural/mango-logo.png']
+            },
+            {
+                id: 5,
+                name: 'IP形象插画集',
+                price: 88,
+                category: 'art',
+                description: '12款原创插画合集，记录Mango馒头小店的温馨故事',
+                material: '铜版纸印刷',
+                spec: 'A4尺寸，24页',
+                sales: '67',
+                images: ['image/cultural/mango-v2.png', 'image/cultural/mango-draft.png']
+            },
+            {
+                id: 6,
+                name: '限定口罩套装',
+                price: 58,
+                category: 'fashion',
+                description: '6款图案，独立包装，安全卫生',
+                material: '无纺布+熔喷布',
+                spec: '成人尺寸，独立包装',
+                sales: '98',
+                images: ['image/cultural/mango-design-note.png', 'image/cultural/mango-process.png']
+            },
+            {
+                id: 7,
+                name: 'Mango拼图',
+                price: 158,
+                category: 'home',
+                description: '500片精美拼图，适合休闲娱乐',
+                material: '纸质',
+                spec: '500片，成品尺寸50x70cm',
+                sales: '45',
+                images: ['image/cultural/mango-logo.png', 'image/cultural/mango-merch.jpg']
+            },
+            {
+                id: 8,
+                name: '设计手稿集',
+                price: 78,
+                category: 'art',
+                description: '记录IP诞生过程的珍贵手稿集合',
+                material: '特种纸印刷',
+                spec: 'A5尺寸，32页',
+                sales: '32',
+                images: ['image/cultural/mango-draft.png', 'image/cultural/mango-process.png']
+            }
+        ];
+
+        // 分类筛选
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                
+                const category = tag.dataset.category;
+                document.querySelectorAll('.product-card').forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // 排序功能
+        document.getElementById('sort-select').addEventListener('change', (e) => {
+            const sortBy = e.target.value;
+            const container = document.querySelector('#products .grid');
+            const cards = Array.from(document.querySelectorAll('.product-card'));
+            
+            cards.sort((a, b) => {
+                const priceA = parseInt(a.querySelector('.text-secondary-color').textContent.replace('¥', ''));
+                const priceB = parseInt(b.querySelector('.text-secondary-color').textContent.replace('¥', ''));
+                
+                if (sortBy === 'price-asc') return priceA - priceB;
+                if (sortBy === 'price-desc') return priceB - priceA;
+                return 0;
+            });
+            
+            cards.forEach(card => container.appendChild(card));
+        });
+
+        // 产品卡片点击事件
+        document.querySelectorAll('.product-card').forEach((card, index) => {
+            card.addEventListener('click', () => {
+                const product = products[index];
+                const modal = document.getElementById('product-modal');
+                
+                document.getElementById('modal-title').textContent = product.name;
+                document.getElementById('modal-price').textContent = '¥' + product.price;
+                document.getElementById('modal-description').textContent = product.description;
+                document.getElementById('modal-material').textContent = product.material;
+                document.getElementById('modal-spec').textContent = product.spec;
+                document.getElementById('modal-sales').textContent = product.sales;
+                document.getElementById('modal-main-image').src = product.images[0];
+                
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // 关闭模态框
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('product-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+
+        // 点击模态框外部关闭
+        document.getElementById('product-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('product-modal')) {
+                document.getElementById('product-modal').classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('product-modal').classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // 图片懒加载
+        document.addEventListener('DOMContentLoaded', () => {
+            const lazyImages = document.querySelectorAll('.lazy-load');
+            
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.style.opacity = '0';
+                        img.onload = () => {
+                            img.style.transition = 'opacity 0.5s ease';
+                            img.style.opacity = '1';
+                        };
+                        observer.unobserve(img);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            lazyImages.forEach(img => imageObserver.observe(img));
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
