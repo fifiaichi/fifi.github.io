@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人文创设计Mango - 张省菲作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Microsoft YaHei', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-outline { border: 2px solid #667eea; color: #667eea; padding: 8px 20px; border-radius: 25px; transition: all 0.3s; }
+        .btn-outline:hover { background: #667eea; color: white; }
+        .glass-card { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); }
+        .section-divider { position: relative; }
+        .section-divider::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 2px; }
+    </style>
+</head>
+<body class="bg-light font-sans">
+    <!-- 导航栏 -->
+    <nav class="fixed bg-white bg-opacity-95 shadow-sm py-4 w-full z-50">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold text-primary">张省菲</a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-gray-600 hover:text-primary transition-all">首页</a>
+                    <a href="index.html#works" class="text-gray-600 hover:text-primary transition-all">作品</a>
+                    <a href="index.html#timeline" class="text-gray-600 hover:text-primary transition-all">履历</a>
+                    <a href="index.html#ai-practice" class="text-gray-600 hover:text-primary transition-all">AI实践</a>
+                    <a href="index.html#about" class="text-gray-600 hover:text-primary transition-all">关于我</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 作品详情区域 -->
+    <section class="pt-24 pb-16">
+        <div class="container mx-auto px-4 md:px-8">
+            <!-- 返回按钮 -->
+            <div class="mb-8">
+                <a href="javascript:void(0)" onclick="goBack()" class="btn-outline px-4 py-2 text-sm rounded-full inline-flex items-center gap-2">
+                    <i class="fa fa-arrow-left"></i> 返回作品列表
+                </a>
+            </div>
+
+            <!-- 作品标题 -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">个人文创设计Mango</h1>
+                <p class="text-gray-500 text-lg">温暖治愈的馒头店IP形象设计</p>
+            </div>
+
+            <!-- 项目信息卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-xl shadow-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa fa-tag text-primary text-xl"></i>
+                        <h3 class="font-semibold">项目类型</h3>
+                    </div>
+                    <p class="text-gray-600">文创项目</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl shadow-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa fa-user text-primary text-xl"></i>
+                        <h3 class="font-semibold">角色</h3>
+                    </div>
+                    <p class="text-gray-600">主设计师</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl shadow-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa fa-calendar text-primary text-xl"></i>
+                        <h3 class="font-semibold">完成时间</h3>
+                    </div>
+                    <p class="text-gray-600">2023年9月</p>
+                </div>
+            </div>
+
+            <!-- 项目亮点标签 -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <span class="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm">完整的品牌视觉系统：Logo、标准色、辅助图形</span>
+                <span class="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm">系列化插画设计：从初稿到多版本迭代</span>
+                <span class="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm">丰富的周边衍生品：口罩、徽章、手机壳、抱枕、帆布袋、拼图</span>
+                <span class="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm">温暖治愈的叙事性视觉语言，传递自我接纳、慢慢成长的生活理念</span>
+            </div>
+
+            <!-- 技术栈 -->
+            <div class="flex flex-wrap justify-center gap-2 mb-12">
+                <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-sm font-medium">Illustrator</span>
+                <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-sm font-medium">Photoshop</span>
+                <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-sm font-medium">Procreate</span>
+                <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-sm font-medium">IP设计</span>
+                <span class="px-3 py-1 bg-orange-50 text-orange-600 rounded-full text-sm font-medium">品牌策划</span>
+            </div>
+
+            <!-- 项目详细描述 -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="bg-white rounded-2xl shadow-card p-8">
+                    <h2 class="text-2xl font-bold mb-6 text-center section-divider">项目概述</h2>
+                    <div class="text-gray-600 leading-relaxed">
+                        <p>（一）01 项目构思（创作起源）</p>
+                        <p><strong>市场切入点：</strong>当下西式面点（贝果、碱水包）被大肆推崇，中式馒头平价、软糯却缺少年轻化包装与传播，结合网络热梗「馒头 = 中国欧包」，发现中式早餐文创空白，确定以馒头作为创作核心载体。</p>
+                        <p><strong>IP形象灵感：</strong>选用小狗 + 馒头双元素结合，小狗自带治愈属性，馒头象征踏实、慢慢成长的幸福感；打造原创IP名称Mango，用温情故事赋予IP内核。</p>
+                        <p><strong>创作初衷：</strong>借IP传递自我接纳、慢慢成长的生活理念，用可爱形象治愈当代人的自卑内耗，让传统馒头文化以文创形式走进年轻群体。</p>
+                        <p>（二）02 设计理念（IP世界观与故事）</p>
+                        <p><strong>搭建「Mango馒头小店」完整故事世界观：</strong></p>
+                        <p><strong>两个主角形象：</strong></p>
+                        <p>Mango：芒果色西施犬，馒头店店长，温柔暖心、善于开导同伴；</p>
+                        <p>奶黄包：小柴犬，因自身体温偏高产生自卑心理，被Mango点破：高温适合发酵馒头，由此找到自身价值。</p>
+                        <p><strong>故事主线：</strong>两只小狗合伙开设Mango馒头铺，凭借特色各式馒头收获快乐，奶黄在制作馒头的过程中逐渐自信，收获满满幸福感。</p>
+                        <p><strong>设计内核：</strong>借馒头发酵慢慢膨大的意象，隐喻人如同面团一般，在成长中慢慢舒展、找到自身闪光点；传递发现生活小美好、勇敢接纳自我的温暖主旨。</p>
+                        <p>（三）03 作品落地展示（IP + 实物文创）</p>
+                        <p><strong>1、食品IP原画：多款主题馒头形象</strong></p>
+                        <p>创作柿子馒头、白面馒头、花卷、云朵馒头等多款原创馒头卡通造型，匹配店铺「今日特价」等商超版式设计，完善店铺视觉体系。</p>
+                        <p><strong>2、全品类衍生文创产品（落地品类）</strong></p>
+                        <p>依托Mango和奶黄包IP形象，开发多品类实用周边：</p>
+                        <p>日用配饰：口罩、徽章、手机壳；</p>
+                        <p>家居用品：抱枕、帆布袋、拼图；</p>
+                        <p>整套产品适配年轻消费者日常使用场景，实现IP从插画到实体产品的落地转化。</p>
+                        <p><strong>三、项目亮点总结（求职/参赛可用）</strong></p>
+                        <p><strong>文化落地：</strong>深挖中式早餐民俗，把传统面食文化年轻化、IP化，跳出传统文创老思路；</p>
+                        <p><strong>情感赋能：</strong>以治愈小故事为内核，区别无内涵的空泛卡通设计，产品自带情感价值；</p>
+                        <p><strong>商业化完整：</strong>从IP人设→形象原画→多品类实物衍生品全链路完成，具备商用落地潜力。</p>
+                        <p><strong>四、补充：简历可用精简版总结</strong></p>
+                        <p>本人（张省菲）作为项目主设计师，带队完成Mango治愈系馒头文创IP全案设计，从市场调研、IP故事策划、角色原画绘制，到口罩/抱枕/帆布袋等全品类文创产品落地设计，项目参与蓝桥杯艺术类文创赛道，立足中式早餐传统文化完成年轻化IP商业化开发。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 插画&过程图 -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 text-center section-divider">插画 & 设计过程</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-draft.png" alt="设计初稿" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">设计初稿</p>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-process.png" alt="迭代过程" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">迭代过程</p>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-v2.png" alt="优化版本" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">优化版本</p>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/illustration/final-illustration.jpg" alt="最终插画" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">最终成品插画</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 品牌视觉系统 -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 text-center section-divider">品牌视觉系统</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-logo.png" alt="Logo设计" class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">品牌Logo</p>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-design-note.png" alt="设计规范" class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">设计说明&规范</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文创周边展示 -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 text-center section-divider">文创周边 & 主题形象</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-merch.jpg" alt="周边产品" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">系列周边成品</p>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-steamer.png" alt="蒸笼馒头形象" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">蒸笼主题形象</p>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-toast.png" alt="面点形象" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">特色面点形象</p>
+                        </div>
+                    </div>
+                    <div class="group relative rounded-xl overflow-hidden shadow-lg">
+                        <img src="image/cultural/mango-cloud.png" alt="云朵馒头" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <p class="text-sm font-medium">云朵馒头形象</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 获奖证书 -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold mb-6 text-center section-divider">获奖证书</h2>
+                <div class="max-w-md mx-auto">
+                    <div class="bg-white rounded-2xl shadow-card p-8 text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-award text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">2023 年 广州工商学院文创设计大赛</h3>
+                        <p class="text-primary font-semibold mb-2">三等奖（校级）</p>
+                        <p class="text-gray-500 text-sm">参赛作品</p>
+                        <p class="text-gray-400 text-xs mt-4">2024年</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目成果 -->
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold mb-6 text-center section-divider">项目成果</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-6 rounded-xl">
+                        <h3 class="font-semibold mb-3 flex items-center gap-2">
+                            <i class="fa fa-trophy text-yellow-500"></i> 获奖与参赛经历
+                        </h3>
+                        <p class="text-gray-600 text-sm">成功打造了具有高度辨识度的IP形象，并完成了系列文创周边设计方案。项目参与蓝桥杯艺术类文创赛道，立足中式早餐传统文化完成年轻化IP商业化开发。</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl">
+                        <h3 class="font-semibold mb-3 flex items-center gap-2">
+                            <i class="fa fa-star text-yellow-500"></i> 项目影响力
+                        </h3>
+                        <p class="text-gray-600 text-sm">设计方案在校内展示中获得好评，展现了出色的商业应用潜力和艺术审美。借IP传递自我接纳、慢慢成长的生活理念，用可爱形象治愈当代人的自卑内耗。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm text-gray-300">张省菲 · 数字媒体技术</p>
+            <p class="mt-2 text-gray-400 text-xs">电话：15202004538</p>
+            <p class="mt-2 text-gray-500 text-xs">HTML + Tailwind CSS + JavaScript</p>
+        </div>
+    </footer>
+
+    <!-- 返回逻辑 -->
+    <script>
+        function goBack() {
+            const hasReferrer = document.referrer && document.referrer.includes(window.location.hostname);
+            if (hasReferrer && document.referrer.includes('index.html')) {
+                window.location.href = 'index.html#works';
+            } else {
+                window.location.href = 'index.html#works';
+            }
+        }
+    </script>
+</body>
+</html>
