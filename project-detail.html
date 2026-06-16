@@ -164,49 +164,49 @@
     <nav id="navbar" class="bg-white dark:bg-dark shadow-sm fixed w-full z-50 py-4 transition-all duration-300">
         <div class="container mx-auto px-4 md:px-8">
             <div class="flex justify-between items-center">
-                <a href="index.html" class="text-xl font-bold text-primary dark:text-white">张省菲</a>
+                <a href="index.html" class="text-xl font-bold text-gray-900 dark:text-white">张省菲</a>
                 <div class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">首页</a>
-                    <a href="index.html#works" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">作品</a>
-                    <a href="index.html#timeline" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">履历</a>
-                    <a href="index.html#ai-practice" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">AI实践</a>
-                    <a href="index.html#about" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-all">关于我</a>
+                    <a href="index.html" class="text-gray-700 dark:text-gray-200 hover:text-primary transition-all font-medium">首页</a>
+                    <a href="index.html#works" class="text-gray-700 dark:text-gray-200 hover:text-primary transition-all font-medium">作品</a>
+                    <a href="index.html#timeline" class="text-gray-700 dark:text-gray-200 hover:text-primary transition-all font-medium">履历</a>
+                    <a href="index.html#ai-practice" class="text-gray-700 dark:text-gray-200 hover:text-primary transition-all font-medium">AI实践</a>
+                    <a href="index.html#about" class="text-gray-700 dark:text-gray-200 hover:text-primary transition-all font-medium">关于我</a>
                 </div>
                 <div class="md:hidden">
-                    <button id="menu-toggle" class="text-primary dark:text-white focus:outline-none">
+                    <button id="menu-toggle" class="text-gray-700 dark:text-white focus:outline-none">
                         <i class="fa fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
             <!-- 移动端菜单 -->
-            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2 border-t border-gray-100 dark:border-gray-800 mt-4">
+            <div id="mobile-menu" class="md:hidden hidden pt-4 pb-2 border-t border-gray-200 dark:border-gray-700 mt-4">
                 <div class="flex flex-col space-y-4">
-                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-primary">首页</a>
-                    <a href="index.html#works" class="text-gray-600 dark:text-gray-300 hover:text-primary">作品</a>
-                    <a href="index.html#timeline" class="text-gray-600 dark:text-gray-300 hover:text-primary">履历</a>
-                    <a href="index.html#ai-practice" class="text-gray-600 dark:text-gray-300 hover:text-primary">AI实践</a>
-                    <a href="index.html#about" class="text-gray-600 dark:text-gray-300 hover:text-primary">关于我</a>
+                    <a href="index.html" class="text-gray-700 dark:text-gray-200 hover:text-primary font-medium">首页</a>
+                    <a href="index.html#works" class="text-gray-700 dark:text-gray-200 hover:text-primary font-medium">作品</a>
+                    <a href="index.html#timeline" class="text-gray-700 dark:text-gray-200 hover:text-primary font-medium">履历</a>
+                    <a href="index.html#ai-practice" class="text-gray-700 dark:text-gray-200 hover:text-primary font-medium">AI实践</a>
+                    <a href="index.html#about" class="text-gray-700 dark:text-gray-200 hover:text-primary font-medium">关于我</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- 作品详情区域 -->
-    <section class="pt-32 pb-16 bg-white dark:bg-dark relative overflow-hidden hero-gradient">
+    <section class="pt-32 pb-16 bg-[#fafaf8] dark:bg-gray-950 relative overflow-hidden">
         <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-primary opacity-5 rounded-full blur-3xl"></div>
 
         <div class="container mx-auto px-4 relative z-10">
             <!-- 返回按钮 -->
             <div class="mb-8">
-                <a href="javascript:void(0)" onclick="goBack()" class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all duration-300 text-sm font-medium dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-primary">
+                <a href="javascript:void(0)" onclick="goBack()" class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all duration-300 text-sm font-medium shadow-sm hover:shadow-md">
                     <i class="fa fa-arrow-left mr-2"></i> 返回作品列表
                 </a>
             </div>
 
             <!-- 作品标题 -->
             <div class="text-center mb-12">
-                <h1 id="project-title" class="text-4xl font-bold gradient-text mb-4">作品详情</h1>
-                <p id="project-subtitle" class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">项目详细描述将在这里显示</p>
+                <h1 id="project-title" class="text-5xl md:text-6xl font-extrabold gradient-text mb-6">作品详情</h1>
+                <p id="project-subtitle" class="text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">项目详细描述将在这里显示</p>
             </div>
 
             <!-- 作品展示区域 -->
@@ -219,25 +219,25 @@
             </div>
 
             <!-- 项目信息 -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
                 <!-- 项目描述 -->
-                <div class="lg:col-span-2">
-                    <div class="glass-card rounded-2xl shadow-card p-8 fade-in">
-                        <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目概述</h2>
-                        <div id="project-description" class="text-gray-600 dark:text-gray-300 space-y-4 leading-relaxed">
+                <div class="lg:col-span-8">
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 md:p-10 fade-in border border-gray-100 dark:border-gray-800">
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">项目概述</h2>
+                        <div id="project-description" class="text-gray-600 dark:text-gray-300 space-y-6 leading-relaxed text-base">
                             <p>项目详细描述将在这里显示。</p>
                         </div>
 
-                        <div class="mt-8">
-                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-4">项目特点</h3>
-                            <ul id="project-features" class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-400">
+                        <div class="mt-10">
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-5">项目特点</h3>
+                            <ul id="project-features" class="list-disc list-inside space-y-3 text-gray-600 dark:text-gray-400">
                                 <li>特点1</li>
                             </ul>
                         </div>
 
-                        <div class="mt-8">
-                            <h3 class="text-xl font-semibold text-primary dark:text-white mb-4">技术栈</h3>
-                            <div id="project-tech" class="flex flex-wrap">
+                        <div class="mt-10">
+                            <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-5">技术栈</h3>
+                            <div id="project-tech" class="flex flex-wrap gap-3">
                                 <span class="badge">技术1</span>
                             </div>
                         </div>
@@ -245,41 +245,41 @@
                 </div>
 
                 <!-- 项目信息和证书 -->
-                <div class="lg:col-span-1">
-                    <div class="glass-card rounded-2xl shadow-card p-8 mb-8 fade-in">
-                        <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目信息</h2>
-                        <div class="space-y-6">
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 fade-in border border-gray-100 dark:border-gray-800 h-fit">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">项目信息</h2>
+                        <div class="space-y-5">
                             <div>
-                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">项目类型</h3>
-                                <p id="project-type" class="font-medium">竞赛项目</p>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">项目类型</h3>
+                                <p id="project-type" class="font-medium text-gray-800 dark:text-gray-200">竞赛项目</p>
                             </div>
                             <div>
-                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">完成时间</h3>
-                                <p id="project-date" class="font-medium">2024年6月</p>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">完成时间</h3>
+                                <p id="project-date" class="font-medium text-gray-800 dark:text-gray-200">2024年6月</p>
                             </div>
                             <div>
-                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">项目角色</h3>
-                                <p id="project-role" class="font-medium">主策划/美术设计</p>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">项目角色</h3>
+                                <p id="project-role" class="font-medium text-gray-800 dark:text-gray-200">主策划/美术设计</p>
                             </div>
                             <div>
-                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">项目时长</h3>
-                                <p id="project-duration" class="font-medium">3个月</p>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">项目时长</h3>
+                                <p id="project-duration" class="font-medium text-gray-800 dark:text-gray-200">3个月</p>
                             </div>
                             <div>
-                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">团队成员</h3>
-                                <p id="project-team" class="font-medium">5人团队</p>
+                                <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">团队成员</h3>
+                                <p id="project-team" class="font-medium text-gray-800 dark:text-gray-200">5人团队</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- 证书展示 -->
-                    <div class="glass-card rounded-2xl shadow-card p-8 fade-in">
-                        <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">获奖证书</h2>
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 fade-in border border-gray-100 dark:border-gray-800">
+                        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">获奖证书</h2>
                         <div id="project-certificate" class="space-y-6">
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-6 text-center">
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 text-center border border-gray-100 dark:border-gray-700">
                                 <i class="fa fa-certificate text-primary dark:text-white text-4xl mb-4"></i>
-                                <h3 id="certificate-title" class="font-semibold mb-2">奖项名称</h3>
-                                <p id="certificate-award" class="text-sm text-gray-500">奖项等级</p>
+                                <h3 id="certificate-title" class="font-semibold text-gray-800 dark:text-white mb-2">奖项名称</h3>
+                                <p id="certificate-award" class="text-sm text-gray-500 dark:text-gray-400">奖项等级</p>
                             </div>
                         </div>
                     </div>
@@ -287,17 +287,17 @@
             </div>
 
             <!-- 项目成果 -->
-            <div class="glass-card rounded-2xl shadow-card p-8 mb-12 fade-in">
-                <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目成果</h2>
-                <div id="project-achievements" class="text-gray-600 dark:text-gray-300 space-y-4 leading-relaxed">
+            <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 md:p-10 mb-16 fade-in border border-gray-100 dark:border-gray-800">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">项目成果</h2>
+                <div id="project-achievements" class="text-gray-600 dark:text-gray-300 space-y-6 leading-relaxed text-base">
                     <p>项目取得的成果将在这里展示。</p>
                 </div>
             </div>
 
             <!-- 项目图片展示 -->
-            <div id="project-images-section" class="glass-card rounded-2xl shadow-card p-8 fade-in">
-                <h2 class="text-2xl font-bold text-primary dark:text-white mb-6">项目图片</h2>
-                <div id="project-images" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div id="project-images-section" class="bg-white dark:bg-gray-900 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 md:p-10 fade-in border border-gray-100 dark:border-gray-800">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">项目图片</h2>
+                <div id="project-images" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <!-- 图片由 JS 动态填充 -->
                 </div>
             </div>
@@ -1110,13 +1110,66 @@
                                    project.images.length === 4 ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto' :
                                    'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-6xl mx-auto';
 
-                    showcaseHtml = `
-                        <div class="p-8 md:p-16 bg-white dark:bg-gray-900">
-                            <div class="grid ${gridCols} gap-8 md:gap-12">
-                                ${imagesHtml}
+                    if (projectId === 'picture-book') {
+                        showcaseHtml = `
+                            <div class="relative w-full bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 overflow-hidden">
+                                <div class="max-w-6xl mx-auto px-4 py-16">
+                                    <div class="relative aspect-video rounded-3xl overflow-hidden shadow-2xl">
+                                        <div class="flex transition-transform duration-700 ease-in-out" id="carousel-track">
+                                            ${project.images.map((img, index) => `
+                                                <div class="min-w-full h-full">
+                                                    <img loading="lazy" decoding="async" src="${img}" alt="封面图${index + 1}" class="w-full h-full object-cover">
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <button id="carousel-prev" onclick="carouselPrev()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors">
+                                            <i class="fa fa-chevron-left text-gray-700"></i>
+                                        </button>
+                                        <button id="carousel-next" onclick="carouselNext()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors">
+                                            <i class="fa fa-chevron-right text-gray-700"></i>
+                                        </button>
+                                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                                            ${project.images.map((_, index) => `
+                                                <button onclick="carouselGoTo(${index})" class="w-3 h-3 rounded-full bg-white/60 hover:bg-white transition-colors"></button>
+                                            `).join('')}
+                                        </div>
+                                    </div>
+                                    <p class="text-center text-gray-400 text-sm mt-6">春夏秋冬四季主题封面设计</p>
+                                </div>
+                                <script>
+                                    let currentSlide = 0;
+                                    const track = document.getElementById('carousel-track');
+                                    const dots = document.querySelectorAll('[onclick*="carouselGoTo"]');
+                                    const slidesCount = track.children.length;
+                                    function carouselNext() {
+                                        currentSlide = (currentSlide + 1) % slidesCount;
+                                        updateCarousel();
+                                    }
+                                    function carouselPrev() {
+                                        currentSlide = (currentSlide - 1 + slidesCount) % slidesCount;
+                                        updateCarousel();
+                                    }
+                                    function carouselGoTo(index) {
+                                        currentSlide = index;
+                                        updateCarousel();
+                                    }
+                                    function updateCarousel() {
+                                        track.style.transform = 'translateX(-' + currentSlide * 100 + '%)';
+                                        dots.forEach((dot, i) => dot.classList.toggle('bg-white', i === currentSlide));
+                                    }
+                                    setInterval(carouselNext, 5000);
+                                 </scr` + `ipt>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    } else {
+                        showcaseHtml = `
+                            <div class="p-8 md:p-16 bg-white dark:bg-gray-900">
+                                <div class="grid ${gridCols} gap-8 md:gap-12">
+                                    ${imagesHtml}
+                                </div>
+                            </div>
+                        `;
+                    }
                 }
             } else {
                 showcaseHtml = `
@@ -1202,10 +1255,10 @@
             const imagesContainer = document.getElementById('project-images');
             if (project.images && project.images.length > 0 && !project.isIllustrationProcess) {
                 const imgsHtml = project.images.map(img => `
-                    <div class="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm cursor-pointer" onclick="openImageModal('${img}')">
-                        <img loading="lazy" decoding="async" src="${img}" alt="项目图片" class="w-full h-full object-cover">
-                    </div>
-                `).join('');
+  <div class="aspect-square bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden shadow-sm cursor-pointer">
+    <img loading="lazy" decoding="async" src="${img}" alt="项目图片" class="w-full h-full object-cover">
+  </div>
+`).join('');
                 imagesContainer.innerHTML = imgsHtml;
             } else {
                 document.getElementById('project-images-section').classList.add('hidden');
@@ -1213,4 +1266,3 @@
         }
     </script>
 </body>
-</html>

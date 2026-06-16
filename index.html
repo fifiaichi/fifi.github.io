@@ -99,6 +99,63 @@
             .hero-gradient {
                 background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
             }
+            .hero-gallery {
+  width: 100%;
+  margin-top: 2rem;
+  overflow: hidden;
+}
+
+.gallery-tabs {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  padding: 0.4rem 1.2rem;
+  border: 1.5px solid #d4a853;
+  border-radius: 999px;
+  background: transparent;
+  color: #d4a853;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab-btn.active {
+  background: #d4a853;
+  color: #fff;
+}
+
+.gallery-track {
+  width: 100%;
+  overflow: hidden;
+}
+
+.gallery-track.hidden {
+  display: none;
+}
+
+.gallery-inner {
+  display: flex;
+  gap: 1rem;
+  animation: scroll-left 30s linear infinite;
+  width: max-content;
+}
+
+.gallery-inner img {
+  height: 200px;
+  width: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
         }
     </style>
 
@@ -283,6 +340,41 @@
                 </a>
             </div>
         </div>
+        <!-- 在你的 hero section 底部加这段 -->
+<div class="hero-gallery">
+  <div class="gallery-tabs">
+    <button class="tab-btn active" data-track="guofeng">国风水墨</button>
+    <button class="tab-btn" data-track="cartoon">插画创作</button>
+  </div>
+
+  <div class="gallery-track" id="track-guofeng">
+    <div class="gallery-inner">
+      <!-- 复制两次实现无缝循环 -->
+      <img src="image/hero/黄土高坡.png" alt="">
+      <img src="image/hero/山.png" alt="">
+      <img src="image/hero/元代建筑.png" alt="">
+      <img src="image/hero/huayi-screenshot-02.png" alt="">
+      <img src="image/hero/奶孙漆勺tlak.png" alt="">
+      <!-- 复制一遍 -->
+      <img src="image/hero/黄土高坡.png" alt="">
+      <img src="image/hero/山.png" alt="">
+      <img src="image/hero/元代建筑.png" alt="">
+      <img src="image/hero/huayi-screenshot-02.png" alt="">
+      <img src="image/hero/奶孙漆勺tlak.png" alt="">
+    </div>
+  </div>
+
+  <div class="gallery-track hidden" id="track-cartoon">
+    <div class="gallery-inner">
+      <img src="image/hero/tiangong-homepage.png" alt="">
+      <img src="image/hero/mango-logo.png" alt="">
+      <img src="image/hero/女孩跑步.png" alt="">
+      <img src="image/hero/tiangong-homepage.png" alt="">
+      <img src="image/hero/mango-logo.png" alt="">
+      <img src="image/hero/女孩跑步.png" alt="">
+    </div>
+  </div>
+</div>
     </section>
 
     <!-- 职业方向切换器 -->
@@ -829,6 +921,18 @@ if (darkModeToggleMobile) {
                     img.addEventListener('load', () => img.classList.add('loaded'));
                     img.addEventListener('error', () => { img.style.opacity = '0.4'; img.classList.add('loaded'); });
                 }
+            });
+
+            // Tab切换逻辑
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const track = btn.dataset.track;
+                    document.querySelectorAll('.gallery-track').forEach(t => t.classList.add('hidden'));
+                    document.getElementById('track-' + track).classList.remove('hidden');
+                });
             });
 
             switchMode(localStorage.getItem('portfolioMode') || 'art');
