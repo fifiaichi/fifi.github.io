@@ -351,8 +351,12 @@
     <!-- 可折叠侧边栏 -->
     <div id="sidebar" class="fixed z-50 transition-all duration-300" style="top: 90px; right: 20px;">
         <!-- 折叠按钮 -->
-        <button id="sidebar-toggle" class="w-14 h-14 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center hover:scale-110" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);">
+        <button id="sidebar-toggle" class="w-14 h-14 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center hover:scale-110 cursor-grab active:cursor-grabbing relative" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);">
             <i class="fa fa-th-large text-lg"></i>
+            <!-- 通知气泡 -->
+            <div id="sidebar-notification" class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center animate-bounce">
+                <span class="text-white text-xs font-bold">!</span>
+            </div>
         </button>
         
         <!-- 侧边栏内容 -->
@@ -405,9 +409,9 @@
                 </div>
 
                 <div class="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
-                    <a href="portfolio-pdf.html" download class="block w-full px-4 py-3 rounded-lg bg-gradient-primary text-white font-medium text-center hover:shadow-lg transition-all duration-300" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <i class="fa fa-download mr-2"></i>下载简历 PDF
-                    </a>
+                    <button onclick="openResumeModal()" class="block w-full px-4 py-3 rounded-lg bg-gradient-primary text-white font-medium text-center hover:shadow-lg transition-all duration-300" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fa fa-file-pdf mr-2"></i>查看简历
+                    </button>
                 </div>
             </div>
         </div>
@@ -1085,6 +1089,38 @@ if (darkModeToggleMobile) {
                 sidebar.style.right = 'auto';
             });
 
+            // 侧边栏通知系统
+            const sidebarNotification = document.getElementById('sidebar-notification');
+            
+            // 页面加载后显示通知
+            setTimeout(() => {
+                if (sidebarNotification && !localStorage.getItem('sidebar-notified')) {
+                    sidebarNotification.classList.remove('hidden');
+                    
+                    // 显示提示气泡
+                    const tooltip = document.createElement('div');
+                    tooltip.id = 'sidebar-tooltip';
+                    tooltip.className = 'absolute right-16 top-1/2 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-xl text-sm whitespace-nowrap z-50';
+                    tooltip.innerHTML = '<strong>💡 提示：</strong>点击按钮打开侧边栏，可快速导航和查看简历';
+                    sidebar.appendChild(tooltip);
+                    
+                    // 3秒后自动消失
+                    setTimeout(() => {
+                        tooltip.style.opacity = '0';
+                        tooltip.style.transition = 'opacity 0.5s';
+                        setTimeout(() => tooltip.remove(), 500);
+                    }, 5000);
+                }
+            }, 1000);
+            
+            // 点击侧边栏时隐藏通知
+            sidebarToggle.addEventListener('click', () => {
+                if (sidebarNotification) {
+                    sidebarNotification.classList.add('hidden');
+                    localStorage.setItem('sidebar-notified', 'true');
+                }
+            });
+
             document.addEventListener('touchend', () => {
                 isDragging = false;
             });
@@ -1134,6 +1170,120 @@ if (darkModeToggleMobile) {
                 }, 100);
             }
         });
+
+        // 简历模态框功能
+        function openResumeModal() {
+            const modal = document.getElementById('resume-modal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeResumeModal() {
+            const modal = document.getElementById('resume-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function downloadResume() {
+            const link = document.createElement('a');
+            link.href = 'pdfversion.pdf';
+            link.download = '张省菲-个人简历.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            closeResumeModal();
+        }
+
+        function viewResumeInBrowser() {
+            window.open('portfolio-pdf.html', '_blank');
+            closeResumeModal();
+        }
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeResumeModal();
+                closeImageModal();
+            }
+        });
+
+        // 图片查看模态框功能
+        let imageScale = 1;
+
+        function openImageModal(src) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-image');
+            modal.style.display = 'flex';
+            modalImg.src = src;
+            imageScale = 1;
+            modalImg.style.transform = 'scale(1)';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('image-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            imageScale = 1;
+        }
+
+        // 图片滚轮缩放
+        document.getElementById('image-modal').addEventListener('wheel', function(e) {
+            e.preventDefault();
+            const modalImg = document.getElementById('modal-image');
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            imageScale = Math.max(0.5, Math.min(3, imageScale + delta));
+            modalImg.style.transform = 'scale(' + imageScale + ')';
+        });
+
+        // 为所有图片添加点击放大功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img[data-enlarge]');
+            images.forEach(img => {
+                img.addEventListener('click', function() {
+                    openImageModal(this.src);
+                });
+            });
+        });
     </script>
+
+    <!-- 简历模态框 -->
+    <div id="resume-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa fa-file-pdf text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">查看简历</h3>
+                <p class="text-gray-500 dark:text-gray-400 mb-6">选择您喜欢的方式查看我的个人简历</p>
+                
+                <div class="space-y-3">
+                    <button onclick="downloadResume()" class="w-full px-6 py-3 bg-gradient-primary text-white font-medium rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                        <i class="fa fa-download"></i> 下载 PDF
+                    </button>
+                    <button onclick="viewResumeInBrowser()" class="w-full px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2">
+                        <i class="fa fa-external-link-alt"></i> 浏览器查看
+                    </button>
+                </div>
+                
+                <button onclick="closeResumeModal()" class="mt-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-sm">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片查看模态框 -->
+    <div id="image-modal" class="fixed inset-0 bg-black/90 z-[100] hidden flex items-center justify-center">
+        <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors z-10">&times;</button>
+        <img id="modal-image" src="" alt="查看图片" class="max-w-[90vw] max-h-[90vh] object-contain cursor-zoom-in transition-transform duration-200">
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+            滚轮缩放 · 点击关闭
+        </div>
+    </div>
 </body>
 </html>
