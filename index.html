@@ -192,6 +192,30 @@
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
 
+        /* 侧边栏样式 */
+        #sidebar {
+            cursor: move;
+        }
+        #sidebar-toggle {
+            cursor: grab;
+            animation: pulse-shadow 2s ease-in-out infinite;
+        }
+        #sidebar-toggle:active {
+            cursor: grabbing;
+        }
+        @keyframes pulse-shadow {
+            0%, 100% { box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 8px 35px rgba(102, 126, 234, 0.7); }
+        }
+        @media (max-width: 768px) {
+            #sidebar {
+                display: none !important;
+            }
+        }
+        .sidebar-link:hover {
+            transform: translateX(5px);
+        }
+
         /* 滚动进度条 */
         .scroll-progress {
             position: fixed;
@@ -279,7 +303,6 @@
         }
     </style>
 
-<base target="_blank">
 </head>
 <body class="bg-light text-gray-800 font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
 
@@ -295,7 +318,7 @@
     <nav id="navbar" class="navbar-fixed bg-white bg-opacity-95 dark:bg-dark dark:bg-opacity-95 shadow-sm py-4">
         <div class="container mx-auto px-4 md:px-8">
             <div class="flex justify-between items-center">
-                <a href="#home" class="text-xl font-bold text-primary dark:text-white transition-transform hover:scale-105">张省菲</a>
+                <a href="index.html" class="text-xl font-bold text-primary dark:text-white transition-transform hover:scale-105">张省菲</a>
                 <div class="hidden md:flex ml-auto space-x-8 items-center">
                     <a href="#works" class="nav-link">作品</a>
                     <a href="#timeline" class="nav-link">履历与荣誉</a>
@@ -324,6 +347,71 @@
             </div>
         </div>
     </nav>
+
+    <!-- 可折叠侧边栏 -->
+    <div id="sidebar" class="fixed z-50 transition-all duration-300" style="top: 90px; right: 20px;">
+        <!-- 折叠按钮 -->
+        <button id="sidebar-toggle" class="w-14 h-14 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center hover:scale-110" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);">
+            <i class="fa fa-th-large text-lg"></i>
+        </button>
+        
+        <!-- 侧边栏内容 -->
+        <div id="sidebar-content" class="hidden mt-2 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden" style="min-width: 220px;">
+            <div class="p-4">
+                <!-- 个人信息区域 -->
+                <div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="w-12 h-12 rounded-full bg-gradient-primary flex items-center justify-center text-white font-bold text-xl" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        张
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 dark:text-white">张省菲</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">动画 × 游戏 × AI</p>
+                    </div>
+                </div>
+
+                <!-- 作品分类 -->
+                <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">作品分类</h4>
+                <div class="space-y-2">
+                    <a href="#works" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                        <i class="fa fa-th-large mr-2"></i>全部作品
+                    </a>
+                    <a href="animation-list.html" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                        <i class="fa fa-film mr-2"></i>动画设计
+                    </a>
+                    <a href="project-detail.html?id=tian-gong-zao-wu" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                        <i class="fa fa-gamepad mr-2"></i>游戏策划
+                    </a>
+                    <a href="mango.html" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                        <i class="fa fa-paint-brush mr-2"></i>文创设计
+                    </a>
+                    <a href="project-detail.html?id=lingnan-flower-market" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                        <i class="fa fa-code mr-2"></i>网站开发
+                    </a>
+                </div>
+                
+                <div class="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
+                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">快速导航</h4>
+                    <div class="space-y-2">
+                        <a href="index.html" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                            <i class="fa fa-home mr-2"></i>回到首页
+                        </a>
+                        <a href="#timeline" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                            <i class="fa fa-trophy mr-2"></i>履历荣誉
+                        </a>
+                        <a href="#about" class="sidebar-link block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gradient-primary hover:text-white transition-all duration-300">
+                            <i class="fa fa-user mr-2"></i>关于我
+                        </a>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
+                    <a href="portfolio-pdf.html" download class="block w-full px-4 py-3 rounded-lg bg-gradient-primary text-white font-medium text-center hover:shadow-lg transition-all duration-300" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fa fa-download mr-2"></i>下载简历 PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero 区域 -->
     <section id="home" class="min-h-screen flex items-center pt-16 hero-gradient relative overflow-hidden">
@@ -489,7 +577,7 @@
                 </div>
 
                 <!-- 作品5：图画本 -->
-                <div class="work-card cursor-pointer md:mt-16 art-only" onclick="window.location.href='project-detail.html?id=picture-book'">
+                <div class="work-card cursor-pointer md:mt-16 art-only" data-category="cultural" onclick="window.location.href='project-detail.html?id=picture-book'">
                     <div class="image-container">
                         <img loading="lazy" decoding="async" src="image/illustration/spring-cover.png" alt="图画本封面绘制" class="image-hover">
                     </div>
@@ -505,7 +593,7 @@
                 </div>
 
                 <!-- 作品6：个人文创设计Mango -->
-                <div class="work-card cursor-pointer md:mt-0" onclick="window.location.href='project-detail.html?id=campus-cultural'">
+                <div class="work-card cursor-pointer md:mt-0" data-category="cultural" onclick="window.location.href='mango.html'">
                     <div class="image-container">
                         <img loading="lazy" decoding="async" src="image/cultural/mango-logo.png" alt="个人文创设计Mango" class="image-hover">
                     </div>
@@ -934,6 +1022,96 @@ if (darkModeToggleMobile) {
                     document.getElementById('track-' + track).classList.remove('hidden');
                 });
             });
+
+            // 侧边栏功能
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebarContent = document.getElementById('sidebar-content');
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+            let dragStarted = false;
+
+            // 侧边栏切换
+            if (sidebarToggle && sidebarContent) {
+                sidebarToggle.addEventListener('click', (e) => {
+                    if (!dragStarted) {
+                        sidebarContent.classList.toggle('hidden');
+                    }
+                });
+            }
+
+            // 侧边栏拖动功能
+            sidebarToggle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = sidebar.offsetLeft;
+                initialY = sidebar.offsetTop;
+                sidebarToggle.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                sidebar.style.left = (initialX + dx) + 'px';
+                sidebar.style.top = (initialY + dy) + 'px';
+                sidebar.style.right = 'auto';
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                sidebarToggle.style.cursor = 'grab';
+            });
+
+            // 触摸设备支持
+            sidebarToggle.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                const touch = e.touches[0];
+                startX = touch.clientX;
+                startY = touch.clientY;
+                initialX = sidebar.offsetLeft;
+                initialY = sidebar.offsetTop;
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const touch = e.touches[0];
+                const dx = touch.clientX - startX;
+                const dy = touch.clientY - startY;
+                sidebar.style.left = (initialX + dx) + 'px';
+                sidebar.style.top = (initialY + dy) + 'px';
+                sidebar.style.right = 'auto';
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            // 作品过滤功能
+            window.filterWorks = function(category) {
+                const workCards = document.querySelectorAll('.work-card');
+                workCards.forEach(card => {
+                    const cardCategory = card.dataset.category || 'all';
+                    if (category === 'all' || cardCategory === category) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+                
+                // 关闭侧边栏
+                sidebarContent.classList.add('hidden');
+            };
 
             switchMode(localStorage.getItem('portfolioMode') || 'art');
 
