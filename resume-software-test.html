@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张省菲 — 软件测试工程师（游戏/互联网方向）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    line-height: 1.5;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    max-height: 297mm;
+    margin: 0 auto;
+    background: #fff;
+    padding: 28mm 22mm 22mm 22mm;
+    overflow: hidden;
+    position: relative;
+  }
+  @media print {
+    body { background: #fff; }
+    .page { width: 100%; margin: 0; padding: 20mm 18mm 18mm 18mm; }
+    .no-print { display: none; }
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid #2c4a5e;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .name-block h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #2c4a5e;
+    line-height: 1.1;
+  }
+  .name-block .title {
+    font-size: 14.5px;
+    color: #555;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .contact-block {
+    text-align: right;
+    font-size: 11.5px;
+    color: #444;
+    line-height: 1.9;
+  }
+  .contact-block a {
+    color: #2c4a5e;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .summary {
+    background: #f8f9fa;
+    border-left: 4px solid #2c4a5e;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: #333;
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .summary strong { color: #2c4a5e; }
+  
+  .main-grid {
+    display: flex;
+    gap: 22px;
+  }
+  .left-col { width: 28%; flex-shrink: 0; }
+  .right-col { width: 72%; }
+  
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2c4a5e;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid #2c4a5e;
+  }
+  
+  .skill-group { margin-bottom: 12px; }
+  .skill-group h4 {
+    font-size: 11.5px;
+    color: #2c4a5e;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .skill-tag {
+    font-size: 10.5px;
+    background: #eef2f5;
+    color: #2c4a5e;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .skill-tag.highlight {
+    background: #2c4a5e;
+    color: #fff;
+  }
+  
+  .award-item {
+    font-size: 11px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .award-item .award-name { font-weight: 600; color: #333; }
+  .award-item .award-level { color: #888; font-size: 10px; }
+  
+  .edu-block {
+    font-size: 11.5px;
+    line-height: 1.6;
+  }
+  .edu-block .degree { font-weight: 600; color: #333; }
+  
+  .project {
+    margin-bottom: 14px;
+  }
+  .project:last-child { margin-bottom: 0; }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 3px;
+  }
+  .project-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2c4a5e;
+  }
+  .project-time {
+    font-size: 11px;
+    color: #888;
+    font-weight: 500;
+  }
+  .project-role {
+    font-size: 12px;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .project-desc {
+    font-size: 11.5px;
+    color: #444;
+    line-height: 1.6;
+  }
+  .project-desc ul {
+    padding-left: 14px;
+    margin-top: 3px;
+  }
+  .project-desc li { margin-bottom: 2px; }
+  .metric {
+    color: #2c4a5e;
+    font-weight: 600;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    background: #e8eef3;
+    color: #2c4a5e;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-right: 4px;
+    font-weight: 600;
+  }
+  
+  .footer-note {
+    position: absolute;
+    bottom: 14mm;
+    left: 22mm;
+    right: 22mm;
+    font-size: 10px;
+    color: #aaa;
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 6px;
+  }
+  
+  @media print {
+    .footer-note { bottom: 10mm; left: 18mm; right: 18mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="name-block">
+      <h1>张省菲</h1>
+      <div class="title">软件测试工程师 / 测试开发 · 2026 届应届</div>
+    </div>
+    <div class="contact-block">
+      <div>📱 15202004538</div>
+      <div>📧 <a href="mailto:gugegewang@qq.com">gugegewang@qq.com</a></div>
+      <div>💬 微信: kirakiracc99</div>
+      <div>🌐 <a href="https://fifiaichi.github.io/fifi.github.io/">fifiaichi.github.io</a></div>
+      <div>🎨 作品集: 见线上完整版</div>
+    </div>
+  </div>
+  
+  <div class="summary">
+    数字媒体技术专业应届生，具备<strong>编程基础、自动化脚本、问题排查</strong>能力。在多个独立项目中积累了<strong>全链路验证、数据校验、异常处理</strong>的测试思维：独立编写 Python 脚本完成 500+ 商品数据的批量导入与验证，使用 Cursor/Trae 辅助开发并人工审查代码质量。理解游戏开发流程，参与 Unity 项目功能验证与 UI 适配测试。可立即到岗。
+  </div>
+  
+  <div class="main-grid">
+    <div class="left-col">
+      <div class="section">
+        <div class="section-title">核心技能</div>
+        <div class="skill-group">
+          <h4>测试相关</h4>
+          <div class="skill-tags">
+            <span class="skill-tag highlight">功能测试</span>
+            <span class="skill-tag highlight">数据验证</span>
+            <span class="skill-tag">接口测试</span>
+            <span class="skill-tag">自动化脚本</span>
+            <span class="skill-tag">Bug 追踪</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>编程 / 脚本</h4>
+          <div class="skill-tags">
+            <span class="skill-tag highlight">Python</span>
+            <span class="skill-tag">HTML/CSS</span>
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">MySQL</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>工具 / 环境</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Unity</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Cursor</span>
+            <span class="skill-tag">Trae</span>
+            <span class="skill-tag">Claude</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>AI 辅助</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">ChatGPT</span>
+            <span class="skill-tag">Claude</span>
+            <span class="skill-tag">Recraft</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 14px;">
+        <div class="section-title">获奖荣誉</div>
+        <div class="award-item">
+          <div class="award-name">广东省大学生计算机设计大赛</div>
+          <div class="award-level">游戏类 · 二等奖</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">永创杯全国高校艺术设计大赛</div>
+          <div class="award-level">全国 · 二等奖</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">蓝桥杯全国视觉艺术设计大赛</div>
+          <div class="award-level">动画类 · 三等奖</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 14px;">
+        <div class="section-title">教育背景</div>
+        <div class="edu-block">
+          <div class="degree">数字媒体技术 · 本科</div>
+          <div style="font-size:10.5px;color:#666;">广州工商学院 · 2022 — 2026（应届）</div>
+          <div style="font-size:10.5px;color:#666;margin-top:2px;">主修：游戏设计、动画制作、网页开发</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-col">
+      <div class="section-title">项目经历</div>
+      
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">岭南花市科普网站 — 数据验证与测试</span>
+          <span class="project-time">2024 — 2025</span>
+        </div>
+        <div class="project-role">独立开发者 / 测试责任人</div>
+        <div class="project-desc">
+          基于 PHP + MySQL 的岭南文化科普电商网站，独立承担全站功能验证、数据校验与异常处理工作。使用 Cursor / Trae 辅助编写代码，Python 脚本实现数据自动化测试。
+          <ul>
+            <li><span class="metric">编写 Python 自动化脚本，完成 500+ 商品数据的批量导入、格式验证与异常捕获，效率提升 10 倍</span></li>
+            <li>独立验证用户注册、商品搜索、购物车、订单流程等核心功能，记录并修复 20+ 个功能性 Bug</li>
+            <li>使用 AI 工具辅助生成测试用例，人工审查边界条件与异常场景，理解"AI 辅助 + 人工审查"的测试模式</li>
+            <li>熟悉从需求 → 开发 → 测试 → 上线的完整闭环，能独立承担小型项目的测试工作</li>
+          </ul>
+          <div style="margin-top:4px;">
+            <span class="badge">Python</span>
+            <span class="badge">MySQL</span>
+            <span class="badge">PHP</span>
+            <span class="badge">数据验证</span>
+            <span class="badge">自动化</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">天工造物 — Unity 游戏测试与验收</span>
+          <span class="project-time">2025</span>
+        </div>
+        <div class="project-role">美术 / 测试参与者</div>
+        <div class="project-desc">
+          Unity 独立游戏项目，以中国传统工艺为主题。在开发过程中参与功能测试、UI 交互验证、场景兼容性排查，确保多人产出资产的统一性与可用性。
+          <ul>
+            <li>验证 UI 界面在不同分辨率下的显示效果，发现并修复 5+ 个 UI 适配问题</li>
+            <li>测试游戏核心交互流程（主菜单 → 关卡选择 → 游戏内 → 背包系统），记录功能缺陷并反馈给开发</li>
+            <li><span class="metric">获广东省大学生计算机设计大赛二等奖（Top 5%）</span></li>
+          </ul>
+          <div style="margin-top:4px;">
+            <span class="badge">Unity</span>
+            <span class="badge">UI 测试</span>
+            <span class="badge">功能验证</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">电商业务数据测试实践</span>
+          <span class="project-time">2021 — 2023</span>
+        </div>
+        <div class="project-role">数据校验 / 流程测试</div>
+        <div class="project-desc">
+          在家族电商业务中，负责商品信息核对、订单数据一致性验证、活动页面功能测试。理解电商业务中数据准确性对用户体验的重要性。
+          <ul>
+            <li>核对商品标题、价格、库存等关键字段的准确性，确保前后端数据一致</li>
+            <li>测试活动 Banner 跳转、优惠券领取、订单提交等核心流程</li>
+            <li>记录问题并推动修复，理解测试与开发的协作流程</li>
+          </ul>
+          <div style="margin-top:4px;">
+            <span class="badge">数据校验</span>
+            <span class="badge">流程测试</span>
+            <span class="badge">业务理解</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">华艺千秋录 — MG 动画</span>
+          <span class="project-time">2024</span>
+        </div>
+        <div class="project-role">动画设计 / 导演</div>
+        <div class="project-desc">
+          蓝桥杯 / 永创杯竞赛 MG 动画作品，使用 Procreate、Photoshop、CSP 多工具协同制作。理解项目 deadlines 与质量把控的重要性。
+          <ul>
+            <li><span class="metric">蓝桥杯动画类三等奖 · 永创杯全国二等奖</span></li>
+            <li>在严格时间节点内完成从脚本到成片的全流程，理解项目管理的压力与交付标准</li>
+          </ul>
+          <div style="margin-top:4px;">
+            <span class="badge">MG 动画</span>
+            <span class="badge">项目管理</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-note">
+    完整项目演示请访问：https://fifiaichi.github.io/fifi.github.io/ · 可立即到岗 · 接受远程/线下实习
+  </div>
+</div>
+
+<div class="no-print" style="text-align:center; padding: 20px; color: #888;">
+  <p>提示：在浏览器中按 Ctrl+P（或 Cmd+P）即可打印为 PDF。建议取消勾选"页眉页脚"，以获得最佳效果。</p>
+</div>
+</body>
+</html>

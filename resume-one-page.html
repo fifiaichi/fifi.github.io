@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>张省菲 — 简历</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    line-height: 1.5;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    max-height: 297mm;
+    margin: 0 auto;
+    background: #fff;
+    padding: 28mm 22mm 22mm 22mm;
+    overflow: hidden;
+    position: relative;
+  }
+  @media print {
+    body { background: #fff; }
+    .page { width: 100%; margin: 0; padding: 20mm 18mm 18mm 18mm; }
+    .no-print { display: none; }
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid #1a3c34;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .name-block h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #1a3c34;
+    line-height: 1.1;
+  }
+  .name-block .title {
+    font-size: 14.5px;
+    color: #555;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .contact-block {
+    text-align: right;
+    font-size: 11.5px;
+    color: #444;
+    line-height: 1.9;
+  }
+  .contact-block a {
+    color: #1a3c34;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  /* Summary */
+  .summary {
+    background: #f8f9fa;
+    border-left: 4px solid #1a3c34;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: #333;
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .summary strong { color: #1a3c34; }
+  
+  /* Two-column layout */
+  .main-grid {
+    display: flex;
+    gap: 22px;
+  }
+  .left-col { width: 28%; flex-shrink: 0; }
+  .right-col { width: 72%; }
+  
+  /* Section titles */
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3c34;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1.5px solid #1a3c34;
+  }
+  
+  /* Skills */
+  .skill-group {
+    margin-bottom: 12px;
+  }
+  .skill-group h4 {
+    font-size: 11.5px;
+    color: #1a3c34;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .skill-tag {
+    font-size: 10.5px;
+    background: #eef2f1;
+    color: #2d5a50;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .skill-tag.highlight {
+    background: #1a3c34;
+    color: #fff;
+  }
+  
+  /* Awards left */
+  .award-item {
+    font-size: 11px;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .award-item .award-name {
+    font-weight: 600;
+    color: #333;
+  }
+  .award-item .award-level {
+    color: #888;
+    font-size: 10px;
+  }
+  
+  /* Education left */
+  .edu-block {
+    font-size: 11.5px;
+    line-height: 1.6;
+  }
+  .edu-block .degree { font-weight: 600; color: #333; }
+  .edu-block .school { color: #555; }
+  .edu-block .time { color: #888; font-size: 10.5px; }
+  
+  /* Projects / Experience */
+  .project {
+    margin-bottom: 14px;
+  }
+  .project:last-child { margin-bottom: 0; }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 3px;
+  }
+  .project-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a3c34;
+  }
+  .project-time {
+    font-size: 11px;
+    color: #888;
+    font-weight: 500;
+  }
+  .project-role {
+    font-size: 12px;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .project-desc {
+    font-size: 11.5px;
+    color: #444;
+    line-height: 1.6;
+  }
+  .project-desc ul {
+    padding-left: 14px;
+    margin-top: 3px;
+  }
+  .project-desc li {
+    margin-bottom: 2px;
+  }
+  .metric {
+    color: #1a3c34;
+    font-weight: 600;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    background: #e8f0ee;
+    color: #1a3c34;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-right: 4px;
+    font-weight: 600;
+  }
+  
+  /* AI Section */
+  .ai-section {
+    margin-top: 12px;
+    background: #f8f9fa;
+    padding: 10px 12px;
+    border-radius: 4px;
+  }
+  .ai-section .section-title {
+    border-bottom: 1px solid #ccc;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .ai-item {
+    font-size: 11px;
+    color: #444;
+    margin-bottom: 3px;
+    line-height: 1.5;
+  }
+  .ai-item strong { color: #1a3c34; }
+  
+  .footer-note {
+    position: absolute;
+    bottom: 14mm;
+    left: 22mm;
+    right: 22mm;
+    font-size: 10px;
+    color: #aaa;
+    text-align: center;
+    border-top: 1px solid #eee;
+    padding-top: 6px;
+  }
+  
+  @media print {
+    .footer-note { bottom: 10mm; left: 18mm; right: 18mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- Header -->
+  <div class="header">
+    <div class="name-block">
+      <h1>张省菲</h1>
+      <div class="title">游戏美术 / 2D 美术 / 执行美术 · 2026 届应届</div>
+    </div>
+    <div class="contact-block">
+      <div>📱 15202004538</div>
+      <div>📧 <a href="mailto:gugegewang@qq.com">gugegewang@qq.com</a></div>
+      <div>💬 微信: kirakiracc99</div>
+      <div>🌐 <a href="https://fifiaichi.github.io/fifi.github.io/">fifiaichi.github.io</a></div>
+      <div>🎨 作品集: 见线上完整版</div>
+    </div>
+  </div>
+  
+  <!-- Summary -->
+  <div class="summary">
+    数字媒体技术专业应届生，具备<strong>游戏美术、2D 美术、UI 界面、MG 动画</strong>综合能力，参与完成 Unity 独立游戏全流程美术与 UI 设计（<strong>获省级二等奖，Top 5%</strong>）。擅长 AI 辅助工作流（Cursor / Claude / Recraft），能用 Python 脚本处理批量美术素材。寻求游戏美术 / 2D 美术 / 执行美术实习岗位，可立即到岗。
+  </div>
+  
+  <!-- Main Grid -->
+  <div class="main-grid">
+    <!-- Left Column -->
+    <div class="left-col">
+      <div class="section"> 
+        <div class="section-title">核心技能</div>
+        <div class="skill-group">
+          <h4>美术设计</h4>
+          <div class="skill-tags">
+            <span class="skill-tag highlight">游戏 UI</span>
+            <span class="skill-tag highlight">2D 美术</span>
+            <span class="skill-tag">插画</span>
+            <span class="skill-tag">MG 动画</span>
+            <span class="skill-tag">分镜设计</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>工具</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Photoshop</span>
+            <span class="skill-tag">Procreate</span>
+            <span class="skill-tag">After Effects</span>
+            <span class="skill-tag">CSP</span>
+            <span class="skill-tag">Premiere</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>技术 & 引擎</h4>
+          <div class="skill-tags">
+            <span class="skill-tag highlight">Unity</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">HTML/CSS</span>
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">MySQL</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>AI 工具</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">Cursor</span>
+            <span class="skill-tag">Claude</span>
+            <span class="skill-tag">ChatGPT</span>
+            <span class="skill-tag">Recraft</span>
+            <span class="skill-tag">Trae</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 14px;">
+        <div class="section-title">获奖荣誉</div>
+        <div class="award-item">
+          <div class="award-name">广东省大学生计算机设计大赛</div>
+          <div class="award-level">游戏类 · 二等奖</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">永创杯全国高校艺术设计大赛</div>
+          <div class="award-level">全国 · 二等奖</div>
+        </div>
+        <div class="award-item">
+          <div class="award-name">蓝桥杯全国视觉艺术设计大赛</div>
+          <div class="award-level">动画类 · 三等奖</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 14px;">
+        <div class="section-title">教育背景</div>
+        <div class="edu-block">
+          <div class="degree">数字媒体技术 · 本科</div>
+          <div class="school">广州工商学院 · 2022 — 2026（应届）</div>
+          <div style="font-size:10.5px;color:#666;margin-top:2px;">主修：游戏设计、动画制作、网页开发</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 14px;">
+        <div class="section-title">校园实践</div>
+        <div style="font-size:11px;color:#444;line-height:1.6;">
+          <strong>起点传媒协会 · 动画部部长</strong><br>
+          <span style="color:#888;">2023.09 — 2024.06</span><br>
+          负责动画部日常管理、风格统一与质量把控，组织团队完成多部宣传动画全流程制作。
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Column -->
+    <div class="right-col">
+      <div class="section-title">项目经历</div>
+      
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">天工造物 — Unity 独立游戏</span>
+          <span class="project-time">2025</span>
+        </div>
+        <div class="project-role">美术设计 / UI 设计</div>
+        <div class="project-desc">
+          以中国传统工艺为主题的 Unity 独立游戏，独立负责核心玩法设计、场景搭建、角色概念及 UI 界面设计。使用 Recraft 生成场景参考图与配色方案，将单场景视觉迭代周期从 3 天压缩到 1 天。
+          <ul>
+            <li><span class="metric">获广东省大学生计算机设计大赛二等奖（Top 5%）</span></li>
+            <li>独立完成游戏 UI 全界面设计（主菜单、HUD、背包系统），确保风格统一与交互可用性</li>
+            <li>使用 AI 工具（Recraft）生成场景参考图，加速视觉迭代流程</li>
+          </ul>
+          <div style="margin-top:4px;">
+            <span class="badge">Unity</span>
+            <span class="badge">游戏策划</span>
+            <span class="badge">UI 设计</span>
+            <span class="badge">场景美术</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">岭南花市科普网站</span>
+          <span class="project-time">2024 — 2025</span>
+        </div>
+        <div class="project-role">独立设计师 / 全栈开发者</div>
+        <div class="project-desc">
+          基于 PHP + MySQL 的岭南文化科普电商网站，独立承担需求分析、视觉设计与前后端开发。用 Cursor / Trae 辅助编写代码，Python 脚本实现数据自动化。
+          <ul>
+            <li>独立设计全站视觉系统与交互流程，实现响应式适配</li>
+            <li><span class="metric">编写 Python 自动化脚本，完成 500+ 商品数据批量导入与验证，效率提升 10 倍</span></li>
+            <li>用 AI 工具辅助调试与异常处理，实现独立闭环交付</li>
+          </ul>
+          <div style="margin-top:4px;">
+            <span class="badge">PHP</span>
+            <span class="badge">MySQL</span>
+            <span class="badge">Python</span>
+            <span class="badge">网页设计</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project">
+        <div class="project-header">
+          <span class="project-name">华艺千秋录 — MG 动画</span>
+          <span class="project-time">2024</span>
+        </div>
+        <div class="project-role">动画设计 / 导演</div>
+        <div class="project-desc">
+          蓝桥杯 / 永创杯竞赛 MG 动画作品，使用 Procreate、Photoshop、CSP 多工具协同制作，从脚本创作到分镜设计到最终成片全流程参与。
+          <ul>
+            <li><span class="metric">蓝桥杯动画类三等奖 · 永创杯全国二等奖</span></li>
+            <li>用 即梦 辅助优化分镜叙事节奏，提升 storytelling 效率</li>
+          </ul>
+          <div style="margin-top:4px;">
+            <span class="badge">MG 动画</span>
+            <span class="badge">Procreate</span>
+            <span class="badge">分镜设计</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="ai-section">
+        <div class="section-title">AI 辅助工作流</div>
+        <div class="ai-item"><strong>Cursor / Trae / Windsurf：</strong>辅助编写 PHP 网站代码、Python 数据处理脚本，人工调整业务逻辑与异常处理</div>
+        <div class="ai-item"><strong>即梦 / ChatGPT：</strong>辅助生成分镜叙事节奏、数据可视化图表、测试用例设计</div>
+        <div class="ai-item"><strong>Recraft：</strong>生成动画场景参考图，加速视觉迭代流程</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-note">
+    完整作品集及视频演示请访问：https://fifiaichi.github.io/fifi.github.io/ · 可立即到岗 · 接受远程/线下实习
+  </div>
+</div>
+
+<div class="no-print" style="text-align:center; padding: 20px; color: #888;">
+  <p>提示：在浏览器中按 Ctrl+P（或 Cmd+P）即可打印为 PDF。建议取消勾选"页眉页脚"，以获得最佳效果。</p>
+</div>
+</body>
+</html>

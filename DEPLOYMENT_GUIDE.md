@@ -41,7 +41,7 @@ git init
 ```bash
 git remote add origin https://github.com/your-username/your-username.github.io.git
 ```
-
+gi
 ### 步骤 3：配置 GitHub Pages 设置
 
 1. 打开您的 GitHub 仓库页面
