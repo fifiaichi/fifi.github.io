@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+            .gradient-text {
+                @apply bg-gradient-primary bg-clip-text text-transparent;
+            }
+            .glass-card {
+                @apply bg-white bg-opacity-70 backdrop-blur-lg border border-white border-opacity-20 dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700;
+            }
+            .section-divider {
+                @apply relative pb-4;
+            }
+            .section-divider::after {
+                content: '';
+                @apply absolute bottom-0 left-0 w-16 h-1.5 bg-gradient-primary rounded-full;
+            }
+        }

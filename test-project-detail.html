@@ -4,55 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>测试实践 - 岭南花市网站数据准备与验证</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" onerror="this.remove()">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e3a3a',
-                        secondary: '#2c5282',
-                        light: '#f8f6f0',
-                        dark: '#1a1a2e',
-                        accent: '#3182ce',
-                        'gradient-start': '#667eea',
-                        'gradient-end': '#764ba2',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace'],
-                    },
-                    backgroundImage: {
-                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    },
-                    boxShadow: {
-                        'glow': '0 0 20px rgba(102, 126, 234, 0.3)',
-                        'card': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .badge { @apply inline-block px-3 py-1 text-xs font-bold rounded-full bg-gray-100 text-gray-700 mr-2 mb-2 dark:bg-gray-700 dark:text-gray-300; }
-            .badge-primary { @apply bg-primary text-white; }
-            .badge-accent { @apply bg-accent text-white; }
-            .badge-green { @apply bg-green-600 text-white; }
-            .badge-orange { @apply bg-orange-500 text-white; }
-            .code-block { @apply bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-xs overflow-x-auto border border-gray-800 shadow-2xl relative; }
-            .gradient-text { @apply bg-gradient-primary bg-clip-text text-transparent; }
-            .progress-bar { @apply h-3 bg-gray-100 rounded-full overflow-hidden dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
-            .progress-fill { @apply h-full rounded-full bg-gradient-to-r from-accent to-blue-400 transition-all duration-1000; }
-            .glass-card { @apply bg-white/90 backdrop-blur-xl border border-white/50 dark:bg-gray-800/90 dark:border-gray-700/50 shadow-xl; }
-            .section-divider { @apply relative pb-4; }
-            .section-divider::after { content: ''; @apply absolute bottom-0 left-0 w-16 h-1.5 bg-gradient-primary rounded-full; }
-            .stat-card { @apply p-6 rounded-3xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-gray-100 dark:border-gray-700; }
-        }
-    </style>
     <style>
         html { scroll-behavior: smooth; }
         .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -60,6 +13,7 @@
         .table-row-hover:hover { background-color: rgba(49, 130, 206, 0.03); }
     </style>
 
+<link rel="stylesheet" href="css/test-project-detail.css">
 </head>
 <body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
 

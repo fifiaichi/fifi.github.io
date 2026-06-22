@@ -4,51 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>逐帧动画系列 - 张省菲作品集</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" onerror="this.remove()">
-
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e3a3a',
-                        light: '#f8f6f0',
-                        dark: '#1a1a2e',
-                        'gradient-start': '#667eea',
-                        'gradient-end': '#764ba2',
-                    },
-                    backgroundImage: {
-                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    },
-                    boxShadow: {
-                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                        'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1)',
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .gradient-text {
-                @apply bg-gradient-primary bg-clip-text text-transparent;
-            }
-            .glass-card {
-                @apply bg-white bg-opacity-70 backdrop-blur-lg border border-white border-opacity-20 dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700;
-            }
-            .section-divider {
-                @apply relative pb-4;
-            }
-            .section-divider::after {
-                content: '';
-                @apply absolute bottom-0 left-0 w-16 h-1.5 bg-gradient-primary rounded-full;
-            }
-        }
-    </style>
 
     <style>
         html { scroll-behavior: smooth; }
@@ -116,6 +73,7 @@
         }
     </style>
 <base target="_blank">
+<link rel="stylesheet" href="css/animation-list.css">
 </head>
 <body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
     <!-- 滚动进度条 -->

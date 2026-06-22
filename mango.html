@@ -4,54 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人文创设计Mango - 张省菲作品集</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1e3a3a',
-                        secondary: '#2c5282',
-                        light: '#f8f6f0',
-                        dark: '#1a1a2e',
-                        accent: '#3182ce',
-                        'gradient-start': '#667eea',
-                        'gradient-end': '#764ba2',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace'],
-                    },
-                    backgroundImage: {
-                        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        'gradient-secondary': 'linear-gradient(135deg, #1e3a3a 0%, #2c5282 100%)',
-                        'gradient-accent': 'linear-gradient(135deg, #3182ce 0%, #667eea 100%)',
-                    },
-                    boxShadow: {
-                        'glow': '0 0 20px rgba(102, 126, 234, 0.3)',
-                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .section-padding { padding-top: 120px; padding-bottom: 120px; }
-            .badge { @apply bg-gray-100 text-primary px-3 py-1 rounded-full text-xs font-medium mr-2 mb-2 inline-block dark:bg-gray-700 dark:text-gray-300; }
-            .btn-primary { @apply bg-gradient-primary text-white px-6 py-3 rounded-full hover:shadow-glow transition duration-300 inline-flex items-center justify-center transform hover:scale-105; }
-            .btn-outline { @apply border-2 border-primary text-primary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition duration-300 inline-flex items-center justify-center dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-primary; }
-            .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-            .fade-in.active { opacity: 1; transform: translateY(0); }
-            .glass-card { @apply bg-white bg-opacity-70 backdrop-blur-lg border border-white border-opacity-20 dark:bg-gray-800 dark:bg-opacity-70 dark:border-gray-700; }
-            .gradient-text { @apply bg-gradient-primary bg-clip-text text-transparent; }
-            .hero-gradient { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); }
-        }
-    </style>
     <style>
         html { scroll-behavior: smooth; }
         .scroll-progress {
@@ -96,6 +50,7 @@
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); }
         .modal-content { margin: auto; display: block; max-width: 90%; max-height: 90vh; object-fit: contain; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); transition: transform 0.2s ease; }
     </style>
+<link rel="stylesheet" href="css/mango.css">
 </head>
 <body class="bg-light font-sans dark:bg-dark dark:text-gray-200 transition-colors duration-300">
     <!-- 滚动进度条 -->
