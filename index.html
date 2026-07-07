@@ -260,9 +260,21 @@
                 </div>
 
                 <div class="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
-                    <button onclick="openResumeModal()" class="block w-full px-4 py-3 rounded-lg bg-gradient-primary text-white font-medium text-center hover:shadow-lg transition-all duration-300" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <i class="fa fa-file-pdf mr-2"></i>作品集简要版
-                    </button>
+                    <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">下载资料</h4>
+                    <div class="space-y-2">
+                        <button onclick="downloadFile('downloads/portfolio-brief.pdf', '张省菲-作品集简要版.pdf')" class="block w-full px-4 py-2 rounded-lg bg-gradient-primary text-white font-medium text-center hover:shadow-lg transition-all duration-300 text-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fa fa-file-pdf mr-2"></i>作品集简要版
+                        </button>
+                        <button onclick="downloadFile('downloads/resume-ecommerce-creative.pdf', '张省菲-简历-电商文创方向.pdf')" class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium text-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 text-sm">
+                            <i class="fa fa-download mr-2 text-primary"></i>简历 · 电商文创
+                        </button>
+                        <button onclick="downloadFile('downloads/resume-game-art.pdf', '张省菲-简历-游戏美术方向.pdf')" class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium text-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 text-sm">
+                            <i class="fa fa-download mr-2 text-primary"></i>简历 · 游戏美术
+                        </button>
+                        <button onclick="downloadFile('downloads/resume-software-test.pdf', '张省菲-简历-测试方向.pdf')" class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium text-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 text-sm">
+                            <i class="fa fa-download mr-2 text-primary"></i>简历 · 软件测试
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -951,7 +963,7 @@ if (darkModeToggleMobile) {
                     const tooltip = document.createElement('div');
                     tooltip.id = 'sidebar-tooltip';
                     tooltip.className = 'absolute right-16 top-1/2 -translate-y-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-xl text-sm whitespace-nowrap z-50';
-                    tooltip.innerHTML = '<strong>💡 提示：</strong>点击按钮打开侧边栏，可快速导航和下载作品集简要版';
+                    tooltip.innerHTML = '<strong>💡 提示：</strong>点击按钮打开侧边栏，可快速导航和下载简历、作品集';
                     sidebar.appendChild(tooltip);
                     
                     // 3秒后自动消失
@@ -1038,9 +1050,18 @@ if (darkModeToggleMobile) {
             }
         }
 
+        function downloadFile(filePath, fileName) {
+            const link = document.createElement('a');
+            link.href = filePath;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         function downloadResume() {
             const link = document.createElement('a');
-            link.href = '作品集简要版.pdf';
+            link.href = 'downloads/portfolio-brief.pdf';
             link.download = '张省菲-作品集简要版.pdf';
             document.body.appendChild(link);
             link.click();
