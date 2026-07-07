@@ -262,8 +262,8 @@
                 <div class="border-t border-gray-200 dark:border-gray-700 mt-4 pt-4">
                     <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">下载资料</h4>
                     <div class="space-y-2">
-                        <button onclick="downloadFile('downloads/portfolio-brief.pdf', '张省菲-作品集简要版.pdf')" class="block w-full px-4 py-2 rounded-lg bg-gradient-primary text-white font-medium text-center hover:shadow-lg transition-all duration-300 text-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <i class="fa fa-file-pdf mr-2"></i>作品集简要版
+                        <button onclick="downloadFile('downloads/portfolio.pdf', '张省菲-作品集.pdf')" class="block w-full px-4 py-2 rounded-lg bg-gradient-primary text-white font-medium text-center hover:shadow-lg transition-all duration-300 text-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fa fa-file-pdf mr-2"></i>作品集
                         </button>
                         <button onclick="downloadFile('downloads/resume-ecommerce-creative.pdf', '张省菲-简历-电商文创方向.pdf')" class="block w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium text-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 text-sm">
                             <i class="fa fa-download mr-2 text-primary"></i>简历 · 电商文创
@@ -1033,23 +1033,6 @@ if (darkModeToggleMobile) {
             }
         });
 
-        // 简历模态框功能
-        function openResumeModal() {
-            const modal = document.getElementById('resume-modal');
-            if (modal) {
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        function closeResumeModal() {
-            const modal = document.getElementById('resume-modal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-
         function downloadFile(filePath, fileName) {
             const link = document.createElement('a');
             link.href = filePath;
@@ -1059,25 +1042,9 @@ if (darkModeToggleMobile) {
             document.body.removeChild(link);
         }
 
-        function downloadResume() {
-            const link = document.createElement('a');
-            link.href = 'downloads/portfolio-brief.pdf';
-            link.download = '张省菲-作品集简要版.pdf';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            closeResumeModal();
-        }
-
-        function viewResumeInBrowser() {
-            window.open('portfolio-pdf.html', '_blank');
-            closeResumeModal();
-        }
-
         // ESC键关闭模态框
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeResumeModal();
                 closeImageModal();
             }
         });
@@ -1123,31 +1090,6 @@ if (darkModeToggleMobile) {
     </script>
 
     <!-- 简历模态框 -->
-    <div id="resume-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all">
-            <div class="text-center">
-                <div class="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa fa-file-pdf text-white text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">作品集简要版</h3>
-                <p class="text-gray-500 dark:text-gray-400 mb-6">选择您喜欢的方式查看我的作品集简要版</p>
-                
-                <div class="space-y-3">
-                    <button onclick="downloadResume()" class="w-full px-6 py-3 bg-gradient-primary text-white font-medium rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                        <i class="fa fa-download"></i> 下载作品集简要版
-                    </button>
-                    <button onclick="viewResumeInBrowser()" class="w-full px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2">
-                        <i class="fa fa-external-link-alt"></i> 浏览器查看
-                    </button>
-                </div>
-                
-                <button onclick="closeResumeModal()" class="mt-6 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-sm">
-                    取消
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- 图片查看模态框 -->
     <div id="image-modal" class="fixed inset-0 bg-black/90 z-[100] hidden flex items-center justify-center">
         <button onclick="closeImageModal()" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition-colors z-10">&times;</button>
